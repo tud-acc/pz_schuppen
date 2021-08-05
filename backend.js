@@ -98,7 +98,8 @@ app.post("/registrieren.js", function (req, res) {
     //Prepared Statements fuer DB hier danch mit den Daten aus "data"
 
     console.log("POST", data);
-    res.render("index", data);
+    res.send({ redirect: "/node.js" });
+    //res.render("index", data);
   });
 });
 
