@@ -47,19 +47,56 @@ app.post("/anmelden.js", function (req, res) {
 
 //    Registrieren
 app.get("/registrieren.js", function (req, res) {
-  var data = { zahl1: null, zahl2: null };
+  var data = { vorname: null, nachname: null };
   console.log("GET", data);
   res.render("registrieren", data);
 });
 app.post("/registrieren.js", function (req, res) {
+  var data = {
+    vorname: null,
+    nachname: null,
+    email: null,
+    strasse: null,
+    hausnr: null,
+    plz: null,
+    ort: null,
+    passwort: null,
+    passwort_wdh: null
+  };
   var body = "";
   req.on("data", function (data) {
     body += data;
   });
   req.on("end", function () {
     var params = new URLSearchParams(body);
-    var data = { zahl1: params.get("zahl1"), zahl2: params.get("zahl2") };
+    var data = {
+      vorname: params.get("vorname"),
+      nachname: params.get("nachname"),
+      email: params.get("email"),
+      strasse: params.get("strasse"),
+      hausnr: params.get("hausnr"),
+      plz: params.get("plz"),
+      ort: params.get("ort"),
+      passwort: params.get("passwort"),
+      passwort_wdh: params.get("passwort_wdh")
+    };
+
+    //DEBUG:
+    console.dir(
+      params.get("vorname"),
+      params.get("nachname"),
+      params.get("email"),
+      params.get("strasse"),
+      params.get("hausnr"),
+      params.get("plz"),
+      params.get("ort"),
+      params.get("passwort"),
+      params.get("passwort_wdh")
+    );
     //console.dir(params.get('zahl1'),params.get('zahl2');
+
+    //Prepared Statements fuer DB hier danch mit den Daten aus "data"
+
     console.log("POST", data);
     res.render("registrieren", data);
   });
