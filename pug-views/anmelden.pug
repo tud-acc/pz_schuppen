@@ -9,5 +9,13 @@ html
       
 
     div(class='content')
-      
+      form(method="POST")
+        |Email:
+				input(type="text" name="email" placeholder="sample@mail.de")
+        br
+        |Passwort:
+				input(type="password" name="passwort")
+				br
+				input(type="submit" class='button' value="Anmelden")
+
 

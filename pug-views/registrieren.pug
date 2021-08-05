@@ -9,4 +9,33 @@ html
       
 
     div(class='content')
-      
+      form(method="POST")
+        |Vorname:
+				input(type="text" name="vorname")
+        br
+        |Nachname:
+				input(type="text" name="nachname")
+				br
+        |E-Mail:
+				input(type="text" name="email" placeholder="sample@mail.de")
+        br
+        |Straße:
+				input(type="text" name="strasse")
+				br
+        |Hausnummer:
+				input(type="text" name="hausnr")
+        br
+        |PLZ:
+				input(type="text" name="plz")
+				br
+        |Ort:
+				input(type="text" name="ort")
+        br
+        br
+        |Passwort:
+				input(type="password" name="passwort")
+        br
+        |Passwort wiederholen:
+				input(type="password" name="passwort_wdh")
+				br
+				input(type="submit" class='button' value="Registrieren")
