@@ -96,6 +96,7 @@ app.post("/registrieren.js", function (req, res) {
 
     //Prepared Statements fuer DB hier danch mit den Daten aus "data"
 
+    /*
     app.use(function (req, res, next) {
       if (req.url === "/registrieren.js") {
         req.url = "/node.js";
@@ -104,9 +105,9 @@ app.post("/registrieren.js", function (req, res) {
     });
 
     res.send({ redirect: "/node.js" });
-
+    */
     console.log("POST", data);
-    //res.writeHead(301, { Location: "/node.js" });
+    res.writeHead(307, { Location: "/node.js" });
     /*res.writeHead(301, {
       Location: "http://" + req.headers["host"] + "/node.js"
     });*/
