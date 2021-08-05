@@ -31,7 +31,7 @@ app.get("/anmelden.js", function (req, res) {
   console.log("GET", data);
   res.render("anmelden", data);
 });
-app.post("anmelden.js", function (req, res) {
+app.post("/anmelden.js", function (req, res) {
   var body = "";
   req.on("data", function (data) {
     body += data;
@@ -41,7 +41,7 @@ app.post("anmelden.js", function (req, res) {
     var data = { zahl1: params.get("zahl1"), zahl2: params.get("zahl2") };
     //console.dir(params.get('zahl1'),params.get('zahl2');
     console.log("POST", data);
-    res.render("index", data);
+    res.render("anmelden", data);
   });
 });
 
@@ -49,9 +49,9 @@ app.post("anmelden.js", function (req, res) {
 app.get("/registrieren.js", function (req, res) {
   var data = { zahl1: null, zahl2: null };
   console.log("GET", data);
-  res.render("anmelden", data);
+  res.render("registrieren", data);
 });
-app.post("registrieren.js", function (req, res) {
+app.post("/registrieren.js", function (req, res) {
   var body = "";
   req.on("data", function (data) {
     body += data;
@@ -61,7 +61,7 @@ app.post("registrieren.js", function (req, res) {
     var data = { zahl1: params.get("zahl1"), zahl2: params.get("zahl2") };
     //console.dir(params.get('zahl1'),params.get('zahl2');
     console.log("POST", data);
-    res.render("index", data);
+    res.render("registrieren", data);
   });
 });
 
@@ -69,9 +69,9 @@ app.post("registrieren.js", function (req, res) {
 app.get("/bestellen.js", function (req, res) {
   var data = { zahl1: null, zahl2: null };
   console.log("GET", data);
-  res.render("anmelden", data);
+  res.render("bestellung", data);
 });
-app.post("bestellen.js", function (req, res) {
+app.post("/bestellen.js", function (req, res) {
   var body = "";
   req.on("data", function (data) {
     body += data;
@@ -81,7 +81,7 @@ app.post("bestellen.js", function (req, res) {
     var data = { zahl1: params.get("zahl1"), zahl2: params.get("zahl2") };
     //console.dir(params.get('zahl1'),params.get('zahl2');
     console.log("POST", data);
-    res.render("index", data);
+    res.render("bestellung", data);
   });
 });
 
