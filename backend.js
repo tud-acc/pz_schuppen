@@ -5,6 +5,18 @@ var app = express();
 app.set("view engine", "pug");
 app.set("views", "./pug-views");
 
+// Datenbank Setup
+var mysql = require("promise-mysql");
+var config = {
+    user: "admin",
+    password: "ibs2021Projekt",
+    database: "ibs_projekt"
+  },
+  conn;
+mysql.createConnection(config).then((f) => {
+  conn = f;
+});
+
 //   MAINPAGE (INDEX)
 app.get("/node.js", function (req, res) {
   var data = { zahl1: null, zahl2: null };
@@ -66,7 +78,7 @@ app.post("/registrieren.js", function (req, res) {
   req.on("data", function (data) {
     body += data;
   });
-  req.on("end", function () {
+  req.on("end", async function () {
     var params = new URLSearchParams(body);
     var data = {
       vorname: params.get("vorname"),
@@ -96,21 +108,28 @@ app.post("/registrieren.js", function (req, res) {
 
     //Prepared Statements fuer DB hier danch mit den Daten aus "data"
 
-    /*
-    app.use(function (req, res, next) {
-      if (req.url === "/registrieren.js") {
-        req.url = "/node.js";
-      }
-      next();
-    });
+    //(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
+    //https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression
 
-    res.send({ redirect: "/node.js" });
-    */
+    // var query = connection.query('SELECT * FROM users WHERE id = ?', [userId], function(err, results)
+    var query_email = "SELECT * FROM kunde WHERE email = ?";
+
+    var result_email = await conn.query(query_email, [data.email]);
+
+    var query_insert =
+      "INSERT INTO kunde (email, vorname, nachname, passwort) VALUES('data.email', 'data.vorname', 'data.nachname', 'data.passwort')";
+
+    var result = await conn.query(query_insert);
+
+    if (Object.keys(result_email).length === 0) {
+      //schreibe hier zeugs in die db
+    } else {
+      console.dir("Error: Email schon in der DB vorhanden");
+    }
+
     console.log("POST", data);
     res.writeHead(307, { Location: "/node.js" });
-    /*res.writeHead(301, {
-      Location: "http://" + req.headers["host"] + "/node.js"
-    });*/
+
     res.end();
     //res.render("index", data);
   });
