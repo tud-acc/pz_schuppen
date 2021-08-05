@@ -3,13 +3,14 @@ doctype html
 html
   head
     title Bestellen
+    link(rel='stylesheet', href='style.css')
   body
     div(class='header')
       div(class='logo')
       
 
     div(class='content')
-      form(method="POST")
+      form(method="POST" class="third card center")
         |Email:
         input(type="text" name="email" placeholder="sample@mail.de")
         br
