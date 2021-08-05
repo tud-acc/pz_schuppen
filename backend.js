@@ -99,6 +99,7 @@ app.post("/registrieren.js", function (req, res) {
 
     console.log("POST", data);
     res.writeHead(301, { Location: "/node.js" });
+    res.end();
     //res.render("index", data);
   });
 });
