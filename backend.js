@@ -224,22 +224,20 @@ app.get("/zutaten.js", async function (req, res) {
 
   var query_sel_zutaten = "SELECT bezeichnung, preis FROM zutaten";
   var result_zutaten = await conn.query(query_sel_zutaten);
-  var result_data_zutaten = JSON.stringify(result_zutaten);
+  var result_data_zutaten = JSON.parse(result_zutaten);
+  //var result_data_zutaten = JSON.stringify(result_zutaten);
 
   var query_sel_basispizza = "SELECT * FROM pizza";
   var result_basispizza = await conn.query(query_sel_basispizza);
-  var result_data_basispizza = JSON.stringify(result_basispizza);
+  var result_data_basispizza = JSON.parse(result_basispizza);
+  //var result_data_basispizza = JSON.stringify(result_basispizza);
 
-  var result = Object.assign({}, result_data_zutaten, result_data_basispizza);
-
-  /*
   var result_json = {
     zutaten: result_data_zutaten,
     basispizza: result_data_basispizza
   };
-  */
 
-  res.write(result);
+  res.write(result_json);
   res.end();
 });
 app.post("/zutaten.js", function (req, res) {
