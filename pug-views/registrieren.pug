@@ -13,32 +13,32 @@ html
       form(method="POST" class="third card center")
         div(class="container")
           |Vorname:
-          input(type="text" name="vorname")
+          input(type="text" name="vorname" required)
           br
           |Nachname:
-          input(type="text" name="nachname")
+          input(type="text" name="nachname" required)
           br
           |E-Mail:
-          input(type="text" name="email" placeholder="sample@mail.de")
+          input(type="text" name="email" placeholder="sample@mail.de" required)
           br
           |Straße:
-          input(type="text" name="strasse")
+          input(type="text" name="strasse" required)
           br
           |Hausnummer:
-          input(type="text" name="hausnr")
+          input(type="text" name="hausnr" required)
           br
           |PLZ:
-          input(type="text" name="plz")
+          input(type="text" name="plz" required)
           br
           |Ort:
-          input(type="text" name="ort")
+          input(type="text" name="ort" required)
           br
           br
           |Passwort:
-          input(type="password" name="passwort")
+          input(type="password" name="passwort" required)
           br
           |Passwort wiederholen:
-          input(type="password" name="passwort_wdh")
+          input(type="password" name="passwort_wdh" required)
           br
           br
           input(type="submit" class='button blue center' value="Registrieren")
