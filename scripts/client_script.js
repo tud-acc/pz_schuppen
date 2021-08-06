@@ -1,6 +1,7 @@
 async function init() {
   var err = false;
   var errtext = document.createTextNode("Fehler beim Laden der Zutaten");
+  var tablenode = document.getElementById("tablecontainer");
 
   var response = await fetch("/zutaten.js");
   var content = await response.text();
@@ -34,8 +35,8 @@ async function init() {
         var tdPreis = document.createElement("td");
         var tdSelect = document.createElement("td");
 
-        var zutat = document.createTextNode(jobj[i].bezeichnung);
-        var preis = document.createTextNode(jobj[i].preis + "€");
+        var zutat = document.createTextNode(jobj.Zutaten[i].bezeichnung);
+        var preis = document.createTextNode(jobj.Zutaten[i].preis + " €");
         var select = document.createElement("input");
         select.type = "checkbox";
         select.id = zutat; // setze id auf zutatname (zutat kommt nur ein mal vor)
@@ -55,12 +56,13 @@ async function init() {
 
     if (!err) {
       //TODO: get element by id & append table as child
-      document.body.appendChild(table);
+
+      tablenode.appendChild(table);
     } else {
-      document.body.appendChild(errtext);
+      tablenode.appendChild(errtext);
     }
   } else {
-    document.body.appendChild(errtext);
+    tablenode.appendChild(errtext);
   }
 }
 
