@@ -117,9 +117,14 @@ app.post("/registrieren.js", function (req, res) {
     var result_email = await conn.query(query_email, [data.email]);
 
     var query_insert =
-      "INSERT INTO kunde (email, vorname, nachname, passwort) VALUES('data.email', 'data.vorname', 'data.nachname', 'data.passwort')";
+      "INSERT INTO kunde (email, vorname, nachname, passwort) VALUES(?,?,?,?)";
 
-    var result = await conn.query(query_insert);
+    var result = await conn.query(query_insert, [
+      data.email,
+      data.vorname,
+      data.nachname,
+      data.passwort
+    ]);
 
     if (Object.keys(result_email).length === 0) {
       //schreibe hier zeugs in die db
