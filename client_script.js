@@ -35,7 +35,7 @@ async function init() {
         var tdSelect = document.createElement("td");
 
         var zutat = document.createTextNode(jobj.daten[i][0]);
-        var preis = document.createTextNode(jobj.daten[i][1]);
+        var preis = document.createTextNode(jobj.daten[i][1] + "€");
         var select = document.createElement("input");
         select.type = "checkbox";
         select.id = zutat; // setze id auf zutatname (zutat kommt nur ein mal vor)

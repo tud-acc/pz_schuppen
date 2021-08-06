@@ -222,7 +222,7 @@ app.post("/bestellen.js", function (req, res) {
 app.get("/zutaten.js", async function (req, res) {
   console.log("GET");
 
-  var query_sel_zutaten = "SELECT * FROM zutaten";
+  var query_sel_zutaten = "SELECT bezeichnung, preis FROM zutaten";
   var result_zutaten = await conn.query(query_sel_zutaten);
   var result_data_zutaten = JSON.stringify(result_zutaten);
 
