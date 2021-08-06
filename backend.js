@@ -232,10 +232,7 @@ app.get("/zutaten.js", async function (req, res) {
   var result_data_basispizza = JSON.parse(result_basispizza);
   //var result_data_basispizza = JSON.stringify(result_basispizza);
 
-  var result_json = {
-    zutaten: result_data_zutaten,
-    basispizza: result_data_basispizza
-  };
+  var result_json = result_data_zutaten.concat(result_data_basispizza);
 
   res.write(result_json);
   res.end();
