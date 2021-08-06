@@ -31,9 +31,10 @@ app.post("/node.js", function (req, res) {
 
   console.log("POST");
 });
-
+//-------------------------------------------------------------------------------------//
 //    ANMELDEN
-app.get("/anmelden.js", async function (req, res) {
+//
+app.get("/anmelden.js", function (req, res) {
   console.log("GET");
 
   res.render("anmelden");
@@ -49,15 +50,23 @@ app.post("/anmelden.js", function (req, res) {
     body += data;
   });
 
+  console.dir("BODY: --------------------");
+  console.dir(body);
+
   req.on("end", async function () {
     let params = new URLSearchParams(body);
-    let data_anmelden = {
+    data_anmelden = {
       email: params.get("email"),
       passwort: params.get("passwort")
     };
 
+    req.on("error", (err) => {
+      console.error(err.stack);
+    });
+
     console.log(data_anmelden.email);
     console.log(data_anmelden.password);
+    console.log(params.get("passwort"));
 
     let query_login = "SELECT passwort FROM kunde WHERE email = ?";
     let result_login = await conn.query(query_login, [data_anmelden.email]);
@@ -103,7 +112,7 @@ app.post("/registrieren.js", function (req, res) {
 
   req.on("end", async function () {
     var params = new URLSearchParams(body);
-    var data = {
+    data = {
       vorname: params.get("vorname"),
       nachname: params.get("nachname"),
       email: params.get("email"),
