@@ -119,20 +119,33 @@ app.post("/registrieren.js", function (req, res) {
     var result_data = {
       result_email: JSON.parse(JSON.stringify(result_email))
     };
-    console.log(result_data);
-
-    var query_insert =
-      "INSERT INTO kunde (email, vorname, nachname, passwort) VALUES(?,?,?,?)";
-
-    var result = await conn.query(query_insert, [
-      data.email,
-      data.vorname,
-      data.nachname,
-      data.passwort
-    ]);
+    //console.log(result_data);
 
     if (Object.keys(result_email).length === 0) {
       //schreibe hier zeugs in die db
+      var query_insert_adr =
+        "INSERT INTO adresse (strasse, hausnr, plz, ort) VALUES (?,?,?,?)";
+
+      var result_adr = await conn.query(query_insert_adr, [
+        data.strasse,
+        data.hausnr,
+        data.plz,
+        data.ort
+      ]);
+      console.dir(result_adr);
+
+      var query_insert_kunde =
+        "INSERT INTO kunde (email, vorname, nachname, passwort, adr_id) VALUES(?,?,?,?,?)";
+
+      var result_kunde = await conn.query(query_insert_kunde, [
+        data.email,
+        data.vorname,
+        data.nachname,
+        data.passwort,
+        1
+      ]);
+
+      console.dir("DEBUG: Email noch nicht vorhanden.");
     } else {
       console.dir("Error: Email schon in der DB vorhanden");
     }
