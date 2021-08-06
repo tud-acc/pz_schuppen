@@ -4,7 +4,11 @@ html
   head
     title Bestellung
     link(rel='stylesheet', href='style.css')
-  body
+    script
+      include client_script.js
+      //oder Bantel Loesung: script(src="client_script.js")
+
+  body(onload="init()")
     div(class='header')
       div(class='logo')
       div(class='menu')
@@ -19,11 +23,16 @@ html
         |Basispizza:
         input(type='select' name='basispizza')
 
-      div(class='twothird left container')
-        //- Zutatenliste etc
-        h3 Zutatenliste
-      
-      div(class='third left container')
-        //- Pizzaübersicht (Warenkorb)
-        h3 Bestellung
+      div
+        div(class='twothird left container')
+          //- Zutatenliste etc
+          h3 Zutatenliste
+          div(class='container')#tablecontainer
+            // Tabelle einfügen
+        
+        div(class='third left container')
+          //- Pizzaübersicht (Warenkorb)
+          h3 Bestellung
+          div(class='container')
+
       
