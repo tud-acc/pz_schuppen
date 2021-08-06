@@ -142,7 +142,7 @@ app.post("/registrieren.js", function (req, res) {
         data.vorname,
         data.nachname,
         data.passwort,
-        1
+        result_adr.insertId
       ]);
 
       console.dir("DEBUG: Email noch nicht vorhanden.");
