@@ -230,13 +230,16 @@ app.get("/zutaten.js", async function (req, res) {
   var result_basispizza = await conn.query(query_sel_basispizza);
   var result_data_basispizza = JSON.stringify(result_basispizza);
 
+  var result = Object.assign({}, result_data_zutaten, result_data_basispizza);
+
+  /*
   var result_json = {
     zutaten: result_data_zutaten,
     basispizza: result_data_basispizza
   };
-  //comment
+  */
 
-  res.write(result_json);
+  res.write(result);
   res.end();
 });
 app.post("/zutaten.js", function (req, res) {
