@@ -28,32 +28,42 @@ app.post("/node.js", function (req, res) {
   req.on("data", function (data) {
     body += data;
   });
-  req.on("end", function () {
-    var params = new URLSearchParams(body);
-    var data = { zahl1: params.get("zahl1"), zahl2: params.get("zahl2") };
-    //console.dir(params.get('zahl1'),params.get('zahl2');
-    console.log("POST", data);
-    res.render("index", data);
-  });
+
+  console.log("POST", data);
 });
 
 //    ANMELDEN
-app.get("/anmelden.js", function (req, res) {
-  var data = { zahl1: null, zahl2: null };
-  console.log("GET", data);
-  res.render("anmelden", data);
+app.get("/anmelden.js", async function (req, res) {
+  console.log("GET");
+
+  res.render("anmelden");
 });
 app.post("/anmelden.js", function (req, res) {
   var body = "";
   req.on("data", function (data) {
     body += data;
   });
-  req.on("end", function () {
+
+  req.on("end", async function () {
     var params = new URLSearchParams(body);
-    var data = { zahl1: params.get("zahl1"), zahl2: params.get("zahl2") };
-    //console.dir(params.get('zahl1'),params.get('zahl2');
-    console.log("POST", data);
-    res.render("anmelden", data);
+    var data = {
+      email: params.get("email"),
+      passwort: params.get("passwort")
+    };
+
+    let query_login = "SELECT passwort FROM kunde WHERE email = ?";
+    let result_login = await conn.query(query_login, [data.email]);
+    console.dir(result_login);
+
+    if (
+      Object.keys(result_login).length !== 0 &&
+      result_login.email === data.email
+    ) {
+      // Login OK
+      console.dir("DEBUG: logindaten OK.");
+    }
+
+    console.log("POST");
   });
 });
 
@@ -74,10 +84,12 @@ app.post("/registrieren.js", function (req, res) {
     passwort: null,
     passwort_wdh: null
   };
+
   var body = "";
   req.on("data", function (data) {
     body += data;
   });
+
   req.on("end", async function () {
     var params = new URLSearchParams(body);
     var data = {
@@ -145,16 +157,18 @@ app.post("/registrieren.js", function (req, res) {
         result_adr.insertId
       ]);
 
-      console.dir("DEBUG: Email noch nicht vorhanden.");
+      console.log("POST", data);
+
+      res.writeHead(307, { Location: "/node.js" });
+      res.end();
+
+      //console.dir("DEBUG: Email noch nicht vorhanden.");
     } else {
       console.dir("Error: Email schon in der DB vorhanden");
+
+      console.log("POST", data);
+      alert("E-Mail Adresse schon vorhanden!");
     }
-
-    console.log("POST", data);
-    res.writeHead(307, { Location: "/node.js" });
-
-    res.end();
-    //res.render("index", data);
   });
 });
 
