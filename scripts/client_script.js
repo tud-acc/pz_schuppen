@@ -23,19 +23,19 @@ async function init() {
     trh.appendChild(thSelect);
     table.appendChild(trh);
 
-    if (jobj.hasOwnProperty("daten")) {
-      err = jobj.daten.length > 0 ? false : true;
+    if (jobj != null) {
+      err = jobj.length > 0 ? false : true;
 
       var i;
-      for (i = 0; i < jobj.daten.length; i++) {
+      for (i = 0; i < jobj.length; i++) {
         var tr = document.createElement("tr"); // neue Zeile
 
         var tdZutat = document.createElement("td");
         var tdPreis = document.createElement("td");
         var tdSelect = document.createElement("td");
 
-        var zutat = document.createTextNode(jobj.daten[i][0]);
-        var preis = document.createTextNode(jobj.daten[i][1] + "€");
+        var zutat = document.createTextNode(jobj[i].bezeichnung);
+        var preis = document.createTextNode(jobj[i].preis + "€");
         var select = document.createElement("input");
         select.type = "checkbox";
         select.id = zutat; // setze id auf zutatname (zutat kommt nur ein mal vor)
