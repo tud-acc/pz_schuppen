@@ -224,6 +224,7 @@ app.get("/zutaten.js", async function (req, res) {
 
   var query_sel_zutaten = "SELECT bezeichnung, preis FROM zutaten";
   var result_zutaten = await conn.query(query_sel_zutaten);
+  console.log(result_zutaten);
   var result_data_zutaten = JSON.parse(result_zutaten);
   //var result_data_zutaten = JSON.stringify(result_zutaten);
   console.log(result_data_zutaten);
