@@ -227,6 +227,7 @@ app.get("/zutaten.js", async function (req, res) {
   console.log(result_zutaten);
   var result_data_zutaten = JSON.stringify(result_zutaten);
   console.log(result_data_zutaten);
+  console.log(result_data_zutaten.bezeichnung[1]);
 
   var query_sel_basispizza = "SELECT * FROM pizza";
   var result_basispizza = await conn.query(query_sel_basispizza);
