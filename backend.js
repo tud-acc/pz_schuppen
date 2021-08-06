@@ -115,7 +115,7 @@ app.post("/registrieren.js", function (req, res) {
     var query_email = "SELECT * FROM kunde WHERE email = ?";
 
     var result_email = await conn.query(query_email, [data.email]);
-    console.log(result_email);
+    console.log("Query Result: " + result_email);
 
     var query_insert =
       "INSERT INTO kunde (email, vorname, nachname, passwort) VALUES(?,?,?,?)";
