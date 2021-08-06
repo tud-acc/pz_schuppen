@@ -39,6 +39,11 @@ app.get("/anmelden.js", async function (req, res) {
   res.render("anmelden");
 });
 app.post("/anmelden.js", function (req, res) {
+  var data_anmelden = {
+    email: null,
+    passwort: null
+  };
+
   var body = "";
   req.on("data", function (data) {
     body += data;
@@ -46,21 +51,21 @@ app.post("/anmelden.js", function (req, res) {
 
   req.on("end", async function () {
     let params = new URLSearchParams(body);
-    let data = {
+    let data_anmelden = {
       email: params.get("email"),
-      passwort: params.get("passwort_login")
+      passwort: params.get("passwort")
     };
 
-    console.log(data.email);
-    console.log(data.password);
+    console.log(data_anmelden.email);
+    console.log(data_anmelden.password);
 
     let query_login = "SELECT passwort FROM kunde WHERE email = ?";
-    let result_login = await conn.query(query_login, [data.email]);
+    let result_login = await conn.query(query_login, [data_anmelden.email]);
     console.dir(result_login);
 
     if (
       Object.keys(result_login).length !== 0 &&
-      result_login.email === data.email
+      result_login.email === data_anmelden.email
     ) {
       // Login OK
       console.dir("DEBUG: logindaten OK.");
