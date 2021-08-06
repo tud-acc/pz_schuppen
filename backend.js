@@ -48,7 +48,7 @@ app.post("/anmelden.js", function (req, res) {
     let params = new URLSearchParams(body);
     let data = {
       email: params.get("email"),
-      passwort: params.get("passwort")
+      passwort: params.get("passwort_login")
     };
 
     console.log(data.email);
