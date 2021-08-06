@@ -51,12 +51,15 @@ app.post("/anmelden.js", function (req, res) {
       passwort: params.get("passwort")
     };
 
+    console.log(data.email);
+    console.log(data.password);
+
     let query_login = "SELECT passwort FROM kunde WHERE email = ?";
     let result_login = await conn.query(query_login, [data.email]);
     console.dir(result_login);
 
     if (
-      Object.keys(result_login).length !== 0 &&
+      Object.keys(result_login).length === 1 &&
       result_login.email === data.email
     ) {
       // Login OK
@@ -64,6 +67,9 @@ app.post("/anmelden.js", function (req, res) {
     }
 
     console.log("POST");
+
+    res.writeHead(307, { Location: "/node.js" });
+    res.end();
   });
 });
 
