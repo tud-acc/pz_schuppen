@@ -238,8 +238,8 @@ app.get("/zutaten.js", async function (req, res) {
   //var result_data_basispizza = JSON.stringify(result_basispizza);
 
   var result_json = {
-    Zutaten: [result_data_zutaten],
-    Basispizza: [result_data_basispizza]
+    Zutaten: result_zutaten,
+    Basispizza: result_basispizza
   };
   //var result_json = result_data_zutaten.concat(result_data_basispizza);
 
