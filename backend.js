@@ -45,8 +45,8 @@ app.post("/anmelden.js", function (req, res) {
   });
 
   req.on("end", async function () {
-    var params = new URLSearchParams(body);
-    var data = {
+    let params = new URLSearchParams(body);
+    let data = {
       email: params.get("email"),
       passwort: params.get("passwort")
     };
@@ -59,7 +59,7 @@ app.post("/anmelden.js", function (req, res) {
     console.dir(result_login);
 
     if (
-      Object.keys(result_login).length === 1 &&
+      Object.keys(result_login).length !== 0 &&
       result_login.email === data.email
     ) {
       // Login OK
