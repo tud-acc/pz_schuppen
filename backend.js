@@ -29,7 +29,7 @@ app.post("/node.js", function (req, res) {
     body += data;
   });
 
-  console.log("POST", data);
+  console.log("POST");
 });
 
 //    ANMELDEN
