@@ -228,7 +228,8 @@ app.get("/zutaten.js", async function (req, res) {
   var result_data_zutaten = JSON.stringify(result_zutaten);
   //var result_data_zutaten_parsed = JSON.parse(result_zutaten);
   console.log(result_data_zutaten);
-  console.log(result_zutaten[1][0]);
+  console.log(result_zutaten[1].bezeichnung);
+  console.log(result_zutaten[1].preis);
 
   var query_sel_basispizza = "SELECT * FROM pizza";
   var result_basispizza = await conn.query(query_sel_basispizza);
