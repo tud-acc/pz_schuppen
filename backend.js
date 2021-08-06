@@ -33,12 +33,12 @@ app.post("/node.js", function (req, res) {
 });
 //-------------------------------------------------------------------------------------//
 //    ANMELDEN
-//
+// -- GET
 app.get("/anmelden.js", function (req, res) {
   console.log("GET");
-
   res.render("anmelden");
 });
+// -- POST TODO: PRÜFEN UND FIXEN --> PASSWORT UNDEFINED
 app.post("/anmelden.js", function (req, res) {
   var data_anmelden = {
     email: null,
@@ -50,8 +50,8 @@ app.post("/anmelden.js", function (req, res) {
     body += data;
   });
 
-  console.dir("BODY: --------------------");
-  console.dir(body);
+  console.dir("data: --------------------");
+  console.dir(data_anmelden);
 
   req.on("end", async function () {
     let params = new URLSearchParams(body);
@@ -74,7 +74,7 @@ app.post("/anmelden.js", function (req, res) {
 
     if (
       Object.keys(result_login).length !== 0 &&
-      result_login.email === data_anmelden.email
+      result_login.passwort === data_anmelden.passwort
     ) {
       // Login OK
       console.dir("DEBUG: logindaten OK.");
@@ -87,7 +87,9 @@ app.post("/anmelden.js", function (req, res) {
   });
 });
 
+//-------------------------------------------------------------------------------------//
 //    Registrieren
+//
 app.get("/registrieren.js", function (req, res) {
   res.render("registrieren");
 });
@@ -192,7 +194,9 @@ app.post("/registrieren.js", function (req, res) {
   });
 });
 
+//-------------------------------------------------------------------------------------//
 //    Bestellen
+// --
 app.get("/bestellen.js", function (req, res) {
   var data = { zahl1: null, zahl2: null };
   console.log("GET", data);

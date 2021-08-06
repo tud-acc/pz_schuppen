@@ -7,8 +7,23 @@ html
   body
     div(class='header')
       div(class='logo')
+      div(class='menu')
+        //- evtl als Popup ?
+        - var url_anmelden = "anmelden.js";
+        a(href='/'+url_anmelden class='button') Anmelden
+        
       
 
     div(class='content')
-      | Bestellung
+      div(class='container')
+        |Basispizza:
+        input(type='select' name='basispizza')
+
+      div(class='twothird left container')
+        //- Zutatenliste etc
+        h3 Zutatenliste
+      
+      div(class='third left container')
+        //- Pizzaübersicht (Warenkorb)
+        h3 Bestellung
       
