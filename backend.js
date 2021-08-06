@@ -245,7 +245,9 @@ app.get("/zutaten.js", async function (req, res) {
   };
   //var result_json = result_data_zutaten.concat(result_data_basispizza);
 
-  res.write(result_json);
+  //var result = result_zutaten.concat(result_basispizza);
+
+  res.write(JSON.stringify(result_json));
   res.end();
 });
 app.post("/zutaten.js", function (req, res) {
