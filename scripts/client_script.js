@@ -54,6 +54,7 @@ async function init() {
     }
 
     if (!err) {
+      //TODO: get element by id & append table as child
       document.body.appendChild(table);
     } else {
       document.body.appendChild(errtext);
