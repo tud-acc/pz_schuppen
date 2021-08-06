@@ -119,7 +119,7 @@ app.post("/registrieren.js", function (req, res) {
     var result_data = {
       result_email: JSON.parse(JSON.stringify(result_email))
     };
-    console.log("Query Result: " + result_data);
+    console.log(result_data);
 
     var query_insert =
       "INSERT INTO kunde (email, vorname, nachname, passwort) VALUES(?,?,?,?)";
