@@ -94,10 +94,11 @@ function updatePreSelection(selection) {
     if (jobj.Basispizza[i].name === selected) {
       for (let j = 2; j < Object.keys(jobj.Basispizza[i]).length; j++) {
         let currentKey = Object.keys(jobj.Basispizza[i])[j]; //fetched the key at second index
+        console.log("currentkey: " + currentKey);
         let zutat = jobj.Basispizza[i][currentKey];
         console.log(jobj.Basispizza[i]);
         console.log(zutat);
-        if (zutat !== "null") {
+        if (zutat != null) {
           let zutatCheckbx = document.getElementById(zutat);
           zutatCheckbx.checked = true;
         }
