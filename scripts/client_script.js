@@ -45,7 +45,9 @@ async function init() {
         select.name = i;
         //select.change = "updatePizzaPreis(this)";
         //select.addEventListener("click", updatePizzaPreis(this));
-        select.onclick = "updatePizzaPreis(this)";
+        select.onclick = function () {
+          updatePizzaPreis(this);
+        };
 
         tdZutat.appendChild(zutat);
         tdPreis.appendChild(preis);
