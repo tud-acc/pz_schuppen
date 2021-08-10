@@ -98,6 +98,7 @@ app.get("/registrieren.js", function (req, res) {
   res.render("registrieren");
 });
 
+// -- POST
 app.post("/registrieren.js", function (req, res) {
   var data = {
     vorname: null,
@@ -200,12 +201,14 @@ app.post("/registrieren.js", function (req, res) {
 
 //-------------------------------------------------------------------------------------//
 //    Bestellen
-// --
+// -- GET
 app.get("/bestellen.js", function (req, res) {
   var data = { zahl1: null, zahl2: null };
   console.log("GET", data);
   res.render("bestellung", data);
 });
+
+// -- POST
 app.post("/bestellen.js", function (req, res) {
   var body = "";
   req.on("data", function (data) {
@@ -222,7 +225,7 @@ app.post("/bestellen.js", function (req, res) {
 
 //-------------------------------------------------------------------------------------//
 //    Zutatenliste
-// --
+// -- GET
 app.get("/zutaten.js", async function (req, res) {
   console.log("GET");
 
@@ -256,6 +259,8 @@ app.get("/zutaten.js", async function (req, res) {
   res.write(JSON.stringify(result_json));
   res.end();
 });
+
+// -- POST - Sollte nicht moeglich sein!
 app.post("/zutaten.js", function (req, res) {
   console.dir("Post nicht moeglich!");
 });

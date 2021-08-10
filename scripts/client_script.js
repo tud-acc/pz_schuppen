@@ -26,10 +26,9 @@ async function init() {
 
     if (jobj != null) {
       err = Object.keys(jobj).length > 0 ? false : true;
-      console.log("Z28 " + err);
 
       var i;
-      for (i = 0; i < jobj.length; i++) {
+      for (i = 0; i < Object.keys(jobj).length; i++) {
         var tr = document.createElement("tr"); // neue Zeile
 
         var tdZutat = document.createElement("td");
