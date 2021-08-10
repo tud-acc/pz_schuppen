@@ -44,7 +44,8 @@ async function init() {
         select.id = jobj.Zutaten[i].bezeichnung; // setze id auf zutatname (zutat kommt nur ein mal vor)
         select.name = i;
         //select.change = "updatePizzaPreis(this)";
-        select.addEventListener("click", updatePizzaPreis(select));
+        //select.addEventListener("click", updatePizzaPreis(this));
+        select.onclick = updatePizzaPreis(this);
 
         tdZutat.appendChild(zutat);
         tdPreis.appendChild(preis);

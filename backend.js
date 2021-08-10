@@ -1,7 +1,7 @@
 var server = require("node-fastcgi");
 //var server = require('http');
 var express = require("express");
-
+var cache = require("memory-cache");
 var app = express();
 app.set("view engine", "pug");
 app.set("views", "./pug-views");
@@ -220,6 +220,7 @@ app.post("/bestellen.js", function (req, res) {
   });
   req.on("end", function () {
     var params = new URLSearchParams(body);
+
     var data = { zahl1: params.get("zahl1"), zahl2: params.get("zahl2") };
     //console.dir(params.get('zahl1'),params.get('zahl2');
 
