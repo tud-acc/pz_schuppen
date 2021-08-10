@@ -93,9 +93,12 @@ input {
 }
 
 .logo {
-  background-color: #ebe8e1;
+}
+
+.brandname {
+  /* background-color: #ebe8e1; */
   color: #000000;
-  font-size: large;
+  font-size: 20px;
   font-family: "Lucida Handwriting";
 }
 

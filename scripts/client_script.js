@@ -1,3 +1,5 @@
+var jobj;
+
 async function init() {
   var err = false;
   var errtext = document.createTextNode("Fehler beim Laden der Zutaten");
@@ -8,7 +10,7 @@ async function init() {
   var content = await response.text();
 
   if (isValidJson(content)) {
-    var jobj = JSON.parse(content);
+    jobj = JSON.parse(content);
     var table = document.createElement("table");
     table.setAttribute("border", "1");
 
@@ -82,4 +84,25 @@ function isValidJson(str) {
     return false;
   }
   return true;
+}
+
+function updatePreSelection(selection) {
+  let selected = selection.value;
+  let i;
+  for (i = 0; i < Object.keys(jobj.Basispizza).length; i++) {
+    if (jobj.Basispizza[i] === selected) {
+      let j;
+      for (j = 2; j < Object.keys(jobj.Basispizza[i]).length; j++) {
+        let zutat = jobj.Basispizza[i][j];
+        if (zutat !== "null") {
+          let zutatCheckbx = document.getElementById(zutat);
+          zutatCheckbx.checked = true;
+        }
+      }
+    }
+  }
+}
+
+function resetCheckboxes() {
+  let checkboxes = document.getElementsByTagName("checkbox");
 }
