@@ -25,13 +25,21 @@ html
         select(name='basispizza' onchange='updatePreSelection(this)')#basispizzaliste
 
       div
-        div(class='twothird left container')
+        div(class='twothird left')
           //- Zutatenliste etc
           h3 Zutatenliste
           div(class='container')#tablecontainer
             // Tabelle einfügen
+
+          div(class='container')#pizzaauswahl
+            p
+              |Preis: 
+              span#pizzapreis 0
+              |€
+            br
+            button(class='button' value='Pizza hinzufügen' onclick='updateBestellListe()')#addPizzaButton
         
-        div(class='third left container')
+        div(class='third left')
           //- Pizzaübersicht (Warenkorb)
           h3 Bestellung
           div(class='container')

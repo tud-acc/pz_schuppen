@@ -43,6 +43,7 @@ async function init() {
         var select = document.createElement("input");
         select.type = "checkbox";
         select.id = jobj.Zutaten[i].bezeichnung; // setze id auf zutatname (zutat kommt nur ein mal vor)
+        select.onclick = "updatePizzaPreis(this)";
 
         tdZutat.appendChild(zutat);
         tdPreis.appendChild(preis);
@@ -75,7 +76,10 @@ async function init() {
   } else {
     tablenode.appendChild(errtext);
   }
+
+  // steuerelement hinzufügen
 }
+//-- end init() --
 
 function isValidJson(str) {
   try {
@@ -113,4 +117,15 @@ function resetCheckboxes() {
   for (let i = 0; i < checkboxes.length; i++) {
     checkboxes[i].checked = false;
   }
+}
+
+function updatePizzaPreis(zutat) {
+  let priceNode = document.getElementById("pizzapreis");
+  let price = priceNode.innerText;
+  if (zutat.checked) {
+    price += jobj.Zutaten[zutat].preis;
+  } else {
+    price -= jobj.Zutaten[zutat].preis;
+  }
+  priceNode.innerText = price;
 }
