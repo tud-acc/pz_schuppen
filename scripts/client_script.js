@@ -24,10 +24,8 @@ async function init() {
     trh.appendChild(thSelect);
     table.appendChild(trh);
 
-    console.log(jobj);
-
     if (jobj != null) {
-      err = jobj.length > 0 ? false : true;
+      err = Object.keys(jobj).length > 0 ? false : true;
       console.log("Z28 " + err);
 
       var i;

@@ -17,12 +17,15 @@ mysql.createConnection(config).then((f) => {
   conn = f;
 });
 
+//-------------------------------------------------------------------------------------//
 //   MAINPAGE (INDEX)
+// -- GET
 app.get("/node.js", function (req, res) {
   var data = { zahl1: null, zahl2: null };
   console.log("GET", data);
   res.render("index", data);
 });
+// -- POST
 app.post("/node.js", function (req, res) {
   var body = "";
   req.on("data", function (data) {
@@ -31,6 +34,7 @@ app.post("/node.js", function (req, res) {
 
   console.log("POST");
 });
+
 //-------------------------------------------------------------------------------------//
 //    ANMELDEN
 // -- GET
@@ -89,7 +93,7 @@ app.post("/anmelden.js", function (req, res) {
 
 //-------------------------------------------------------------------------------------//
 //    Registrieren
-//
+// -- GET
 app.get("/registrieren.js", function (req, res) {
   res.render("registrieren");
 });
