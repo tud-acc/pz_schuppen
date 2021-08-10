@@ -91,3 +91,13 @@ input {
   background-color: #118ab2;
   color: #fff;
 }
+
+table {
+  border-collapse: collapse;
+  width: 100% !important;
+}
+th,
+td {
+  padding: 4px;
+  text-align: left !important;
+}
