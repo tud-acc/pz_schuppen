@@ -103,6 +103,7 @@ input {
 }
 
 .headerbox {
+  max-height: 100px;
 }
 
 table {

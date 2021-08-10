@@ -91,7 +91,7 @@ function updatePreSelection(selection) {
   let selected = selection.value;
   console.log(selected);
   for (let i = 0; i < Object.keys(jobj.Basispizza).length; i++) {
-    if (jobj.Basispizza[i] === selected) {
+    if (jobj.Basispizza[i].name === selected) {
       for (let j = 2; j < Object.keys(jobj.Basispizza[i]).length; j++) {
         let zutat = jobj.Basispizza[i][j];
         console.log(zutat);
