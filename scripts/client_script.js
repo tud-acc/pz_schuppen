@@ -30,8 +30,7 @@ async function init() {
     if (jobj != null) {
       err = Object.keys(jobj).length > 0 ? false : true;
 
-      let i;
-      for (i = 0; i < Object.keys(jobj.Zutaten).length; i++) {
+      for (let i = 0; i < Object.keys(jobj.Zutaten).length; i++) {
         var tr = document.createElement("tr"); // neue Zeile
 
         var tdZutat = document.createElement("td");
@@ -43,8 +42,8 @@ async function init() {
         var select = document.createElement("input");
         select.type = "checkbox";
         select.id = jobj.Zutaten[i].bezeichnung; // setze id auf zutatname (zutat kommt nur ein mal vor)
-        select.onchange = "updatePizzaPreis(this)";
-        select.name = jobj.Zutaten[i].id;
+        select.name = i;
+        select.addEventListener("change", updatePizzaPreis(this));
 
         tdZutat.appendChild(zutat);
         tdPreis.appendChild(preis);
@@ -56,8 +55,7 @@ async function init() {
         table.appendChild(tr);
       }
 
-      let j;
-      for (j = 0; j < Object.keys(jobj.Basispizza).length; j++) {
+      for (let j = 0; j < Object.keys(jobj.Basispizza).length; j++) {
         let option = document.createElement("option");
         option.value = jobj.Basispizza[j].name;
         option.text = jobj.Basispizza[j].name;
