@@ -43,7 +43,8 @@ async function init() {
         select.type = "checkbox";
         select.id = jobj.Zutaten[i].bezeichnung; // setze id auf zutatname (zutat kommt nur ein mal vor)
         select.name = i;
-        select.change = "updatePizzaPreis(this)";
+        //select.change = "updatePizzaPreis(this)";
+        select.addEventListener("click", updatePizzaPreis(select));
 
         tdZutat.appendChild(zutat);
         tdPreis.appendChild(preis);

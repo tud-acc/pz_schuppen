@@ -1,5 +1,4 @@
-
-
+/*
 
 session{
   "email": xyz
@@ -13,53 +12,35 @@ session{
       ..
       .
     ]
-
     "Basispizza":[{"pizza_id":1,"name":"Margherita","zutat1":null,"zutat2":null,"zutat3":null,"zutat4":null,"zutat5":null,"zutat6":null,"zutat7":null,"zutat8":null},
     {"pizza_id":2,"name":"Speziale","zutat1":1,"zutat2":2,"zutat3":3,"zutat4":null,"zutat5":null,"zutat6":null,"zutat7":null,"zutat8":null},{"pizza_id":3,"name":"Diavola","zutat1":1,"zutat2":2,"zutat3":7,"zutat4":15,"zutat5":null,"zutat6":null,"zutat7":null,"zutat8":null}]}
-
 }
 
-function isloggedin(){
+*/
+
+var cache = require("memory-cache");
+
+function isloggedin() {
   var json_object = cache.get(session_id);
   var email = json_object.email;
 
-  if(email === ""){
+  if (email === "") {
     return false;
-  }else{
+  } else {
     return true;
   }
 }
 
-function isloggedin2str(){
-
-  if(isloggedin == "true"){
+function isloggedin2str() {
+  if (isloggedin == "true") {
     var json_object = cache.get(session_id);
     var email = json_object.email;
     var vorname = json_object.vorname;
     var nachname = json_object.nachname;
 
-    var ausgabe = "Angemeldet: "+email+" - "+vorname+" "
-+nachname;
-    return ausgabe; 
-
-  }else{
+    var ausgabe = "Angemeldet: " + email + " - " + vorname + " " + nachname;
+    return ausgabe;
+  } else {
     return "Nicht angemeldet";
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
