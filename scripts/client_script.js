@@ -89,18 +89,17 @@ function isValidJson(str) {
 function updatePreSelection(selection) {
   resetCheckboxes();
   let selected = selection.value;
-  console.log(selected);
+  let checkboxes = document
+    .getElementById("tablecontainer")
+    .getElementsByTagName("input");
+
   for (let i = 0; i < Object.keys(jobj.Basispizza).length; i++) {
     if (jobj.Basispizza[i].name === selected) {
       for (let j = 2; j < Object.keys(jobj.Basispizza[i]).length; j++) {
         let currentKey = Object.keys(jobj.Basispizza[i])[j]; //fetched the key at second index
-        console.log("currentkey: " + currentKey);
         let zutat = jobj.Basispizza[i][currentKey];
-        console.log(jobj.Basispizza[i]);
-        console.log(zutat);
         if (zutat != null) {
-          let zutatCheckbx = document.getElementById(zutat);
-          zutatCheckbx.checked = true;
+          checkboxes[zutat - 1].checked = true;
         }
       }
     }
@@ -108,10 +107,10 @@ function updatePreSelection(selection) {
 }
 
 function resetCheckboxes() {
-  let checkboxes = document.getElementsByTagName("input");
+  let checkboxes = document
+    .getElementById("tablecontainer")
+    .getElementsByTagName("input");
   for (let i = 0; i < checkboxes.length; i++) {
-    if (checkboxes[i].type === "checkbox") {
-      checkboxes[i].checked = false;
-    }
+    checkboxes[i].checked = false;
   }
 }
