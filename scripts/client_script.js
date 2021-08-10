@@ -102,6 +102,10 @@ function updatePreSelection(selection) {
 
   for (let i = 0; i < Object.keys(jobj.Basispizza).length; i++) {
     if (jobj.Basispizza[i].name === selected) {
+      // update basispreis:
+      let priceNode = document.getElementById("pizzapreis");
+      priceNode.innerText = jobj.Basispizza[i].preis;
+
       for (let j = 2; j < Object.keys(jobj.Basispizza[i]).length; j++) {
         let currentKey = Object.keys(jobj.Basispizza[i])[j]; //fetched the key at second index
         let zutat = jobj.Basispizza[i][currentKey];
@@ -130,5 +134,5 @@ function updatePizzaPreis(zutat) {
   } else {
     price -= Number(jobj.Zutaten[zutat.name].preis);
   }
-  priceNode.innerText = price;
+  priceNode.innerText = Math.round(price * 100) / 100;
 }
