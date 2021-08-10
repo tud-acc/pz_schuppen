@@ -92,6 +92,13 @@ input {
   color: #fff;
 }
 
+.logo {
+  background-color: #ebe8e1;
+  color: #000000;
+  font-size: large;
+  font-family: "Lucida Handwriting";
+}
+
 table {
   border-collapse: collapse;
   width: 100% !important;

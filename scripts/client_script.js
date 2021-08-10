@@ -2,6 +2,7 @@ async function init() {
   var err = false;
   var errtext = document.createTextNode("Fehler beim Laden der Zutaten");
   var tablenode = document.getElementById("tablecontainer");
+  var dropdown = document.getElementById("basispizzaliste");
 
   var response = await fetch("/zutaten.js");
   var content = await response.text();
@@ -27,7 +28,7 @@ async function init() {
     if (jobj != null) {
       err = Object.keys(jobj).length > 0 ? false : true;
 
-      var i;
+      let i;
       for (i = 0; i < Object.keys(jobj.Zutaten).length; i++) {
         var tr = document.createElement("tr"); // neue Zeile
 
@@ -49,6 +50,13 @@ async function init() {
         tr.appendChild(tdSelect);
 
         table.appendChild(tr);
+      }
+
+      let j;
+      for (j = 0; j < Object.keys(jobj.Basispizza).length; j++) {
+        let option = document.createElement("option");
+        option.value = jobj.Basispizza[i].name;
+        dropdown.append(option);
       }
     } else {
       err = true;
