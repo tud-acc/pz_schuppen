@@ -149,7 +149,7 @@ function updateBestellListe() {
   for (let i = 0; i < checkboxes.length; i++) {
     if (checkboxes[i].checked) {
       let key = "zutat" + zutatindex++;
-      pizza[key] = checkboxes[i].name;
+      pizza[key] = Number(checkboxes[i].name) + 1;
     }
   }
   console.log(pizza);
