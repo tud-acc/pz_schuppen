@@ -110,7 +110,7 @@ function updatePreSelection(selection) {
         for (let j = 2; j < Object.keys(jobj.Basispizza[i]).length; j++) {
           let currentKey = Object.keys(jobj.Basispizza[i])[j]; //fetched the key at second index
           let zutat = jobj.Basispizza[i][currentKey];
-          if (zutat !== null && !isNaN(zutat)) {
+          if (zutat !== null) {
             checkboxes[zutat - 1].checked = true;
           }
         }
