@@ -106,11 +106,13 @@ function updatePreSelection(selection) {
       let priceNode = document.getElementById("pizzapreis");
       priceNode.innerText = jobj.Basispizza[i].preis;
 
-      for (let j = 2; j < Object.keys(jobj.Basispizza[i]).length; j++) {
-        let currentKey = Object.keys(jobj.Basispizza[i])[j]; //fetched the key at second index
-        let zutat = jobj.Basispizza[i][currentKey];
-        if (zutat > 0) {
-          checkboxes[zutat - 1].checked = true;
+      if (!selected === "Margherita") {
+        for (let j = 2; j < Object.keys(jobj.Basispizza[i]).length; j++) {
+          let currentKey = Object.keys(jobj.Basispizza[i])[j]; //fetched the key at second index
+          let zutat = jobj.Basispizza[i][currentKey];
+          if (zutat !== null && !isNaN(zutat)) {
+            checkboxes[zutat - 1].checked = true;
+          }
         }
       }
     }
