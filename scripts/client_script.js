@@ -55,7 +55,7 @@ async function init() {
       let j;
       for (j = 0; j < Object.keys(jobj.Basispizza).length; j++) {
         let option = document.createElement("option");
-        option.value = jobj.Basispizza[i].name;
+        option.value = jobj.Basispizza[j].name;
         dropdown.append(option);
       }
     } else {
