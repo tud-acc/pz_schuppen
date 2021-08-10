@@ -82,6 +82,9 @@ app.post("/anmelden.js", function (req, res) {
     ) {
       // Login OK
       console.dir("DEBUG: logindaten OK.");
+
+      // Hier müsste ja der Memory-Cache gefuellt werden
+      //cache.put();
     }
 
     console.log("POST");
