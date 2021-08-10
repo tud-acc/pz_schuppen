@@ -109,10 +109,10 @@ function updatePreSelection(selection) {
       for (let j = 2; j < Object.keys(jobj.Basispizza[i]).length; j++) {
         let currentKey = Object.keys(jobj.Basispizza[i])[j]; //fetched the key at second index
         let zutat = jobj.Basispizza[i][currentKey];
-        console.log("zutat: " + zutat);
-        if (zutat !== null && !isNaN(zutat)) {
-          checkboxes[zutat - 1].checked = true;
+        if (zutat == null) {
+          break;
         }
+        checkboxes[zutat - 1].checked = true;
       }
     }
   }
