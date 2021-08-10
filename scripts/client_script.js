@@ -42,7 +42,7 @@ async function init() {
         var preis = document.createTextNode(jobj.Zutaten[i].preis + " €");
         var select = document.createElement("input");
         select.type = "checkbox";
-        select.id = zutat; // setze id auf zutatname (zutat kommt nur ein mal vor)
+        select.id = jobj.Zutaten[i].bezeichnung; // setze id auf zutatname (zutat kommt nur ein mal vor)
 
         tdZutat.appendChild(zutat);
         tdPreis.appendChild(preis);
@@ -103,8 +103,10 @@ function updatePreSelection(selection) {
 }
 
 function resetCheckboxes() {
-  let checkboxes = document.getElementsByTagName("checkbox");
+  let checkboxes = document.getElementsByTagName("input");
   for (let i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].checked = false;
+    if (checkboxes[i].type === "checkbox") {
+      checkboxes[i].checked = false;
+    }
   }
 }
