@@ -87,6 +87,7 @@ function isValidJson(str) {
 }
 
 function updatePreSelection(selection) {
+  resetCheckboxes();
   let selected = selection.value;
   let i;
   for (i = 0; i < Object.keys(jobj.Basispizza).length; i++) {
@@ -105,4 +106,7 @@ function updatePreSelection(selection) {
 
 function resetCheckboxes() {
   let checkboxes = document.getElementsByTagName("checkbox");
+  checkboxes.forEach((element) => {
+    element.checked = false;
+  });
 }
