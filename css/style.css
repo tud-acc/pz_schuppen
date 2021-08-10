@@ -102,6 +102,9 @@ input {
   font-family: "Lucida Handwriting";
 }
 
+.headerbox {
+}
+
 table {
   border-collapse: collapse;
   width: 100% !important;

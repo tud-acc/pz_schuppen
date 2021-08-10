@@ -89,10 +89,12 @@ function isValidJson(str) {
 function updatePreSelection(selection) {
   resetCheckboxes();
   let selected = selection.value;
+  console.log(selected);
   for (let i = 0; i < Object.keys(jobj.Basispizza).length; i++) {
     if (jobj.Basispizza[i] === selected) {
       for (let j = 2; j < Object.keys(jobj.Basispizza[i]).length; j++) {
         let zutat = jobj.Basispizza[i][j];
+        console.log(zutat);
         if (zutat !== "null") {
           let zutatCheckbx = document.getElementById(zutat);
           zutatCheckbx.checked = true;
