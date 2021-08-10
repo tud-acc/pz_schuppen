@@ -28,7 +28,7 @@ async function init() {
       err = Object.keys(jobj).length > 0 ? false : true;
 
       var i;
-      for (i = 0; i < Object.keys(jobj).length; i++) {
+      for (i = 0; i < Object.keys(jobj.Zutaten).length; i++) {
         var tr = document.createElement("tr"); // neue Zeile
 
         var tdZutat = document.createElement("td");
