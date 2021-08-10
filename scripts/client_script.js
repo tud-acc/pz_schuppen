@@ -44,6 +44,7 @@ async function init() {
         select.type = "checkbox";
         select.id = jobj.Zutaten[i].bezeichnung; // setze id auf zutatname (zutat kommt nur ein mal vor)
         select.onclick = updatePizzaPreis(this);
+        select.name = jobj.Zutaten[i].id;
 
         tdZutat.appendChild(zutat);
         tdPreis.appendChild(preis);
@@ -123,9 +124,9 @@ function updatePizzaPreis(zutat) {
   let priceNode = document.getElementById("pizzapreis");
   let price = priceNode.innerText;
   if (zutat.checked) {
-    price += jobj.Zutaten[zutat].preis;
+    price += jobj.Zutaten[zutat.name].preis;
   } else {
-    price -= jobj.Zutaten[zutat].preis;
+    price -= jobj.Zutaten[zutat.name].preis;
   }
   priceNode.innerText = price;
 }

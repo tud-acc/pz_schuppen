@@ -32,12 +32,15 @@ function isloggedin(){
 
 function isloggedin2str(){
 
-  if(isloggedin){
+  if(isloggedin == "true"){
     var json_object = cache.get(session_id);
     var email = json_object.email;
-    var vorname = json_object.
+    var vorname = json_object.vorname;
+    var nachname = json_object.nachname;
 
-    return Angemeldet: 
+    var ausgabe = "Angemeldet: "+email+" - "+vorname+" "
++nachname;
+    return ausgabe; 
 
   }else{
     return "Nicht angemeldet";
