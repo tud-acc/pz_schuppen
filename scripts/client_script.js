@@ -45,7 +45,7 @@ async function init() {
         select.name = i;
         //select.change = "updatePizzaPreis(this)";
         //select.addEventListener("click", updatePizzaPreis(this));
-        select.onclick = function () {
+        select.onchange = function () {
           updatePizzaPreis(this);
         };
 
@@ -124,11 +124,11 @@ function resetCheckboxes() {
 
 function updatePizzaPreis(zutat) {
   let priceNode = document.getElementById("pizzapreis");
-  let price = priceNode.innerText;
+  let price = Number(priceNode.innerText);
   if (zutat.checked) {
-    price += jobj.Zutaten[zutat.name].preis;
+    price += Number(jobj.Zutaten[zutat.name].preis);
   } else {
-    price -= jobj.Zutaten[zutat.name].preis;
+    price -= Number(jobj.Zutaten[zutat.name].preis);
   }
   priceNode.innerText = price;
 }
