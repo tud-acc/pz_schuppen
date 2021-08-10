@@ -137,3 +137,20 @@ function updatePizzaPreis(zutat) {
   }
   priceNode.innerText = Math.round(price * 100) / 100;
 }
+
+function updateBestellListe() {
+  // sende pizza ans backend
+  let pizza = {};
+  let checkboxes = document
+    .getElementById("tablecontainer")
+    .getElementsByTagName("input");
+
+  let zutatindex = 1;
+  for (let i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked) {
+      let key = "zutat" + zutatindex++;
+      pizza[key] = checkboxes[i].name;
+    }
+  }
+  console.log(pizza);
+}
