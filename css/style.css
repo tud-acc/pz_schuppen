@@ -91,6 +91,10 @@ input {
   background-color: #118ab2;
   color: #fff;
 }
+.red {
+  background-color: #db4f4f;
+  color: #fff;
+}
 
 .logo {
 }
