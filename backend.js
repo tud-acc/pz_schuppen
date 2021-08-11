@@ -38,14 +38,14 @@ app.post("/node.js", function (req, res) {
     body += data;
   });
 
-  console.log("POST");
+  console.log("POST - MAINPAGE - " + req.ip);
 });
 
 //-------------------------------------------------------------------------------------//
 //    ANMELDEN
 // -- GET
 app.get("/anmelden.js", function (req, res) {
-  console.log("GET");
+  console.log("GET - ANMELDEN - " + req.ip);
   res.render("anmelden");
 });
 // -- POST TODO: PRÜFEN UND FIXEN --> PASSWORT UNDEFINED
@@ -104,7 +104,7 @@ app.post("/anmelden.js", function (req, res) {
       console.dir("Irgendwas ist schief gegangen beim ANMELDEN!");
     }
 
-    console.log("POST");
+    console.log("POST - ANMELDEN - " + req.ip);
 
     res.writeHead(307, { Location: "/node.js" });
     res.end();
@@ -121,6 +121,7 @@ function getSessionID() {
 //    Registrieren
 // -- GET
 app.get("/registrieren.js", function (req, res) {
+  console.log("GET - REGISTRIEREN - " + req.ip);
   res.render("registrieren");
 });
 
@@ -220,6 +221,7 @@ app.post("/registrieren.js", function (req, res) {
       console.dir("Error: Email schon in der DB vorhanden");
 
       console.log("POST", data);
+      console.log("POST - REGISTRIEREN - " + req.ip);
       alert("E-Mail Adresse schon vorhanden!");
     }
   });
@@ -229,8 +231,6 @@ app.post("/registrieren.js", function (req, res) {
 //    Bestellen
 // -- GET
 app.get("/bestellen.js", function (req, res) {
-  var data = { zahl1: null, zahl2: null };
-  console.log("GET", data);
   res.render("bestellung", data);
 });
 
