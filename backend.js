@@ -6,6 +6,10 @@ var app = express();
 app.set("view engine", "pug");
 app.set("views", "./pug-views");
 
+// MQTT
+var mqtt = require("mqtt");
+var mqttclient;
+
 // Datenbank Setup
 var mysql = require("promise-mysql");
 var config = {
@@ -85,7 +89,16 @@ app.post("/anmelden.js", function (req, res) {
       console.dir("DEBUG: logindaten OK.");
 
       // Hier müsste ja der Memory-Cache gefuellt werden
-      //cache.put();
+      var session = {
+        email: data_anmelden.email,
+        session_id: getSessionID(),
+        session_id_kurz: "",
+        gesamtpreis: "",
+        pizzen: []
+      };
+
+      console.dir(session);
+      cache.put(session);
     }
 
     console.log("POST");
@@ -94,6 +107,12 @@ app.post("/anmelden.js", function (req, res) {
     res.end();
   });
 });
+
+function getSessionID() {
+  var id = Math.floor(Math.random() * 100000000) + 100000000;
+
+  return id;
+}
 
 //-------------------------------------------------------------------------------------//
 //    Registrieren
@@ -272,3 +291,33 @@ app.post("/zutaten.js", function (req, res) {
 });
 
 server.createServer(app).listen(9998);
+
+//---------------------------------------------------
+// MQTT
+function onMessage(topic, message) {
+  var response = { rc: 0 };
+  let jsm = JSON.parse(message);
+  console.log(jsm);
+
+  //prüfe code
+  if (jsm.action == "get_bestellung") {
+    response.pizzen = [];
+    // for-loop pizzen einfügen
+    response.pizzen.push({ name: "pizza1", preis: "6,50€" });
+  }
+
+  // sende response
+  clientInformation.publish(
+    topic.replace("fr", "to"),
+    JSON.stringify(response)
+  );
+}
+
+// autostart mqtt listener
+(async function main() {
+  mqttclient = mqtt.connect("mqtt://127.0.0.1", {}).on("connect", function () {
+    console.log("connected");
+    mqttclient.on("message", onMessage);
+    mqttclient.subscribe("mqttfetch/pizza/+/fr/+");
+  });
+})();

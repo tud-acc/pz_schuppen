@@ -44,3 +44,11 @@ function isloggedin2str() {
     return "Nicht angemeldet";
   }
 }
+
+/*
+function getSessionID() {
+  var id = Math.floor(Math.random() * 100000000) + 100000000;
+
+  return id;
+}
+*/
