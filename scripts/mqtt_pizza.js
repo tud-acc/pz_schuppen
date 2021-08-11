@@ -3,7 +3,7 @@ var message;
 window.onload = async function () {
   message = mqtt_fetch("pizza");
   console.log("message: " + message);
-  await message.init("http://193.197.231.154", 1884);
+  await message.init("193.197.231.154", 1884);
   message.set_callback(-1, "test", false);
   /*document
     .getElementById("addPizzaButton")
