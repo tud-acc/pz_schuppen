@@ -328,17 +328,19 @@ server.createServer(app).listen(9998);
 //---------------------------------------------------
 // MQTT
 function onMessage(topic, message) {
-  var response = { rc: 0 };
+  var response = { rc: 0, preis: 0 };
   let jsm = JSON.parse(message);
   console.log(jsm);
 
   if (jsm.action == "add_Pizza") {
     let bestellsession = cache.get(jsm.bestellid);
+    let preis = Number(calcPizzaPreis(jsm.pizza));
 
     bestellsession.pizzen.push(jsm.pizza);
-    bestellsession.gesamtpreis += Number(calcPizzaPreis(jsm.pizza));
+    bestellsession.gesamtpreis += Number(preis);
 
-    response["preis"] = calcPizzaPreis(jsm.pizza);
+    response.preis = preis;
+    console.log("preis: " + preis);
     response.pizzen = bestellsession.pizzen;
 
     cache.put(jsm.bestellid, bestellsession, 3600000);
