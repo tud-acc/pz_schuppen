@@ -80,6 +80,9 @@ app.post("/anmelden.js", function (req, res) {
     console.dir("Erst result_login.password und dann data_anmelden.passwort:");
     var new_result = JSON.stringify(result_login);
     console.dir(new_result);
+    var new_result2 = JSON.parse(JSON.stringify(result_login));
+    console.dir(new_result2);
+
     console.dir(new_result.passwort);
     console.dir(result_login.RowDataPacket[0].passwort);
     console.dir(data_anmelden.passwort);
