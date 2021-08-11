@@ -372,9 +372,9 @@ async function calcPizzaPreis(pizza) {
   let zutaten = await conn.query("SELECT * FROM zutaten");
   console.log(zutaten);
   for (let i = 1; i <= 8; i++) {
-    if (pizza["zutat" + i].name != undefined) {
+    if (pizza["zutat" + i] != undefined) {
       for (let j = 0; j < Object.keys(zutaten).length; j++) {
-        if (pizza["zutat" + i].name == zutaten[j].zid) {
+        if (pizza["zutat" + i] == zutaten[j].zid) {
           preis += Number(zutaten[j].preis);
         }
       }
