@@ -334,13 +334,11 @@ async function onMessage(topic, message) {
   if (jsm.action == "add_Pizza") {
     let bestellsession = cache.get(jsm.bestellid);
     let preis = await calcPizzaPreis(jsm.pizza);
-    console.log("Preis: " + preis);
 
     bestellsession.pizzen.push(jsm.pizza);
     bestellsession.gesamtpreis += Number(preis);
 
     response.preis = preis;
-    console.log("preis: " + preis);
     response.pizzen = bestellsession.pizzen;
 
     cache.put(jsm.bestellid, bestellsession, 3600000);
@@ -350,8 +348,9 @@ async function onMessage(topic, message) {
     response.pizzen.push({ name: "pizza1", preis: "6,50€" });
   }
 
-  // sende response
-  mqttclient.publish(topic.replace("fr", "to"), JSON.stringify(response));
+  // sende response an alle subs
+  mqttclient.publish("pizza", JSON.stringify(response));
+  //mqttclient.publish(topic.replace("fr", "to"), JSON.stringify(response));
 }
 
 // autostart mqtt listener
