@@ -1,7 +1,7 @@
 var message;
 
 async function nofuckyou() {
-  message = mqtt_fetch("pizza");
+  message = new mqtt_fetch("pizza");
   console.log("message: " + message);
   await message.init("193.197.231.154", 1884);
   message.set_callback(-1, "test", false);
