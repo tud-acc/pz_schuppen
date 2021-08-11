@@ -33,7 +33,7 @@ function rx_bestellung(topic, data) {
     let card = document.createElement("div");
     let pizzatext = document.createElement("span");
     let deletebutton = document.createElement("button");
-    deletebutton.setAttribute("class", "button red");
+    deletebutton.setAttribute("class", "button red round marging-left16");
     deletebutton.textContent = "x";
 
     pizzatext.innerText =

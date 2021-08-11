@@ -96,6 +96,14 @@ input {
   color: #fff;
 }
 
+.round {
+  border-radius: 50%;
+}
+
+.marging-left16 {
+  margin-left: 16px;
+}
+
 .logo {
 }
 
