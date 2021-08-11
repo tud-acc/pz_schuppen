@@ -408,3 +408,7 @@ function isloggedin2str() {
     return "Nicht angemeldet";
   }
 }
+
+    return "Nicht angemeldet";
+  }
+}
