@@ -336,7 +336,9 @@ function onMessage(topic, message) {
     let bestellsession = cache.get(jsm.bestellid);
 
     bestellsession.pizzen.push(jsm.pizza);
+    bestellsession.gesamtpreis += Number(calcPizzaPreis(jsm.pizza));
 
+    response["preis"] = calcPizzaPreis(jsm.pizza);
     response.pizzen = bestellsession.pizzen;
 
     cache.put(jsm.bestellid, bestellsession, 3600000);
@@ -361,6 +363,24 @@ function onMessage(topic, message) {
 })();
 
 // --- END mqtt
+//---------------------------------
+// Helper Funktion mqtt
+async function calcPizzaPreis(pizza) {
+  var preis = 5.0;
+  let zutaten = await mysql.query("SELECT * FROM zutaten");
+  for (let i = 1; i <= 8; i++) {
+    if (pizza["zutat" + i].name != undefined) {
+      for (let j = 0; j < Object.keys(zutaten).length; j++) {
+        if (pizza["zutat" + i].name == zutaten[j].bezeichnung) {
+          preis += Number(zutaten[j].preis);
+        }
+      }
+    } else {
+      break;
+    }
+  }
+  return preis;
+}
 
 function isloggedin() {
   var json_object = cache.get(session_id);
