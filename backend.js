@@ -26,9 +26,10 @@ mysql.createConnection(config).then((f) => {
 //   MAINPAGE (INDEX)
 // -- GET
 app.get("/node.js", function (req, res) {
-  var data = { zahl1: null, zahl2: null };
-  console.log("GET", data);
-  res.render("index", data);
+  console.log("GET - MAINPAGE - " + req.ip);
+  var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+  console.log(ip);
+  res.render("index");
 });
 // -- POST
 app.post("/node.js", function (req, res) {
@@ -99,6 +100,8 @@ app.post("/anmelden.js", function (req, res) {
 
       console.dir(session);
       cache.put(session);
+    } else {
+      console.dir("Irgendwas ist schief gegangen beim ANMELDEN!");
     }
 
     console.log("POST");
