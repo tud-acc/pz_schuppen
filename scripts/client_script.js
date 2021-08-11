@@ -1,6 +1,7 @@
 var jobj;
 
 async function init() {
+  nofuckyou();
   var err = false;
   var errtext = document.createTextNode("Fehler beim Laden der Zutaten");
   var tablenode = document.getElementById("tablecontainer");

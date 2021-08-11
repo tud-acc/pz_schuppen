@@ -1,6 +1,6 @@
 var message;
 
-window.onload = async function () {
+async function nofuckyou() {
   message = mqtt_fetch("pizza");
   console.log("message: " + message);
   await message.init("193.197.231.154", 1884);
@@ -8,7 +8,7 @@ window.onload = async function () {
   /*document
     .getElementById("addPizzaButton")
     .addEventListener("click", mqtt_send);*/
-};
+}
 
 async function mqtt_sendr() {
   alert(window.onload);
