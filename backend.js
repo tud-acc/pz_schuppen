@@ -27,8 +27,8 @@ mysql.createConnection(config).then((f) => {
 // -- GET
 app.get("/node.js", function (req, res) {
   console.log("GET - MAINPAGE - " + req.ip);
-  var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-  console.log(ip);
+  //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+  //console.log(ip);
   res.render("index");
 });
 // -- POST
