@@ -31,6 +31,9 @@ app.get("/node.js", function (req, res) {
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
 
+  console.dir(Cookies.get("ip"));
+  console.dir(Cookies.get());
+
   if (Cookies.get("ip") === req.ip) {
     console.dir("Du warst schon mal hier");
     console.dir("Deine IP aus dem Cookie: " + Cookies.get("ip"));
@@ -122,7 +125,7 @@ app.post("/anmelden.js", function (req, res) {
       };
 
       console.dir(session);
-      cache.put(session);
+      cache.put(123, session, 3600000);
       // cache.put(jsnMessage.session.sessionId, sessionvars, 3600000);
       // let session = cache.get(jsnMessage.session.sessionId);
     } else {
@@ -330,7 +333,10 @@ function onMessage(topic, message) {
   console.log(jsm);
 
   if (jsm.action == "add_Pizza") {
-    cache.get();
+    let bestellsession = cache.get(jsm.bestellid);
+
+    bestellsession.pizzen.push(jsm.pizza);
+    cache.put(jsm.bestellid, bestellsession, 3600000);
   } else if (jsm.action == "get_bestellung") {
     response.pizzen = [];
     // for-loop pizzen einfügen

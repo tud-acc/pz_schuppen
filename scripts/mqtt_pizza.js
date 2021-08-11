@@ -13,8 +13,9 @@ async function nofuckyou() {
 async function mqtt_sendr() {
   console.log("-> mqtt_send");
   var result = await message.send({
-    action: "get_bestellung",
-    id: "132"
+    action: "add_Pizza",
+    bestellid: "123",
+    pizza: { name: "pizza1", preis: "6,50€" }
   });
   document.getElementById("mqttres").innerText = JSON.stringify(result);
 }
