@@ -367,7 +367,7 @@ function onMessage(topic, message) {
 // Helper Funktion mqtt
 async function calcPizzaPreis(pizza) {
   var preis = 5.0;
-  let zutaten = await mysql.query("SELECT * FROM zutaten");
+  let zutaten = await conn.query("SELECT * FROM zutaten");
   for (let i = 1; i <= 8; i++) {
     if (pizza["zutat" + i].name != undefined) {
       for (let j = 0; j < Object.keys(zutaten).length; j++) {
