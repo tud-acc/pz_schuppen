@@ -349,7 +349,8 @@ async function onMessage(topic, message) {
   }
 
   // sende response an alle subs
-  mqttclient.publish("pizza", JSON.stringify(response));
+  mqttclient.publish("mqttfetch/pizza/", JSON.stringify(response));
+  console.log(topic);
   //mqttclient.publish(topic.replace("fr", "to"), JSON.stringify(response));
 }
 
