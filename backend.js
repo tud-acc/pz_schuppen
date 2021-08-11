@@ -374,7 +374,7 @@ async function calcPizzaPreis(pizza) {
   for (let i = 1; i <= 8; i++) {
     if (pizza["zutat" + i].name != undefined) {
       for (let j = 0; j < Object.keys(zutaten).length; j++) {
-        if (pizza["zutat" + i].name == zutaten[j].bezeichnung) {
+        if (pizza["zutat" + i].name == zutaten[j].zid) {
           preis += Number(zutaten[j].preis);
         }
       }
