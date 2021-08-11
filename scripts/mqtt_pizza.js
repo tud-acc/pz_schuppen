@@ -29,13 +29,14 @@ function rx_bestellung(topic, data) {
   console.log(data);
   console.log(data.pizzen);
 
-  for (let x in data.pizzen) {
+  for (let i = 0; i < Object.keys(data.pizzen).length; i++) {
     let card = document.createElement("div");
     let pizzatext = document.createElement("span");
     let deletebutton = document.createElement("button");
     deletebutton.value = "x";
 
-    pizzatext.innerText = x.name + "  |  " + x.preis + " €";
+    pizzatext.innerText =
+      data.pizzen[i].name + "  |  " + data.pizzen[i].preis + " €";
 
     card.appendChild(pizzatext);
     card.appendChild(deletebutton);
