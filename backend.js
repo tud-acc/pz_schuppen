@@ -77,8 +77,11 @@ app.post("/anmelden.js", function (req, res) {
     let result_login = await conn.query(query_login, [data_anmelden.email]);
     console.dir(result_login);
 
-    console.dir("Erst restult_login.password und dann data_anmelden.passwort:");
-    console.dir(data_an.passwort);
+    console.dir("Erst result_login.password und dann data_anmelden.passwort:");
+    var new_result = result_login.stringify();
+    console.dir(new_result);
+    console.dir(new_result.passwort);
+    console.dir(result_login.RowDataPacket[0].passwort);
     console.dir(data_anmelden.passwort);
 
     console.dir("object keys result login length");
