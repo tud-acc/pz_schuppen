@@ -11,7 +11,6 @@ async function nofuckyou() {
 }
 
 async function mqtt_sendr() {
-  alert(window.onload);
   console.log("-> mqtt_send");
   var result = await message.send({
     action: "get_bestellung",

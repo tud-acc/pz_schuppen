@@ -88,21 +88,21 @@ app.post("/anmelden.js", function (req, res) {
     //console.dir([0].RowDataPacket.passwort);
     console.dir("Hier1?");
     console.dir(result_login[0].passwort);
+    console.dir(data_anmelden.passwort);
     console.dir("Hier2?");
-    console.dir(result_login.RowDataPacket[0].passwort);
+    //console.dir(result_login.RowDataPacket[0].passwort);
 
     console.dir("hier3?");
     console.dir(new_result.passwort);
     console.dir("hier4?");
     console.dir(result_login.RowDataPacket[0].passwort);
-    console.dir(data_anmelden.passwort);
 
     console.dir("object keys result login length");
     console.dir(Object.keys(result_login).length);
 
     if (
       Object.keys(result_login).length !== 0 &&
-      result_login.passwort === data_anmelden.passwort
+      result_login[0].passwort === data_anmelden.passwort
     ) {
       // Login OK
       console.dir("DEBUG: logindaten OK.");
@@ -330,10 +330,7 @@ function onMessage(topic, message) {
   }
 
   // sende response
-  clientInformation.publish(
-    topic.replace("fr", "to"),
-    JSON.stringify(response)
-  );
+  mqttclient.publish(topic.replace("fr", "to"), JSON.stringify(response));
 }
 
 // autostart mqtt listener
