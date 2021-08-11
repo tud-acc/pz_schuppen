@@ -335,6 +335,8 @@ async function onMessage(topic, message) {
     let bestellsession = cache.get(jsm.bestellid);
     let preis = await calcPizzaPreis(jsm.pizza);
 
+    jsm.pizza["preis"] = preis;
+
     bestellsession.pizzen.push(jsm.pizza);
     bestellsession.gesamtpreis += Number(preis);
 
