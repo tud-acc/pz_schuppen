@@ -26,7 +26,7 @@ mysql.createConnection(config).then((f) => {
 //   MAINPAGE (INDEX)
 // -- GET
 app.get("/node.js", function (req, res) {
-  console.log("GET - MAINPAGE - " + req.ip);
+  console.log("GET - MAINPAGE - FROM:" + req.ip);
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
   res.render("index");
@@ -38,14 +38,14 @@ app.post("/node.js", function (req, res) {
     body += data;
   });
 
-  console.log("POST - MAINPAGE - " + req.ip);
+  console.log("POST - MAINPAGE - FROM:" + req.ip);
 });
 
 //-------------------------------------------------------------------------------------//
 //    ANMELDEN
 // -- GET
 app.get("/anmelden.js", function (req, res) {
-  console.log("GET - ANMELDEN - " + req.ip);
+  console.log("GET - ANMELDEN - FROM:" + req.ip);
   res.render("anmelden");
 });
 // -- POST TODO: PRÜFEN UND FIXEN --> PASSWORT UNDEFINED
@@ -104,7 +104,7 @@ app.post("/anmelden.js", function (req, res) {
       console.dir("Irgendwas ist schief gegangen beim ANMELDEN!");
     }
 
-    console.log("POST - ANMELDEN - " + req.ip);
+    console.log("POST - ANMELDEN - FROM:" + req.ip);
 
     res.writeHead(307, { Location: "/node.js" });
     res.end();
@@ -121,7 +121,7 @@ function getSessionID() {
 //    Registrieren
 // -- GET
 app.get("/registrieren.js", function (req, res) {
-  console.log("GET - REGISTRIEREN - " + req.ip);
+  console.log("GET - REGISTRIEREN - FROM: " + req.ip);
   res.render("registrieren");
 });
 
@@ -211,7 +211,10 @@ app.post("/registrieren.js", function (req, res) {
         result_adr.insertId
       ]);
 
-      console.log("POST", data);
+      console.log(
+        "POST - REGISTRIEREN - FROM: " + req.ip + " INSERT ERFOLGREICH"
+      );
+      console.log(data);
 
       res.writeHead(307, { Location: "/node.js" });
       res.end();
@@ -220,8 +223,8 @@ app.post("/registrieren.js", function (req, res) {
     } else {
       console.dir("Error: Email schon in der DB vorhanden");
 
-      console.log("POST", data);
-      console.log("POST - REGISTRIEREN - " + req.ip);
+      console.log("POST - REGISTRIEREN - FROM: " + req.ip + " ERROR DB");
+      console.log(data);
       alert("E-Mail Adresse schon vorhanden!");
     }
   });
@@ -231,7 +234,7 @@ app.post("/registrieren.js", function (req, res) {
 //    Bestellen
 // -- GET
 app.get("/bestellen.js", function (req, res) {
-  console.log("POST - REGISTRIEREN - " + req.ip);
+  console.log("GET - BESTELLEN - FROM: " + req.ip);
   res.render("bestellung");
 });
 
@@ -244,11 +247,8 @@ app.post("/bestellen.js", function (req, res) {
   req.on("end", function () {
     var params = new URLSearchParams(body);
 
-    var data = { zahl1: params.get("zahl1"), zahl2: params.get("zahl2") };
-    //console.dir(params.get('zahl1'),params.get('zahl2');
-
-    console.log("POST", data);
-    res.render("bestellung", data);
+    console.log("POST - BESTELLEN - FROM: " + req.ip);
+    res.render("bestellung");
   });
 });
 
@@ -256,7 +256,7 @@ app.post("/bestellen.js", function (req, res) {
 //    Zutatenliste
 // -- GET
 app.get("/zutaten.js", async function (req, res) {
-  console.log("GET");
+  console.log("GET - ZUTATENLISTE - FROM: " + req.ip);
 
   var query_sel_zutaten = "SELECT bezeichnung, preis FROM zutaten";
   var result_zutaten = await conn.query(query_sel_zutaten);
@@ -291,6 +291,7 @@ app.get("/zutaten.js", async function (req, res) {
 
 // -- POST - Sollte nicht moeglich sein!
 app.post("/zutaten.js", function (req, res) {
+  console.log("POST - ZUTATENLISTE - FROM: " + req.ip);
   console.dir("Post nicht moeglich!");
 });
 
@@ -319,6 +320,7 @@ function onMessage(topic, message) {
 
 // autostart mqtt listener
 (async function main() {
+  console.log("starte mqtt listener");
   mqttclient = mqtt.connect("mqtt://127.0.0.1", {}).on("connect", function () {
     console.log("connected");
     mqttclient.on("message", onMessage);

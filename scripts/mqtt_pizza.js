@@ -10,6 +10,7 @@ window.onload = async function () {
 };
 
 async function mqtt_send() {
+  console.log("-> mqtt_send");
   var result = await message.send({
     action: "get_bestellung",
     test: "Hallo"
