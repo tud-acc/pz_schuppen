@@ -326,14 +326,15 @@ server.createServer(app).listen(9998);
 
 //---------------------------------------------------
 // MQTT
-function onMessage(topic, message) {
+async function onMessage(topic, message) {
   var response = { rc: 0, preis: 0 };
   let jsm = JSON.parse(message);
   console.log(jsm);
 
   if (jsm.action == "add_Pizza") {
     let bestellsession = cache.get(jsm.bestellid);
-    let preis = calcPizzaPreis(jsm.pizza);
+    let preis = await calcPizzaPreis(jsm.pizza);
+    console.log("Preis: " + preis);
 
     bestellsession.pizzen.push(jsm.pizza);
     bestellsession.gesamtpreis += Number(preis);
@@ -367,10 +368,8 @@ function onMessage(topic, message) {
 //---------------------------------
 // Helper Funktion mqtt
 async function calcPizzaPreis(pizza) {
-  console.log("preiscalc: ");
   var preis = 5.0;
   let zutaten = await conn.query("SELECT * FROM zutaten");
-  console.log(zutaten);
   for (let i = 1; i <= 8; i++) {
     if (pizza["zutat" + i] != undefined) {
       for (let j = 0; j < Object.keys(zutaten).length; j++) {
@@ -382,7 +381,6 @@ async function calcPizzaPreis(pizza) {
       break;
     }
   }
-  console.log("calPreis preis: " + preis);
   return preis;
 }
 
