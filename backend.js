@@ -83,6 +83,9 @@ app.post("/anmelden.js", function (req, res) {
     var new_result2 = JSON.parse(JSON.stringify(result_login));
     console.dir(new_result2);
 
+    console.dir("Hier sollte newresult2.passwort drunter stehen:");
+    console.dir(new_result2.passwort);
+
     console.dir(new_result.passwort);
     console.dir(result_login.RowDataPacket[0].passwort);
     console.dir(data_anmelden.passwort);
