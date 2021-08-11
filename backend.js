@@ -74,7 +74,7 @@ app.post("/anmelden.js", function (req, res) {
     console.log(data_anmelden);
     console.log(data_anmelden.email);
     console.log("Hier so gehts los?");
-    console.log(data_anmelden.password);
+    console.log(data_anmelden.passwort);
     console.log("Hier so unter undefined?");
     console.log(params.get("passwort"));
 
@@ -83,7 +83,7 @@ app.post("/anmelden.js", function (req, res) {
     console.dir(result_login);
 
     console.dir("Erst restult_login.password und dann data_anmelden.passwort:");
-    console.dir(result_login.password);
+    console.dir(result_login.passwort);
     console.dir(data_anmelden.passwort);
 
     console.dir("object keys result login length");
