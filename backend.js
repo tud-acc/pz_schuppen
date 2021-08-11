@@ -336,6 +336,9 @@ function onMessage(topic, message) {
     let bestellsession = cache.get(jsm.bestellid);
 
     bestellsession.pizzen.push(jsm.pizza);
+
+    response.pizzen = bestellsession.pizzen;
+
     cache.put(jsm.bestellid, bestellsession, 3600000);
   } else if (jsm.action == "get_bestellung") {
     response.pizzen = [];

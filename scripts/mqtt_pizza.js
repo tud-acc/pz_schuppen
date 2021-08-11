@@ -15,7 +15,7 @@ async function mqtt_sendr() {
   var result = await message.send({
     action: "add_Pizza",
     bestellid: "123",
-    pizza: { name: "pizza1", preis: "6,50€" }
+    pizza: buildPizzaJson()
   });
   document.getElementById("mqttres").innerText = JSON.stringify(result);
 }

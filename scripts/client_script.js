@@ -139,12 +139,14 @@ function updatePizzaPreis(zutat) {
   priceNode.innerText = Math.round(price * 100) / 100;
 }
 
-function updateBestellListe() {
+function buildPizzaJson() {
   // sende pizza ans backend
   let pizza = {};
   let checkboxes = document
     .getElementById("tablecontainer")
     .getElementsByTagName("input");
+
+  pizza["name"] = document.getElementById("pizzaname").value;
 
   let zutatindex = 1;
   for (let i = 0; i < checkboxes.length; i++) {
@@ -154,4 +156,5 @@ function updateBestellListe() {
     }
   }
   console.log(pizza);
+  return pizza;
 }
