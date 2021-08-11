@@ -231,7 +231,8 @@ app.post("/registrieren.js", function (req, res) {
 //    Bestellen
 // -- GET
 app.get("/bestellen.js", function (req, res) {
-  res.render("bestellung", data);
+  console.log("POST - REGISTRIEREN - " + req.ip);
+  res.render("bestellung");
 });
 
 // -- POST
