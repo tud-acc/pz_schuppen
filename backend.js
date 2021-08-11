@@ -73,12 +73,21 @@ app.post("/anmelden.js", function (req, res) {
 
     console.log(data_anmelden);
     console.log(data_anmelden.email);
+    console.log("Hier so gehts los?");
     console.log(data_anmelden.password);
+    console.log("Hier so unter undefined?");
     console.log(params.get("passwort"));
 
     let query_login = "SELECT passwort FROM kunde WHERE email = ?";
     let result_login = await conn.query(query_login, [data_anmelden.email]);
     console.dir(result_login);
+
+    console.dir("Erst restult_login.password und dann data_anmelden.passwort:");
+    console.dir(result_login.password);
+    console.dir(data_anmelden.passwort);
+
+    console.dir("object keys result login length");
+    console.dir(Object.keys(result_login).length);
 
     if (
       Object.keys(result_login).length !== 0 &&
