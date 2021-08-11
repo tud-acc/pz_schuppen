@@ -31,9 +31,7 @@ app.get("/node.js", function (req, res) {
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
 
-  console.dir(Cookies.get("ip"));
-  console.dir(Cookies.get());
-
+  /*
   if (Cookies.get("ip") === req.ip) {
     console.dir("Du warst schon mal hier");
     console.dir("Deine IP aus dem Cookie: " + Cookies.get("ip"));
@@ -41,6 +39,7 @@ app.get("/node.js", function (req, res) {
     console.dir("Du bist neu hier");
     Cookies.set("ip", req.ip);
   }
+  */
 
   res.render("index");
 });
@@ -334,7 +333,7 @@ function onMessage(topic, message) {
 
   if (jsm.action == "add_Pizza") {
     let bestellsession = cache.get(jsm.bestellid);
-    let preis = Number(calcPizzaPreis(jsm.pizza));
+    let preis = calcPizzaPreis(jsm.pizza);
 
     bestellsession.pizzen.push(jsm.pizza);
     bestellsession.gesamtpreis += Number(preis);
@@ -368,8 +367,10 @@ function onMessage(topic, message) {
 //---------------------------------
 // Helper Funktion mqtt
 async function calcPizzaPreis(pizza) {
+  console.log("preiscalc: ");
   var preis = 5.0;
   let zutaten = await conn.query("SELECT * FROM zutaten");
+  console.log(zutaten);
   for (let i = 1; i <= 8; i++) {
     if (pizza["zutat" + i].name != undefined) {
       for (let j = 0; j < Object.keys(zutaten).length; j++) {
@@ -381,6 +382,7 @@ async function calcPizzaPreis(pizza) {
       break;
     }
   }
+  console.log("calPreis preis: " + preis);
   return preis;
 }
 
