@@ -4,9 +4,9 @@ window.onload = async function () {
   message = mqtt_fetch("pizza");
   await message.init("localhost", 1884);
   message.set_callback(-1, "test", false);
-  document
+  /*document
     .getElementById("addPizzaButton")
-    .addEventListener("click", mqtt_send);
+    .addEventListener("click", mqtt_send);*/
 };
 
 async function mqtt_send() {

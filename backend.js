@@ -60,9 +60,6 @@ app.post("/anmelden.js", function (req, res) {
     body += data;
   });
 
-  console.dir("data: --------------------");
-  console.dir(data_anmelden);
-
   req.on("end", async function () {
     let params = new URLSearchParams(body);
     data_anmelden = {
@@ -74,6 +71,7 @@ app.post("/anmelden.js", function (req, res) {
       console.error(err.stack);
     });
 
+    console.log(data_anmelden);
     console.log(data_anmelden.email);
     console.log(data_anmelden.password);
     console.log(params.get("passwort"));
