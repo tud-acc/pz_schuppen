@@ -26,6 +26,8 @@ function rx_bestellung(topic, data) {
 
   let bestellliste = document.getElementById("bestellliste");
   bestellliste.innerHTML = ""; // löche alle childNodes
+  console.log(data);
+  console.log(data.pizzen);
 
   for (let x in data.pizzen) {
     let card = document.createElement("div");
@@ -33,7 +35,7 @@ function rx_bestellung(topic, data) {
     let deletebutton = document.createElement("button");
     deletebutton.value = "x";
 
-    pizzatext.innerText = x.name + "   " + x.preis + " €";
+    pizzatext.innerText = x.name + "  |  " + x.preis + " €";
 
     card.appendChild(pizzatext);
     card.appendChild(deletebutton);
