@@ -2,6 +2,7 @@ var server = require("node-fastcgi");
 //var server = require('http');
 var express = require("express");
 var cache = require("memory-cache");
+var Cookies = require("js-cookie");
 var app = express();
 app.set("view engine", "pug");
 app.set("views", "./pug-views");
@@ -29,6 +30,15 @@ app.get("/node.js", function (req, res) {
   console.log("GET - MAINPAGE - FROM:" + req.ip);
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
+
+  if (Cookies.get("ip") === req.ip) {
+    console.dir("Du warst schon mal hier");
+    console.dir("Deine IP aus dem Cookie: " + Cookies.get("ip"));
+  } else {
+    console.dir("Du bist neu hier");
+    Cookies.set("ip", req.ip);
+  }
+
   res.render("index");
 });
 // -- POST
@@ -113,6 +123,8 @@ app.post("/anmelden.js", function (req, res) {
 
       console.dir(session);
       cache.put(session);
+      // cache.put(jsnMessage.session.sessionId, sessionvars, 3600000);
+      // let session = cache.get(jsnMessage.session.sessionId);
     } else {
       console.dir("Irgendwas ist schief gegangen beim ANMELDEN!");
     }
@@ -317,8 +329,9 @@ function onMessage(topic, message) {
   let jsm = JSON.parse(message);
   console.log(jsm);
 
-  //prüfe code
-  if (jsm.action == "get_bestellung") {
+  if (jsm.action == "add_Pizza") {
+    cache.get();
+  } else if (jsm.action == "get_bestellung") {
     response.pizzen = [];
     // for-loop pizzen einfügen
     response.pizzen.push({ name: "pizza1", preis: "6,50€" });
@@ -337,3 +350,30 @@ function onMessage(topic, message) {
     mqttclient.subscribe("mqttfetch/pizza/+/fr/+");
   });
 })();
+
+// --- END mqtt
+
+function isloggedin() {
+  var json_object = cache.get(session_id);
+  var email = json_object.email;
+
+  if (email === "") {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function isloggedin2str() {
+  if (isloggedin == "true") {
+    var json_object = cache.get(session_id);
+    var email = json_object.email;
+    var vorname = json_object.vorname;
+    var nachname = json_object.nachname;
+
+    var ausgabe = "Angemeldet: " + email + " - " + vorname + " " + nachname;
+    return ausgabe;
+  } else {
+    return "Nicht angemeldet";
+  }
+}

@@ -14,7 +14,7 @@ async function mqtt_sendr() {
   console.log("-> mqtt_send");
   var result = await message.send({
     action: "get_bestellung",
-    test: "Hallo"
+    id: "132"
   });
   document.getElementById("mqttres").innerText = JSON.stringify(result);
 }
