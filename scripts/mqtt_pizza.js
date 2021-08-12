@@ -37,7 +37,11 @@ async function requestBestellListe() {
     // versuche coockie zu lesen
     let cookieBestId = Cookies.get("bestellid");
     if (cookieBestId === undefined) {
-      alert("Melde dich an um eine Bestellung zu starten.");
+      urlBestId = window.prompt(
+        "Geben Sie eine BestellID ein oder Melden Sie sich an um eine neue Bestellung zu starten."
+      );
+      //alert("Melde dich an um eine Bestellung zu starten.");
+      //return; // keine bestellid -> abbruch
     }
   }
 
