@@ -30,7 +30,7 @@ app.get("/node.js", function (req, res) {
   console.log("GET - MAINPAGE - FROM:" + req.ip);
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
-  var test_session_id = 123456;
+  var test_session_id = "123456";
   /*
   if (Cookies.get("ip") === req.ip) {
     console.dir("Du warst schon mal hier");
