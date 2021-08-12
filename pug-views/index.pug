@@ -7,10 +7,10 @@ html
     script
       include ../scripts/js.cookie.js
       include ../scripts/cookies.js 
-    script
-      !{setCookies(test_id)};
 
   body
+    script
+      setCookies(test_id);
     div(class='header')
       div(class='headerbox') 
         include header.pug
