@@ -4,7 +4,7 @@ async function nofuckyou() {
   message = new mqtt_fetch("pizza");
   console.log("message: " + message);
   await message.init("193.197.231.154", 1884);
-  message.set_callback(-1, rx_bestellung, false);
+  message.set_callback(-1, rx_status, false);
   /*document
     .getElementById("addPizzaButton")
     .addEventListener("click", mqtt_send);*/
@@ -22,6 +22,7 @@ async function mqtt_sendr() {
 }
 
 async function requestBestellListe() {
+  console.log("funccall requestBestellListe");
   let req = await message.send({ action: "get_bestellung" });
   rx_bestellung("pizza", req);
   message.set_callback("pizza", rx_bestellung, true);
