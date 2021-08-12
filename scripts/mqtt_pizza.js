@@ -9,9 +9,12 @@ async function nofuckyou() {
     .getElementById("addPizzaButton")
     .addEventListener("click", mqtt_send);*/
   requestBestellListe();
+  document
+    .getElementById("addPizzaButton")
+    .addEventListener("click", tx_addPizza);
 }
 
-async function mqtt_sendr() {
+async function tx_addPizza() {
   console.log("-> mqtt_send");
   var result = await message.send({
     action: "add_Pizza",
