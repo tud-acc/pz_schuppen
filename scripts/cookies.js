@@ -1,9 +1,11 @@
 console.dir("Cookie Zeug: " + Cookies.get("test"));
 
-if (Cookies.get("test") === undefined) {
-  Cookies.set("test", test_id);
-} else {
-  alert("Angemeldet mit der ID: " + Cookies.get("test"));
+function setCookies(test_id) {
+  if (Cookies.get("test") === undefined) {
+    Cookies.set("test", test_id);
+  } else {
+    alert("Angemeldet mit der ID: " + Cookies.get("test"));
+  }
 }
 
 /*
@@ -15,3 +17,8 @@ if (Cookies.get("test") === undefined) {
     Cookies.set("ip", req.ip);
   }
   */
+/*
+  function setfoo(val){
+    Coockies.set("key", val);
+  }
+*/
