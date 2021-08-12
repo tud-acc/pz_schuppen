@@ -10,9 +10,10 @@ html
       include ../scripts/cookies.js 
 
   body
+    -const tid = test_id;
     script.
       window.onload = function () {
-        setCookies(test_id);
+        setCookies(tid);
       }  
 
     div(class='header')
