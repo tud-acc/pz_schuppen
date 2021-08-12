@@ -8,6 +8,7 @@ async function nofuckyou() {
   /*document
     .getElementById("addPizzaButton")
     .addEventListener("click", mqtt_send);*/
+  requestBestellListe();
 }
 
 async function mqtt_sendr() {
