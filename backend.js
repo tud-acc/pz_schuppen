@@ -41,7 +41,7 @@ app.get("/node.js", function (req, res) {
   }
   */
 
-  res.render("index");
+  res.render("index", test_session_id);
 });
 // -- POST
 app.post("/node.js", function (req, res) {

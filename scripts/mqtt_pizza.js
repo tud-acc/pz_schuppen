@@ -33,7 +33,7 @@ async function requestBestellListe() {
 
 function rx_status(data) {
   console.log("rx_status", data);
-  document.getElementById("status").firstChild.nodeValue = JSON.stringify(data);
+  document.getElementById("status").innerText = JSON.stringify(data);
 }
 
 function rx_bestellung(topic, data) {
