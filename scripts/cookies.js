@@ -1,6 +1,9 @@
 console.dir("Cookie Zeug: " + Cookies.get("test"));
 
-async function setCookies(test_id) {
+var erg3 = test_id;
+console.dir(erg3);
+
+function setCookies(test_id) {
   if (Cookies.get("test") === undefined) {
     Cookies.set("test", test_id);
   } else {
