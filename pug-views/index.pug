@@ -6,11 +6,9 @@ html
     link(rel='stylesheet', href='css/style.css')
     script
       include ../scripts/js.cookie.js
-      include ../scripts/cookies.js
-      -console.dir("Testtext aus dem index header");
-    
+      include ../scripts/cookies.js 
     script
-      setCookies(test_id);
+      !{setCookies(test_id)};
 
   body
     div(class='header')
