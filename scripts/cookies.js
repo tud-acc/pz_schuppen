@@ -1,3 +1,5 @@
+console.dir("Cookie Zeug: " + Cookies.get("test"));
+
 if (Cookies.get("test") === "undefined") {
   Cookies.set("test", test_id);
 } else {
