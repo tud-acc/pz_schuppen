@@ -10,6 +10,11 @@ html
       include ../scripts/cookies.js 
 
   body
+    script.
+      window.onload = function () {
+        function setCookies(test_id);
+      }  
+
     div(class='header')
       div(class='headerbox') 
         include header.pug
@@ -28,9 +33,7 @@ html
         |
         div(class='right')
          |Hier sollte es landen!
-         -var erg = test_id;
-         script.
-          setCookies(erg);
+         
          output #{erg}
           
 
