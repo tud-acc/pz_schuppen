@@ -35,7 +35,10 @@ async function requestBestellListe() {
   // prüfe ob bestellid in url vorhanden:
   if (urlBestId == null) {
     // versuche coockie zu lesen
-    //let cookieBestId = Coockies.get
+    let cookieBestId = Cookies.get("bestellid");
+    if (cookieBestId === undefined) {
+      alert("Melde dich an um eine Bestellung zu starten.");
+    }
   }
 
   console.log("funccall requestBestellListe");

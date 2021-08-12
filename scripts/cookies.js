@@ -1,4 +1,4 @@
-if (Cookies.get("test") === "") {
+if (Cookies.get("test") === "undefined") {
   Cookies.set("test", test_id);
 } else {
   alert("Angemeldet mit der ID: " + Cookies.get("test"));
