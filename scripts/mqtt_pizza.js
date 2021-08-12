@@ -33,11 +33,17 @@ function rx_bestellung(topic, data) {
     let card = document.createElement("div");
     let pizzatext = document.createElement("span");
     let deletebutton = document.createElement("button");
-    deletebutton.setAttribute("class", "button red round marging-left16");
+    deletebutton.setAttribute("class", "button red marging-left16");
     deletebutton.textContent = "x";
+    deletebutton.id = "deletePizza" + data.pizzen[i].bestellnr;
 
     pizzatext.innerText =
-      i + ".  | " + data.pizzen[i].name + "  |  " + data.pizzen[i].preis + " €";
+      data.pizzen[i].bestellnr +
+      ".  | " +
+      data.pizzen[i].name +
+      "  |  " +
+      data.pizzen[i].preis +
+      " €";
 
     card.appendChild(pizzatext);
     card.appendChild(deletebutton);

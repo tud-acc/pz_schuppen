@@ -334,8 +334,10 @@ async function onMessage(topic, message) {
   if (jsm.action == "add_Pizza") {
     let bestellsession = cache.get(jsm.bestellid);
     let preis = await calcPizzaPreis(jsm.pizza);
+    let anzahl = Object.keys(bestellsession.pizzen).length;
 
     jsm.pizza["preis"] = preis;
+    jsm.pizza["bestellnr"] = Number(anzahl) + 1;
 
     bestellsession.pizzen.push(jsm.pizza);
     bestellsession.gesamtpreis += Number(preis);
