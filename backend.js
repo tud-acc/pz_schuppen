@@ -354,6 +354,10 @@ async function onMessage(topic, message) {
     response.pizzen = [];
     // for-loop pizzen einfügen
     response.pizzen.push({ name: "pizza1", preis: "6,50€" });
+
+    // antworte spezifischem client:
+    mqttclient.publish(topic.replace("fr", "to"), JSON.stringify(response));
+    return; // abbruch
   }
 
   // sende response an alle subs
