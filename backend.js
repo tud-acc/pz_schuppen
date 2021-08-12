@@ -335,8 +335,16 @@ async function onMessage(topic, message) {
   let jsm = JSON.parse(message);
   console.log(jsm);
 
+  let bestellsession = cache.get(jsm.bestellid);
+  if (bestellsession == null || bestellsession === undefined) {
+    response.rc = -1;
+    response["message"] = "Fehler: Bestell-ID unbekannt.";
+    // antworte spezifischem client:
+    mqttclient.publish(topic.replace("fr", "to"), JSON.stringify(response));
+    return; // abbruch
+  }
+
   if (jsm.action == "add_Pizza") {
-    let bestellsession = cache.get(jsm.bestellid);
     let preis = await calcPizzaPreis(jsm.pizza);
     let anzahl = Object.keys(bestellsession.pizzen).length;
 

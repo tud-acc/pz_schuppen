@@ -25,8 +25,18 @@ async function tx_addPizza() {
 }
 
 async function requestBestellListe() {
+  //versuche bestell-id aus URL Parametern zu lesen:
+  // z.B.: 193.197.231.154/bestellen.js/?id=123
+  let queryString = window.location.search;
+  let urlParams = new URLSearchParams(queryString);
+  console.log("urlParams: " + urlParams);
+  let urlBestId = urlParams.get("id");
+
   console.log("funccall requestBestellListe");
-  let req = await message.send({ action: "get_bestellung" });
+  let req = await message.send({
+    action: "get_bestellung",
+    bestellid: urlBestId
+  });
   rx_bestellung("pizza", req);
   message.set_callback("pizza", rx_bestellung, true);
 }
@@ -39,6 +49,12 @@ function rx_status(data) {
 function rx_bestellung(topic, data) {
   console.log(topic, data);
   document.getElementById("mqttres").innerText = JSON.stringify(data);
+
+  // prüfe ob Fehler zurückkommt (bestellung existiert nicht)
+  if (data.rc < 0) {
+    document.getElementById("status").innerText = data.message;
+    return;
+  }
 
   let bestellliste = document.getElementById("bestellliste");
   bestellliste.innerHTML = ""; // löche alle childNodes
