@@ -38,7 +38,8 @@ async function requestBestellListe() {
     bestellid: urlBestId
   });
   rx_bestellung("pizza", req);
-  message.set_callback("pizza", rx_bestellung, true);
+  // subscribe channel für bestellid
+  message.set_callback("pizza/orders/" + urlBestId, rx_bestellung, true);
 }
 
 function rx_status(data) {

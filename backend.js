@@ -368,8 +368,8 @@ async function onMessage(topic, message) {
     return; // abbruch
   }
 
-  // sende response an alle subs
-  mqttclient.publish("pizza", JSON.stringify(response));
+  // sende response an alle subscriber der bestellung mit bestellid
+  mqttclient.publish("pizza/orders/" + jsm.bestellid, JSON.stringify(response));
   //mqttclient.publish(topic.replace("fr", "to"), JSON.stringify(response));
 }
 
