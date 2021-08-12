@@ -7,7 +7,10 @@ html
     script
       include ../scripts/js.cookie.js
       include ../scripts/cookies.js
-      -setCookies(test_id);
+      -console.dir("Testtext aus dem index header");
+    
+    script
+      setCookies(test_id);
 
   body
     div(class='header')
