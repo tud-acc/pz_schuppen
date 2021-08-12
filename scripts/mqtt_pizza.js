@@ -26,11 +26,17 @@ async function tx_addPizza() {
 
 async function requestBestellListe() {
   //versuche bestell-id aus URL Parametern zu lesen:
-  // z.B.: 193.197.231.154/bestellen.js/?id=123
+  // z.B.: 193.197.231.154/bestellen.js?id=123
   let queryString = window.location.search;
   let urlParams = new URLSearchParams(queryString);
   console.log("urlParams: " + urlParams);
   let urlBestId = urlParams.get("id");
+
+  // prüfe ob bestellid in url vorhanden:
+  if (urlBestId == null) {
+    // versuche coockie zu lesen
+    //let cookieBestId = Coockies.get
+  }
 
   console.log("funccall requestBestellListe");
   let req = await message.send({

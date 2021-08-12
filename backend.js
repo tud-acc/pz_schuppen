@@ -31,15 +31,6 @@ app.get("/node.js", function (req, res) {
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
   var data = { test_id: "123456" };
-  /*
-  if (Cookies.get("ip") === req.ip) {
-    console.dir("Du warst schon mal hier");
-    console.dir("Deine IP aus dem Cookie: " + Cookies.get("ip"));
-  } else {
-    console.dir("Du bist neu hier");
-    Cookies.set("ip", req.ip);
-  }
-  */
 
   res.render("index", data);
 });
@@ -359,9 +350,7 @@ async function onMessage(topic, message) {
 
     cache.put(jsm.bestellid, bestellsession, 3600000);
   } else if (jsm.action == "get_bestellung") {
-    response.pizzen = [];
-    // for-loop pizzen einfügen
-    response.pizzen.push({ name: "pizza1", preis: "6,50€" });
+    response.pizzen = bestellsession.pizzen;
 
     // antworte spezifischem client:
     mqttclient.publish(topic.replace("fr", "to"), JSON.stringify(response));
