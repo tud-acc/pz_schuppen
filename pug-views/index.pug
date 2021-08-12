@@ -9,7 +9,8 @@ html
       include ../scripts/cookies.js 
 
   body
-    -setCookies(test_id);
+    script.
+      setCookies(test_id);
     div(class='header')
       div(class='headerbox') 
         include header.pug
