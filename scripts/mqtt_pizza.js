@@ -4,7 +4,7 @@ async function nofuckyou() {
   message = new mqtt_fetch("pizza");
   console.log("message: " + message);
   await message.init("193.197.231.154", 1884);
-  message.set_callback("pizza", rx_bestellung, true);
+  message.set_callback(-1, rx_bestellung, false);
   /*document
     .getElementById("addPizzaButton")
     .addEventListener("click", mqtt_send);*/
@@ -18,6 +18,17 @@ async function mqtt_sendr() {
     pizza: buildPizzaJson()
   });
   document.getElementById("mqttres").innerText = JSON.stringify(result);
+}
+
+async function requestBestellListe() {
+  let req = await message.send({ action: "get_bestellung" });
+  rx_bestellung("pizza", req);
+  message.set_callback("pizza", rx_bestellung, true);
+}
+
+function rx_status(data) {
+  console.log("rx_status", data);
+  document.getElementById("status").firstChild.nodeValue = JSON.stringify(data);
 }
 
 function rx_bestellung(topic, data) {

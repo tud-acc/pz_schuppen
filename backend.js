@@ -127,14 +127,18 @@ app.post("/anmelden.js", function (req, res) {
       cache.put(123, session, 3600000);
       // cache.put(jsnMessage.session.sessionId, sessionvars, 3600000);
       // let session = cache.get(jsnMessage.session.sessionId);
+
+      // Weiterleitung nach erfolgreicher Anmeldung:
+      res.writeHead(307, { Location: "/node.js" });
+      res.end();
     } else {
       console.dir("Irgendwas ist schief gegangen beim ANMELDEN!");
     }
 
     console.log("POST - ANMELDEN - FROM:" + req.ip);
 
-    res.writeHead(307, { Location: "/node.js" });
-    res.end();
+    //res.writeHead(307, { Location: "/node.js" });
+    //res.end();
   });
 });
 
