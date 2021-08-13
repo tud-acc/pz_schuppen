@@ -2,6 +2,7 @@ var server = require("node-fastcgi");
 //var server = require('http');
 var express = require("express");
 var cache = require("memory-cache");
+var session = require("express-session");
 var Cookies = require("js-cookie");
 var app = express();
 app.set("view engine", "pug");
@@ -23,11 +24,20 @@ mysql.createConnection(config).then((f) => {
   conn = f;
 });
 
+app.use(
+  session({
+    secret: "key",
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
 //-------------------------------------------------------------------------------------//
 //   MAINPAGE (INDEX)
 // -- GET
 app.get("/node.js", function (req, res) {
   console.log("GET - MAINPAGE - FROM:" + req.ip);
+  console.log(req.session);
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
   var data = { test_id: "123456" };
