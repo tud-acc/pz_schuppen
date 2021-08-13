@@ -39,6 +39,7 @@ app.get("/node.js", function (req, res) {
   console.log("GET - MAINPAGE - FROM:" + req.ip);
   req.session.isAuth = true;
   console.log(req.session);
+  console.log(req.session.id);
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
   var data = { test_id: "123456" };
