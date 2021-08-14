@@ -122,7 +122,7 @@ app.post("/anmelden.js", function (req, res) {
         email: data_anmelden.email,
         session_id: getSessionID(),
         session_id_kurz: "",
-        gesamtpreis: "",
+        gesamtpreis: 0,
         pizzen: []
       };
 
@@ -357,10 +357,23 @@ async function onMessage(topic, message) {
     bestellsession.pizzen.push(jsm.pizza);
     bestellsession.gesamtpreis += Number(preis);
 
-    response.preis = preis;
+    response.preis = bestellsession.gesamtpreis;
     response.pizzen = bestellsession.pizzen;
 
     cache.put(jsm.bestellid, bestellsession, 3600000);
+  } else if (jsm.action == "del_Pizza") {
+    let searchedIndex;
+    for (let i = 0; i < Object.keys(bestellsession.pizzen).length; i++) {
+      if (jsm.pizzaid === bestellsession.pizzen[i].bestellnr) {
+        searchedIndex = i;
+        break;
+      }
+    }
+    let gespreisneu =
+      Number(bestellsession.gesamtpreis) -
+      Number(bestellsession.pizzen[searchedIndex].preis);
+    delete bestellsession.pizzen[searchedIndex];
+    bestellsession.gesamtpreis = gespreisneu;
   } else if (jsm.action == "get_bestellung") {
     response.pizzen = bestellsession.pizzen;
 

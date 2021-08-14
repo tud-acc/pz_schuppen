@@ -1,4 +1,5 @@
 var message;
+var bestellid;
 
 async function nofuckyou() {
   message = new mqtt_fetch("pizza");
@@ -14,30 +15,44 @@ async function nofuckyou() {
     .addEventListener("click", tx_addPizza);
 }
 
+// füge pizza der bestellung hinzu
 async function tx_addPizza() {
   console.log("-> mqtt_send");
   var result = await message.send({
     action: "add_Pizza",
-    bestellid: "123",
+    bestellid: bestellid,
     pizza: buildPizzaJson()
   });
   document.getElementById("mqttres").innerText = JSON.stringify(result);
 }
 
+//entferne pizza aus einer Bestellung
+async function tx_delPizza(pizza) {
+  console.log("-> mqtt_delPizza");
+  var result = await message.send({
+    action: "del_Pizza",
+    bestellid: bestellid,
+    pizzaid: pizza
+  });
+  document.getElementById("mqttres").innerText = JSON.stringify(result);
+}
+
+// initiales anfragen einer bestellliste,
 async function requestBestellListe() {
   //versuche bestell-id aus URL Parametern zu lesen:
   // z.B.: 193.197.231.154/bestellen.js?id=123
   let queryString = window.location.search;
   let urlParams = new URLSearchParams(queryString);
   console.log("urlParams: " + urlParams);
-  let urlBestId = urlParams.get("id");
+  bestellid = urlParams.get("id");
 
   // prüfe ob bestellid in url vorhanden:
-  if (urlBestId == null) {
+  if (bestellid == null) {
     // versuche coockie zu lesen
     let cookieBestId = Cookies.get("bestellid");
     if (cookieBestId === undefined) {
-      urlBestId = window.prompt(
+      // keine Bestell-ID auslesbar, abfrage per fenster anzeigen:
+      bestellid = window.prompt(
         "Geben Sie eine BestellID ein oder Melden Sie sich an um eine neue Bestellung zu starten."
       );
       //alert("Melde dich an um eine Bestellung zu starten.");
@@ -48,18 +63,20 @@ async function requestBestellListe() {
   console.log("funccall requestBestellListe");
   let req = await message.send({
     action: "get_bestellung",
-    bestellid: urlBestId
+    bestellid: bestellid
   });
   rx_bestellung("pizza", req);
   // subscribe channel für bestellid
-  message.set_callback("pizza/orders/" + urlBestId, rx_bestellung, true);
+  message.set_callback("pizza/orders/" + bestellid, rx_bestellung, true);
 }
 
+// Hilfsfunktion mqtt status anzeigen
 function rx_status(data) {
   console.log("rx_status", data);
   document.getElementById("status").innerText = JSON.stringify(data);
 }
 
+// empfange mqtt bestellliste, zeige diese unter Bestellung an.
 function rx_bestellung(topic, data) {
   console.log(topic, data);
   document.getElementById("mqttres").innerText = JSON.stringify(data);
@@ -77,11 +94,14 @@ function rx_bestellung(topic, data) {
 
   for (let i = 0; i < Object.keys(data.pizzen).length; i++) {
     let card = document.createElement("div");
+    card.id = data.pizzen[i].bestellnr;
     let pizzatext = document.createElement("span");
     let deletebutton = document.createElement("button");
     deletebutton.setAttribute("class", "button red marging-left16");
     deletebutton.textContent = "x";
     deletebutton.id = "deletePizza" + data.pizzen[i].bestellnr;
+    // eventhandler löschen der Pizza
+    deletebutton.addEventListener("click", tx_delPizza, deletebutton.id);
 
     pizzatext.innerText =
       data.pizzen[i].bestellnr +
@@ -95,4 +115,5 @@ function rx_bestellung(topic, data) {
     card.appendChild(deletebutton);
     bestellliste.appendChild(card);
   }
+  document.getElementById("gesbetrag").innerText = data.preis;
 }
