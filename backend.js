@@ -373,13 +373,13 @@ async function onMessage(topic, message) {
         break;
       }
     }
-    console.log(searchedIndex);
-    console.log(bestellsession.pizzen[searchedIndex]);
-    console.log(bestellsession.pizzen[searchedIndex].preis);
     let gespreisneu =
       Number(bestellsession.gesamtpreis) -
       Number(bestellsession.pizzen[searchedIndex].preis);
+
     delete bestellsession.pizzen[searchedIndex];
+
+    console.log("gespreis: " + gespreisneu);
     bestellsession.gesamtpreis = gespreisneu;
     response.pizzen = bestellsession.pizzen;
 
