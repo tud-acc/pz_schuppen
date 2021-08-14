@@ -99,9 +99,11 @@ function rx_bestellung(topic, data) {
     let deletebutton = document.createElement("button");
     deletebutton.setAttribute("class", "button red marging-left16");
     deletebutton.textContent = "x";
-    deletebutton.id = "deletePizza" + data.pizzen[i].bestellnr;
+    deletebutton.id = "deletePizza_" + data.pizzen[i].bestellnr;
     // eventhandler löschen der Pizza
-    deletebutton.addEventListener("click", tx_delPizza, deletebutton.id);
+    deletebutton.addEventListener("click", function () {
+      tx_delPizza(this.id.split("_")[1]);
+    });
 
     pizzatext.innerText =
       data.pizzen[i].bestellnr +
