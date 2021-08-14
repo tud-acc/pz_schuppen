@@ -363,6 +363,7 @@ async function onMessage(topic, message) {
     cache.put(jsm.bestellid, bestellsession, 3600000);
   } else if (jsm.action == "del_Pizza") {
     let searchedIndex;
+    console.log(bestellsession.pizzen);
     for (let i = 0; i < Object.keys(bestellsession.pizzen).length; i++) {
       if (jsm.pizzaid === bestellsession.pizzen[i].bestellnr) {
         searchedIndex = i;
