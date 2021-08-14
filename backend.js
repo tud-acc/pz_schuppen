@@ -381,10 +381,12 @@ async function onMessage(topic, message) {
       Number(bestellsession.pizzen[searchedIndex].preis);
     delete bestellsession.pizzen[searchedIndex];
     bestellsession.gesamtpreis = gespreisneu;
+    response.pizzen = bestellsession.pizzen;
 
     // GET BESTELLUNG
   } else if (jsm.action == "get_bestellung") {
     response.pizzen = bestellsession.pizzen;
+    response.preis = bestellsession.gesamtpreis;
 
     // antworte spezifischem client:
     mqttclient.publish(topic.replace("fr", "to"), JSON.stringify(response));
