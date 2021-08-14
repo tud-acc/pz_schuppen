@@ -93,29 +93,31 @@ function rx_bestellung(topic, data) {
   console.log(data.pizzen);
 
   for (let i = 0; i < Object.keys(data.pizzen).length; i++) {
-    let card = document.createElement("div");
-    card.id = data.pizzen[i].bestellnr;
-    let pizzatext = document.createElement("span");
-    let deletebutton = document.createElement("button");
-    deletebutton.setAttribute("class", "button red marging-left16");
-    deletebutton.textContent = "x";
-    deletebutton.id = "deletePizza_" + data.pizzen[i].bestellnr;
-    // eventhandler löschen der Pizza
-    deletebutton.addEventListener("click", function () {
-      tx_delPizza(this.id.split("_")[1]);
-    });
+    if (data.pizzen[i] != null) {
+      let card = document.createElement("div");
+      card.id = data.pizzen[i].bestellnr;
+      let pizzatext = document.createElement("span");
+      let deletebutton = document.createElement("button");
+      deletebutton.setAttribute("class", "button red marging-left16");
+      deletebutton.textContent = "x";
+      deletebutton.id = "deletePizza_" + data.pizzen[i].bestellnr;
+      // eventhandler löschen der Pizza
+      deletebutton.addEventListener("click", function () {
+        tx_delPizza(this.id.split("_")[1]);
+      });
 
-    pizzatext.innerText =
-      data.pizzen[i].bestellnr +
-      ".  | " +
-      data.pizzen[i].name +
-      "  |  " +
-      data.pizzen[i].preis +
-      " €";
+      pizzatext.innerText =
+        data.pizzen[i].bestellnr +
+        ".  | " +
+        data.pizzen[i].name +
+        "  |  " +
+        data.pizzen[i].preis +
+        " €";
 
-    card.appendChild(pizzatext);
-    card.appendChild(deletebutton);
-    bestellliste.appendChild(card);
+      card.appendChild(pizzatext);
+      card.appendChild(deletebutton);
+      bestellliste.appendChild(card);
+    }
   }
   document.getElementById("gesbetrag").innerText = data.preis;
 }
