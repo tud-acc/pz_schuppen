@@ -347,6 +347,7 @@ async function onMessage(topic, message) {
     return; // abbruch
   }
 
+  // ADD PIZZA
   if (jsm.action == "add_Pizza") {
     let preis = await calcPizzaPreis(jsm.pizza);
     let anzahl = Object.keys(bestellsession.pizzen).length;
@@ -361,11 +362,16 @@ async function onMessage(topic, message) {
     response.pizzen = bestellsession.pizzen;
 
     cache.put(jsm.bestellid, bestellsession, 3600000);
+
+    // DELETE PIZZA
   } else if (jsm.action == "del_Pizza") {
     let searchedIndex;
     console.log(bestellsession.pizzen);
     for (let i = 0; i < Object.keys(bestellsession.pizzen).length; i++) {
-      if (Number(jsm.pizzaid) === Number(bestellsession.pizzen[i].bestellnr)) {
+      if (
+        bestellsession.pizzen[i] != null &&
+        Number(jsm.pizzaid) === Number(bestellsession.pizzen[i].bestellnr)
+      ) {
         searchedIndex = i;
         break;
       }
@@ -378,6 +384,8 @@ async function onMessage(topic, message) {
       Number(bestellsession.pizzen[searchedIndex].preis);
     delete bestellsession.pizzen[searchedIndex];
     bestellsession.gesamtpreis = gespreisneu;
+
+    // GET BESTESLLUNG
   } else if (jsm.action == "get_bestellung") {
     response.pizzen = bestellsession.pizzen;
 
