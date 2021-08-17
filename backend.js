@@ -383,6 +383,7 @@ async function onMessage(topic, message) {
       Number(bestellsession.pizzen[searchedIndex].preis);
 
     delete bestellsession.pizzen[searchedIndex];
+    bestellsession.pizzen = removeNull(bestellsession.pizzen); // bereinige null values
 
     console.log("gespreis: " + gespreisneu);
     bestellsession.gesamtpreis = gespreisneu;
@@ -433,6 +434,13 @@ async function calcPizzaPreis(pizza) {
   }
   return preis;
 }
+
+// lösche null elemente eines array (bereinigen)
+function removeNull(array) {
+  return array.filter((x) => x !== null);
+}
+
+//--------------
 
 function isloggedin() {
   var json_object = cache.get(session_id);
