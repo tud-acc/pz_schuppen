@@ -115,7 +115,7 @@ app.post("/anmelden.js", function (req, res) {
       console.dir("DEBUG: logindaten OK.");
 
       // Hier müsste ja der Memory-Cache gefuellt werden
-      /*
+
       var session = {
         email: data_anmelden.email,
         session_id: getSessionID(),
@@ -123,7 +123,6 @@ app.post("/anmelden.js", function (req, res) {
         gesamtpreis: 0,
         pizzen: []
       };
-      */
 
       req.session.isAuth = true;
 
@@ -485,4 +484,3 @@ async function calcPizzaPreis(pizza) {
 function removeNull(array) {
   return array.filter((x) => x !== null);
 }
-
