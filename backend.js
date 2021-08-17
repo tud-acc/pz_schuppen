@@ -74,6 +74,7 @@ app.get("/anmelden.js", function (req, res) {
 });
 // -- POST TODO: PRÜFEN UND FIXEN --> PASSWORT UNDEFINED
 app.post("/anmelden.js", function (req, res) {
+  console.log("POST - ANMELDEN - FROM:" + req.ip);
   var data_anmelden = {
     email: null,
     passwort: null
@@ -113,6 +114,7 @@ app.post("/anmelden.js", function (req, res) {
     ) {
       // Login OK
       console.dir("DEBUG: logindaten OK.");
+      alert("Login erfolgreich");
 
       // Hier müsste ja der Memory-Cache gefuellt werden
       /*
@@ -135,9 +137,9 @@ app.post("/anmelden.js", function (req, res) {
       res.end();
     } else {
       console.dir("Irgendwas ist schief gegangen beim ANMELDEN!");
+      alert("Anmeldung fehlgeschlagen - erneut versuchen!");
+      res.redirect("/anmelden.js");
     }
-
-    console.log("POST - ANMELDEN - FROM:" + req.ip);
 
     //res.writeHead(307, { Location: "/node.js" });
     //res.end();
