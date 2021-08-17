@@ -369,13 +369,14 @@ async function onMessage(topic, message) {
     console.log(bestellsession.pizzen);
     for (let i = 0; i < Object.keys(bestellsession.pizzen).length; i++) {
       if (
-        bestellsession.pizzen[i] !== null &&
+        bestellsession.pizzen[i] !== undefined &&
         jsm.pizzaid === Number(bestellsession.pizzen[i].bestellnr)
       ) {
         searchedIndex = i;
         break;
       }
     }
+    console.log("SearchedIndex: " + searchedIndex);
     let gespreisneu =
       Number(bestellsession.gesamtpreis) -
       Number(bestellsession.pizzen[searchedIndex].preis);
