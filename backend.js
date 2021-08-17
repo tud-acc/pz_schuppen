@@ -132,8 +132,11 @@ app.post("/anmelden.js", function (req, res) {
       // let session = cache.get(jsnMessage.session.sessionId);
 
       // Weiterleitung nach erfolgreicher Anmeldung:
+      res.redirect("/node.js");
+      /*
       res.writeHead(307, { Location: "/node.js" });
       res.end();
+      */
     } else {
       console.dir("Irgendwas ist schief gegangen beim ANMELDEN!");
       res.redirect("/anmelden.js");
