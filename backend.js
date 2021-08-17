@@ -344,7 +344,7 @@ app.post("/zutaten.js", function (req, res) {
 });
 
 //-------------------------------------------------------------------------------------//
-//    Logout
+//    Abmelden / Logout
 // -- GET
 app.get("/abmelden.js", async function (req, res) {
   console.log("GET - LOGOUT - FROM: " + req.ip);
@@ -357,7 +357,7 @@ app.get("/abmelden.js", async function (req, res) {
     }
 });
 
-// -- POST - Sollte nicht moeglich sein!
+// -- POST
 app.post("/abmelden.js", function (req, res) {
   console.log("POST - LOGOUT - FROM: " + req.ip);
   req.session.destroy((err) => {
