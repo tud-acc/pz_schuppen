@@ -255,6 +255,8 @@ app.post("/registrieren.js", function (req, res) {
         "POST - REGISTRIEREN - FROM: " + req.ip + " INSERT ERFOLGREICH"
       );
       console.log(data);
+      res.redirect("/node.js");
+      console.log("Nach dem redirect vom insert");
 
       res.writeHead(307, { Location: "/node.js" });
       res.end();
