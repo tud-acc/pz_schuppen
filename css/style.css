@@ -106,7 +106,6 @@ input {
 
 .logo {
   max-height: 50px;
-  float: left;
 }
 
 .brandname {
@@ -114,7 +113,6 @@ input {
   color: #000000;
   font-size: 30px;
   font-family: "Lucida Handwriting";
-  float: left;
 }
 
 .headerbox {
