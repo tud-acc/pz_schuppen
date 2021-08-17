@@ -41,8 +41,14 @@ app.get("/node.js", function (req, res) {
   console.log(req.session);
   console.log(req.session.id);
 
-  req.session.test1 = "blabla";
-  console.log(req.session.test1);
+  if (req.session.test1) {
+    req.session.test1++;
+    console.dir(req.session.test1);
+  } else {
+    req.session.test1 = 1;
+    console.log(req.session.test1);
+  }
+
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
   var data = { test_id: "123456" };
