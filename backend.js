@@ -382,6 +382,7 @@ async function onMessage(topic, message) {
     console.log("gespreis: " + gespreisneu);
     bestellsession.gesamtpreis = gespreisneu;
     response.pizzen = bestellsession.pizzen;
+    response.preis = gespreisneu;
 
     // GET BESTELLUNG
   } else if (jsm.action == "get_bestellung") {
