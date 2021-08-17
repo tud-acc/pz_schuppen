@@ -114,7 +114,6 @@ app.post("/anmelden.js", function (req, res) {
     ) {
       // Login OK
       console.dir("DEBUG: logindaten OK.");
-      alert("Login erfolgreich");
 
       // Hier müsste ja der Memory-Cache gefuellt werden
       /*
@@ -137,7 +136,6 @@ app.post("/anmelden.js", function (req, res) {
       res.end();
     } else {
       console.dir("Irgendwas ist schief gegangen beim ANMELDEN!");
-      alert("Anmeldung fehlgeschlagen - erneut versuchen!");
       res.redirect("/anmelden.js");
     }
 
@@ -262,7 +260,6 @@ app.post("/registrieren.js", function (req, res) {
 
       console.log("POST - REGISTRIEREN - FROM: " + req.ip + " ERROR DB");
       console.log(data);
-      alert("E-Mail Adresse schon vorhanden!");
       res.redirect("/registrieren.js");
     }
   });
