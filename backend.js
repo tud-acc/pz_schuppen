@@ -367,6 +367,7 @@ async function onMessage(topic, message) {
   } else if (jsm.action == "del_Pizza") {
     let searchedIndex;
     console.log(bestellsession.pizzen);
+    console.log("numKeys: " + Object.keys(bestellsession.pizzen).length);
     for (let i = 0; i < Object.keys(bestellsession.pizzen).length; i++) {
       if (
         bestellsession.pizzen[i] !== null &&
