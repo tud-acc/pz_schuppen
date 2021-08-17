@@ -380,6 +380,14 @@ async function onMessage(topic, message) {
 
     delete bestellsession.pizzen[searchedIndex];
 
+    // lösche null elemente / empty items
+    Object.keys(bestellsession).forEach(
+      (k) =>
+        !bestellsession[k] &&
+        bestellsession[k] !== undefined &&
+        delete bestellsession[k]
+    );
+
     console.log("gespreis: " + gespreisneu);
     bestellsession.gesamtpreis = gespreisneu;
     response.pizzen = bestellsession.pizzen;
