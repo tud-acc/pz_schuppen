@@ -368,7 +368,10 @@ async function onMessage(topic, message) {
     let searchedIndex;
     console.log(bestellsession.pizzen);
     for (let i = 0; i < Object.keys(bestellsession.pizzen).length; i++) {
-      if (Number(jsm.pizzaid) === Number(bestellsession.pizzen[i].bestellnr)) {
+      if (
+        bestellsession.pizzen[i] !== null &&
+        Number(jsm.pizzaid) === Number(bestellsession.pizzen[i].bestellnr)
+      ) {
         searchedIndex = i;
         break;
       }
@@ -379,14 +382,6 @@ async function onMessage(topic, message) {
       Number(bestellsession.pizzen[searchedIndex].preis);
 
     delete bestellsession.pizzen[searchedIndex];
-
-    // lösche null elemente / empty items
-    Object.keys(bestellsession).forEach(
-      (k) =>
-        !bestellsession[k] &&
-        bestellsession[k] !== undefined &&
-        delete bestellsession[k]
-    );
 
     console.log("gespreis: " + gespreisneu);
     bestellsession.gesamtpreis = gespreisneu;
