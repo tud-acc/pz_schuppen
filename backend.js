@@ -266,6 +266,7 @@ app.post("/registrieren.js", function (req, res) {
       console.log("POST - REGISTRIEREN - FROM: " + req.ip + " ERROR DB");
       console.log(data);
       alert("E-Mail Adresse schon vorhanden!");
+      res.redirect("/registrieren.js");
     }
   });
 });
