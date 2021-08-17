@@ -106,6 +106,7 @@ input {
 
 .logo {
   max-height: 50px;
+  float: left;
 }
 
 .brandname {
