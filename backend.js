@@ -258,7 +258,7 @@ app.post("/registrieren.js", function (req, res) {
       res.redirect("/node.js");
       console.log("Nach dem redirect vom insert");
 
-      res.writeHead(307, { Location: "/node.js" });
+      //res.writeHead(307, { Location: "/node.js" });
       res.end();
 
       //console.dir("DEBUG: Email noch nicht vorhanden.");
