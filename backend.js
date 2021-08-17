@@ -40,6 +40,9 @@ app.get("/node.js", function (req, res) {
   req.session.isAuth = true;
   console.log(req.session);
   console.log(req.session.id);
+
+  req.session.test1 = "blabla";
+  console.log(req.session.test1);
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
   var data = { test_id: "123456" };
