@@ -107,15 +107,6 @@ app.post("/anmelden.js", function (req, res) {
     var new_result2 = JSON.parse(JSON.stringify(result_login));
     console.dir(new_result2);
 
-    console.dir("Hier sollte newresult2.passwort drunter stehen:");
-    console.dir(new_result2.passwort);
-    console.dir("Hier1?");
-    console.dir(result_login[0].passwort);
-    console.dir(data_anmelden.passwort);
-
-    console.dir("object keys result login length");
-    console.dir(Object.keys(result_login).length);
-
     if (
       Object.keys(result_login).length !== 0 &&
       result_login[0].passwort === data_anmelden.passwort
@@ -124,6 +115,7 @@ app.post("/anmelden.js", function (req, res) {
       console.dir("DEBUG: logindaten OK.");
 
       // Hier müsste ja der Memory-Cache gefuellt werden
+      /*
       var session = {
         email: data_anmelden.email,
         session_id: getSessionID(),
@@ -131,6 +123,7 @@ app.post("/anmelden.js", function (req, res) {
         gesamtpreis: 0,
         pizzen: []
       };
+      */
 
       console.dir(session);
       cache.put(123, session, 3600000);

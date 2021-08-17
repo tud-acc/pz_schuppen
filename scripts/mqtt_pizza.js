@@ -38,6 +38,7 @@ async function tx_delPizza(pizza) {
 }
 
 // initiales anfragen einer bestellliste,
+// aufbauen des QR-Code
 async function requestBestellListe() {
   //versuche bestell-id aus URL Parametern zu lesen:
   // z.B.: 193.197.231.154/bestellen.js?id=123
@@ -58,6 +59,17 @@ async function requestBestellListe() {
       //alert("Melde dich an um eine Bestellung zu starten.");
       //return; // keine bestellid -> abbruch
     }
+  }
+
+  // wenn bestellID vorhanden, erstelle QR-Code:
+  if (bestellid !== null && bestellid !== undefined) {
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+      width: 100,
+      height: 100
+    });
+
+    let baseURL = window.location.href.split("?")[0];
+    qrcode.makeCode(baseURL + "?id=" + bestellid);
   }
 
   console.log("funccall requestBestellListe");

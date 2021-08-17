@@ -135,4 +135,7 @@ td {
   float: left;
 }
 
-.
+.qrdescription {
+  min-height: 120px;
+  float: left;
+}
