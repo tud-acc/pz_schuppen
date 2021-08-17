@@ -37,7 +37,6 @@ app.use(
 // -- GET
 app.get("/node.js", function (req, res) {
   console.log("GET - MAINPAGE - FROM:" + req.ip);
-  req.session.isAuth = true;
   console.log(req.session);
   console.log(req.session.id);
 
@@ -126,6 +125,8 @@ app.post("/anmelden.js", function (req, res) {
       };
       */
 
+      req.session.isAuth = true;
+
       console.dir(session);
       cache.put(123, session, 3600000);
       // cache.put(jsnMessage.session.sessionId, sessionvars, 3600000);
@@ -152,6 +153,15 @@ function getSessionID() {
 
   return id;
 }
+
+var isAuth = (req, res, next) => {
+  if (req.session.isAuth) {
+    next();
+  } else {
+    console.log("Bitte erst anmelden!");
+    res.redirect("/node.js");
+  }
+};
 
 //-------------------------------------------------------------------------------------//
 //    Registrieren
@@ -271,13 +281,13 @@ app.post("/registrieren.js", function (req, res) {
 //-------------------------------------------------------------------------------------//
 //    Bestellen
 // -- GET
-app.get("/bestellen.js", function (req, res) {
+app.get("/bestellen.js", isAuth, function (req, res) {
   console.log("GET - BESTELLEN - FROM: " + req.ip);
   res.render("bestellung");
 });
 
 // -- POST
-app.post("/bestellen.js", function (req, res) {
+app.post("/bestellen.js", isAuth, function (req, res) {
   var body = "";
   req.on("data", function (data) {
     body += data;
@@ -331,6 +341,33 @@ app.get("/zutaten.js", async function (req, res) {
 app.post("/zutaten.js", function (req, res) {
   console.log("POST - ZUTATENLISTE - FROM: " + req.ip);
   console.dir("Post nicht moeglich!");
+});
+
+//-------------------------------------------------------------------------------------//
+//    Logout
+// -- GET
+app.get("/abmelden.js", async function (req, res) {
+  console.log("GET - LOGOUT - FROM: " + req.ip);
+  req.session.destroy((err) => {
+    if (err) {
+      throw err;
+      res.redirect("/node.js");
+    } else {
+      res.redirect("/node.js");
+    }
+});
+
+// -- POST - Sollte nicht moeglich sein!
+app.post("/abmelden.js", function (req, res) {
+  console.log("POST - LOGOUT - FROM: " + req.ip);
+  req.session.destroy((err) => {
+    if (err) {
+      throw err;
+      res.redirect("/node.js");
+    } else {
+      res.redirect("/node.js");
+    }
+  });
 });
 
 server.createServer(app).listen(9998);
