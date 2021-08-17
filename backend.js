@@ -355,7 +355,10 @@ app.get("/abmelden.js", async function (req, res) {
     } else {
       res.redirect("/node.js");
     }
+  });
 });
+
+//comment
 
 // -- POST
 app.post("/abmelden.js", function (req, res) {
@@ -392,6 +395,7 @@ async function onMessage(topic, message) {
   if (jsm.action == "add_Pizza") {
     let preis = await calcPizzaPreis(jsm.pizza);
     let anzahl = Object.keys(bestellsession.pizzen).length;
+    jsm.pizza["bestellnr"] = Number(anzahl) + 1;
 
     jsm.pizza["preis"] = preis;
     jsm.pizza["bestellnr"] = Number(anzahl) + 1;
@@ -422,6 +426,7 @@ async function onMessage(topic, message) {
     let gespreisneu =
       Number(bestellsession.gesamtpreis) -
       Number(bestellsession.pizzen[searchedIndex].preis);
+    bestellsession.pizzen = removeNull(bestellsession.pizzen); // bereinige null values
 
     delete bestellsession.pizzen[searchedIndex]; // verursacht null values im json objekt
     bestellsession.pizzen = removeNull(bestellsession.pizzen); // bereinige null values
@@ -481,29 +486,3 @@ function removeNull(array) {
   return array.filter((x) => x !== null);
 }
 
-//--------------
-
-function isloggedin() {
-  var json_object = cache.get(session_id);
-  var email = json_object.email;
-
-  if (email === "") {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function isloggedin2str() {
-  if (isloggedin == "true") {
-    var json_object = cache.get(session_id);
-    var email = json_object.email;
-    var vorname = json_object.vorname;
-    var nachname = json_object.nachname;
-
-    var ausgabe = "Angemeldet: " + email + " - " + vorname + " " + nachname;
-    return ausgabe;
-  } else {
-    return "Nicht angemeldet";
-  }
-}
