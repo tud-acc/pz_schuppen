@@ -368,7 +368,10 @@ async function onMessage(topic, message) {
     let searchedIndex;
     console.log(bestellsession.pizzen);
     for (let i = 0; i < Object.keys(bestellsession.pizzen).length; i++) {
-      if (Number(jsm.pizzaid) === Number(bestellsession.pizzen[i].bestellnr)) {
+      if (
+        bestellsession.pizzen[i] !== null &&
+        jsm.pizzaid === Number(bestellsession.pizzen[i].bestellnr)
+      ) {
         searchedIndex = i;
         break;
       }
