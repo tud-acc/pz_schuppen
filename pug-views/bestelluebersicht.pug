@@ -15,7 +15,7 @@ html
       
       div(class='container')#kundendaten
         -let knde = kunde
-        | #{knde}
+        | [knde.vorname]
         | #{knde.vorname}
         | #{adresse}
         | #{kunde[0]}
@@ -26,6 +26,10 @@ html
         | #{pizzen}
         br
         | #{preis}
+        br
+        hr
+        each val in [pizzen]
+          span val
       
     button(class='button blue') kostenpflichtig bestellen    
 
