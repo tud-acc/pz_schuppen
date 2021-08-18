@@ -123,7 +123,7 @@ app.post("/anmelden.js", function (req, res) {
       ]);
 
       console.dir(result_userinfos);
-      console.dir(result_login[0].vorname);
+      console.dir(result_userinfos[0].vorname);
       console.dir(result_userinfos[0].nachname);
 
       var session = {
