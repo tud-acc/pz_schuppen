@@ -396,7 +396,7 @@ app.get("/bestelluebersicht.js", async function (req, res) {
 // -- POST
 app.post("/bestelluebersicht.js", async function (req, res) {
   console.log("Post Bestellübersicht");
-  let bestid = "";
+  var bestid = "";
   let body = "";
   req.on("data", function (data) {
     body += data;

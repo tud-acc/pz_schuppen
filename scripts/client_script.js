@@ -17,14 +17,14 @@ async function anmeldestatus() {
   let anmeldeSpan = document.getElementById("anmeldestatus");
 
   if (status === "angemeldet") {
-    alert("angemeldet true");
+    //alert("angemeldet true");
 
     var user = " als " + json_data.vorname + " " + json_data.nachname;
-    alert(user);
+    //alert(user);
 
     anmeldeSpan.innerText = status + user;
   } else {
-    alert("angemeldet false");
+    //alert("angemeldet false");
     anmeldeSpan.innerText = status;
   }
 }
