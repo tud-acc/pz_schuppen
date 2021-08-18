@@ -426,11 +426,11 @@ app.post("/bestelluebersicht.js", function (req, res) {
     if (bestellsession !== null && bestellsession !== undefined) {
       let query_kunde =
         "SELECT vorname, nachname, adr_id FROM kunde WHERE email = ?";
-      let result_kunde = await conn.query(query_kunde, bestellsession.email);
+      let result_kunde = await conn.query(query_kunde, [bestellsession.email]);
 
       let query_adress =
         "SELECT strasse, hausnr, plz, ort FROM adresse WHERE adr_id = ?";
-      let result_adress = await conn.query(query_adress, result_kunde.adr_id);
+      let result_adress = await conn.query(query_adress, [result_kunde.adr_id]);
 
       jsnbestellung.status = 0;
       jsnbestellung.kunde = result_kunde;
