@@ -406,10 +406,6 @@ app.post("/bestelluebersicht.js", function (req, res) {
     let params = new URLSearchParams(body);
     bestid = params.get("bestellid");
 
-    console.log("params:");
-    console.log(params);
-    console.log("bestid " + bestid);
-
     // result json object:
     let jsnbestellung = {
       id: bestid,
@@ -421,8 +417,6 @@ app.post("/bestelluebersicht.js", function (req, res) {
     };
     // hole bestellung aus cache
     let bestellsession = cache.get(bestid);
-    console.log("bestid " + bestid);
-    console.log(bestellsession);
     if (bestellsession !== null && bestellsession !== undefined) {
       let query_kunde =
         "SELECT vorname, nachname, adr_id FROM kunde WHERE email = ?";
