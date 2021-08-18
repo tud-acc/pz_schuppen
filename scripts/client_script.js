@@ -8,7 +8,7 @@ async function init() {
 
   if (isValidJson(content)) var json_data = JSON.parse(content);
 
-  alert(json_data.status);
+  alert(json_data[0]);
 }
 
 function isValidJson(str) {
