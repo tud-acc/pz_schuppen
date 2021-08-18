@@ -9,6 +9,7 @@ async function anmeldestatus() {
   }
 
   alert(json_data.status);
+  var erg = json_data.status;
 }
 
 function isValidJson(str) {
