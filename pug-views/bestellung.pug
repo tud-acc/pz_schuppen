@@ -78,7 +78,8 @@ html
 
             form(action="/bestelluebersicht.js" method="POST")
               input(type="hidden" name="bestellid")#inpbestellid
-              input(type="submit" class='button blue third' value="Bestellung abschließen")
+              input(type="text" name="bestid" value="123")#bestid
+              input(type="submit" class='button blue' value="Bestellung abschließen")
 
             //-button(class='button blue')#bestellungabsenden Bestellung abschließen
           div(class='container')
