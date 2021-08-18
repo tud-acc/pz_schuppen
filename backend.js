@@ -391,8 +391,10 @@ app.post("/bestelluebersicht.js", async function (req, res) {
   req.on("end", async function () {
     let params = new URLSearchParams(body);
     bestid = params.bestell_id;
+    console.log(params);
   });
-  console.log("body: " + body);
+  console.log("body:");
+  console.log(body);
 
   // result json object:
   let jsnbestellung = {
