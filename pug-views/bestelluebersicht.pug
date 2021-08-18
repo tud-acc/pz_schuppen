@@ -14,13 +14,17 @@ html
       h1 Bestellübersicht
       
       div(class='container')#kundendaten
-        | #{kunde}
+        -let knde = kunde
+        | #{knde}
+        | #{knde.vorname}
         | #{adresse}
-        | #{kunde.vorname}
+        | #{kunde[0]}
 
       div(class='container')#bestellung
-        | #{id}
+        | #{id} 
+        br
         | #{pizzen}
+        br
         | #{preis}
       
     button(class='button blue') kostenpflichtig bestellen    
