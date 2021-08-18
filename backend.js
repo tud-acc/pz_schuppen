@@ -116,6 +116,14 @@ app.post("/anmelden.js", function (req, res) {
 
       // Hier müsste ja der Memory-Cache gefuellt werden
 
+      let query_userinfos = "SELECT vorname, nachname FROM kunde WHERE email = ?";
+      let result_userinfos = await conn.query(query_userinfos, [data_anmelden.email]);
+
+      console.dir(result_userinfos);
+      console.dir(result_login[0].vorname);
+      console.dir(result_userinfos[0].nachname);
+
+
       var session = {
         email: data_anmelden.email,
         session_id: getSessionID(),
@@ -125,6 +133,9 @@ app.post("/anmelden.js", function (req, res) {
       };
 
       req.session.isAuth = true;
+      req.session.email = data_anmelden.email;
+      req.session.vorname = ;
+      req.session.nachname = ;
 
       console.dir(session);
       cache.put(123, session, 3600000);
@@ -384,15 +395,15 @@ app.get("/bestelluebersicht.js", async function (req, res) {
 app.post("/bestelluebersicht.js", async function (req, res) {
   console.log("Post Bestellübersicht");
   let bestid;
-  var body = "";
+  let body = "";
   req.on("data", function (data) {
     body += data;
   });
-  req.on("end", async function () {
+  req.on("end", function () {
     let params = new URLSearchParams(body);
-    bestid = params.bestell_id;
-    console.log(params);
+    bestid = params.bestellid;
   });
+
   console.log("body:");
   console.log(body);
 
@@ -437,11 +448,17 @@ app.get("/anmeldestatus.js", async function (req, res) {
 
   if (req.session.isAuth) {
     ammeldestatus_json = {
-      status: "angemeldet"
+      status: "angemeldet",
+      email: req.session.email,
+      vorname: req.session.vorname,
+      nachname: req.session.nachname
     };
   } else {
     ammeldestatus_json = {
-      status: "nicht angemeldet"
+      status: "nicht angemeldet",
+      email: "",
+      vorname: "",
+      nachname: ""
     };
   }
 
