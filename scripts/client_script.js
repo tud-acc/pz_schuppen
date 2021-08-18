@@ -12,11 +12,12 @@ async function anmeldestatus() {
 
   alert(json_data.status);
   erg = json_data.status;
+  updateAnmeldestatus();
 }
 
 function updateAnmeldestatus() {
   let anmeldeSpan = document.getElementById(anmeldestatus);
-  anmeldeSpan = erg;
+  anmeldeSpan.innerText = erg;
 }
 
 function isValidJson(str) {
