@@ -16,7 +16,7 @@ async function anmeldestatus() {
 }
 
 function updateAnmeldestatus() {
-  let anmeldeSpan = document.getElementById(anmeldestatus);
+  let anmeldeSpan = document.getElementById("anmeldestatus");
   anmeldeSpan.innerText = erg;
 }
 
