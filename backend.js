@@ -116,13 +116,15 @@ app.post("/anmelden.js", function (req, res) {
 
       // Hier müsste ja der Memory-Cache gefuellt werden
 
-      let query_userinfos = "SELECT vorname, nachname FROM kunde WHERE email = ?";
-      let result_userinfos = await conn.query(query_userinfos, [data_anmelden.email]);
+      let query_userinfos =
+        "SELECT vorname, nachname FROM kunde WHERE email = ?";
+      let result_userinfos = await conn.query(query_userinfos, [
+        data_anmelden.email
+      ]);
 
       console.dir(result_userinfos);
       console.dir(result_login[0].vorname);
       console.dir(result_userinfos[0].nachname);
-
 
       var session = {
         email: data_anmelden.email,
@@ -134,8 +136,8 @@ app.post("/anmelden.js", function (req, res) {
 
       req.session.isAuth = true;
       req.session.email = data_anmelden.email;
-      req.session.vorname = ;
-      req.session.nachname = ;
+      req.session.vorname = result_login[0].vorname;
+      req.session.nachname = result_login[0].nachname;
 
       console.dir(session);
       cache.put(123, session, 3600000);
