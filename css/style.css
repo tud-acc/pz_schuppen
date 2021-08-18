@@ -132,10 +132,8 @@ td {
 .qrcode {
   width: 120px;
   height: 120px;
-  float: left;
 }
 
 .qrdescription {
   min-height: 120px;
-  float: left;
 }

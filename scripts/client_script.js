@@ -1,8 +1,6 @@
 // Allgemeine funktionen, welche immer benötigt werden
 
-var jobj;
-
-async function init() {
+async function anmeldestatus() {
   var response = await fetch("/anmeldestatus.js");
   var content = await response.text();
 
