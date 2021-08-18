@@ -70,6 +70,9 @@ async function requestBestellListe() {
 
     let baseURL = window.location.href.split("?")[0];
     qrcode.makeCode(baseURL + "?id=" + bestellid);
+
+    // setze bestellid an submit input:
+    document.getElementById("inpbestellid").value = bestellid;
   }
 
   console.log("funccall requestBestellListe");

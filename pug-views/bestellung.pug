@@ -76,6 +76,10 @@ html
               span#gesbetrag
               |€
 
+            form(action="/bestelluebersicht.js" method="POST")
+              input(type="hidden" name="bestell_id")#inpbestellid
+              input(type="submit" class='button blue' value="Bestellung abschließen")
+
             button(class='button blue')#bestellungabsenden Bestellung abschließen
           div(class='container')
             span#status status

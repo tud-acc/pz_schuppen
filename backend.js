@@ -36,7 +36,7 @@ app.use(
 //   MAINPAGE (INDEX)
 // -- GET
 app.get("/node.js", function (req, res) {
-  console.log("GET - MAINPAGE - FROM:" + req.ip);
+  console.log("GET - MAINPAGE - FROM: " + req.ip);
   console.log(req.session);
   console.log(req.session.id);
 
@@ -370,6 +370,47 @@ app.post("/abmelden.js", function (req, res) {
       res.redirect("/node.js");
     }
   });
+});
+
+//---------------------------------------------------
+// BESTELLÜBERSICHT
+// -- GET
+app.get("/bestelluebersicht.js", async function (req, res) {
+  // sollte nicht möglich sein, redirect auf startseite:
+  res.redirect("/node.js");
+});
+
+// -- POST
+app.post("/bestelluebersicht.js", function (req, res) {
+  console.log("Post Bestellübersicht");
+});
+
+//-------------------------------------------------------------------------------------//
+//    Anmeldestatus
+// -- GET
+app.get("/anmeldestatus.js", async function (req, res) {
+  console.log("GET - ANMELDESTATUS - FROM: " + req.ip);
+
+  var ammeldestatus_json = {};
+
+  if (req.session.isAuth) {
+    ammeldestatus_json = {
+      status: "angemeldet"
+    };
+  } else {
+    ammeldestatus_json = {
+      status: "nicht angemeldet"
+    };
+  }
+
+  res.write(JSON.stringify(ammeldestatus_json));
+  res.end();
+});
+
+// -- POST - Sollte nicht moeglich sein!
+app.post("/anmeldestatus.js", function (req, res) {
+  console.log("POST - ANMELDESTATUS - FROM: " + req.ip);
+  console.dir("Post nicht moeglich!");
 });
 
 server.createServer(app).listen(9998);
