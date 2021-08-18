@@ -381,8 +381,46 @@ app.get("/bestelluebersicht.js", async function (req, res) {
 });
 
 // -- POST
-app.post("/bestelluebersicht.js", function (req, res) {
+app.post("/bestelluebersicht.js", async function (req, res) {
   console.log("Post Bestellübersicht");
+  let bestid;
+  var body = "";
+  req.on("data", function (data) {
+    body += data;
+  });
+  req.on("end", async function () {
+    let params = new URLSearchParams(body);
+    bestid = params.bestell_id;
+  });
+
+  // result json object:
+  let jsnbestellung = {
+    id: bestid,
+    status: -1,
+    kunde: null,
+    adresse: null,
+    preis: 0, //bestellsession.preis
+    pizzen: [] // bestellsession.pizzen
+  };
+  // hole bestellung aus cache
+  let bestellsession = cache.get(bestid);
+  if (bestellsession !== null && bestellsession !== undefined) {
+    let query_kunde =
+      "SELECT vorname, nachname, adr_id FROM kunde WHERE email = ?";
+    let result_kunde = await conn.query(query_kunde, bestellsession.email);
+
+    let query_adress =
+      "SELECT strasse, hausnr, plz, ort FROM adresse WHERE adr_id = ?";
+    let result_adress = await conn.query(query_adress, result_kunde.adr_id);
+
+    jsnbestellung.status = 0;
+    jsnbestellung.kunde = result_kunde;
+    jsnbestellung.adresse = result_adress;
+    jsnbestellung.preis = bestellsession.gesamtpreis;
+    jsnbestellung.pizzen = bestellsession.pizzen;
+  }
+
+  res.render("bestelluebersicht", jsnbestellung);
 });
 
 //-------------------------------------------------------------------------------------//
