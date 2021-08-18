@@ -1,5 +1,7 @@
 // Allgemeine funktionen, welche immer benötigt werden
 
+var erg;
+
 async function anmeldestatus() {
   var response = await fetch("/anmeldestatus.js");
   var content = await response.text();
@@ -9,7 +11,12 @@ async function anmeldestatus() {
   }
 
   alert(json_data.status);
-  var erg = json_data.status;
+  erg = json_data.status;
+}
+
+function updateAnmeldestatus() {
+  let anmeldeSpan = document.getElementById(anmeldestatus);
+  anmeldeSpan = erg;
 }
 
 function isValidJson(str) {

@@ -420,6 +420,7 @@ app.post("/bestelluebersicht.js", async function (req, res) {
     jsnbestellung.pizzen = bestellsession.pizzen;
   }
 
+  console.log("result: " + JSON.stringify(jsnbestellung));
   res.render("bestelluebersicht", jsnbestellung);
 });
 
