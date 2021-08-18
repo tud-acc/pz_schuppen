@@ -16,7 +16,7 @@ async function anmeldestatus() {
   alert(json_data.vorname + " " + json_data.nachname);
   let anmeldeSpan = document.getElementById("anmeldestatus");
 
-  if (erg === "angemeldet") {
+  if (status === "angemeldet") {
     alert("angemeldet true");
 
     var user = " als " + json_data.vorname + " " + json_data.nachname;
