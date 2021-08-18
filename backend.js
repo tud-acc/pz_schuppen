@@ -122,9 +122,9 @@ app.post("/anmelden.js", function (req, res) {
         data_anmelden.email
       ]);
 
-      console.dir(result_userinfos);
-      console.dir(result_userinfos[0].vorname);
-      console.dir(result_userinfos[0].nachname);
+      console.dir("Result userinfos query: " + result_userinfos);
+      console.dir("Vorname: " + result_userinfos[0].vorname);
+      console.dir("Nachname: " + result_userinfos[0].nachname);
 
       var session = {
         email: data_anmelden.email,
@@ -136,8 +136,8 @@ app.post("/anmelden.js", function (req, res) {
 
       req.session.isAuth = true;
       req.session.email = data_anmelden.email;
-      req.session.vorname = result_login[0].vorname;
-      req.session.nachname = result_login[0].nachname;
+      req.session.vorname = result_userinfos[0].vorname;
+      req.session.nachname = result_userinfos[0].nachname;
 
       console.dir(session);
       cache.put(123, session, 3600000);
@@ -403,11 +403,11 @@ app.post("/bestelluebersicht.js", async function (req, res) {
   });
   req.on("end", function () {
     let params = new URLSearchParams(body);
-    bestid = params.bestellid;
-  });
+    bestid = params.get("bestellid");
 
-  console.log("body:");
-  console.log(body);
+    console.log("params:");
+    console.log(params);
+  });
 
   // result json object:
   let jsnbestellung = {

@@ -11,13 +11,17 @@ async function anmeldestatus() {
   }
 
   alert(json_data.status);
-  erg = json_data.status;
-  updateAnmeldestatus();
-}
+  var status = json_data.status;
 
-function updateAnmeldestatus() {
   let anmeldeSpan = document.getElementById("anmeldestatus");
-  anmeldeSpan.innerText = erg;
+
+  if (erg == "angemeldet") {
+    var user = "als " + json_data.vorname + " " + json_data.nachname;
+
+    anmeldeSpan.innerText = status + user;
+  } else {
+    anmeldeSpan.innerText = status;
+  }
 }
 
 function isValidJson(str) {
