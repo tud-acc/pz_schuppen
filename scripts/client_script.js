@@ -13,7 +13,7 @@ async function anmeldestatus() {
   alert(json_data.status);
   var status = json_data.status;
 
-  alert(json_data.vorname + " " + json_data.nachname);
+  //alert(json_data.vorname + " " + json_data.nachname);
   let anmeldeSpan = document.getElementById("anmeldestatus");
 
   if (status === "angemeldet") {
