@@ -8,9 +8,7 @@ async function anmeldestatus() {
     var json_data = JSON.parse(content);
   }
 
-  alert(json_data[0]);
   alert(json_data.status);
-  alert("blablablubb");
 }
 
 function isValidJson(str) {
