@@ -428,11 +428,6 @@ app.post("/bestelluebersicht.js", function (req, res) {
         result_kunde[0].adr_id
       ]);
 
-      console.log("result kunde:");
-      console.log(result_kunde);
-      console.log("adr_id " + result_kunde.adr_id);
-      console.log(result_adress);
-
       jsnbestellung.status = 0;
       jsnbestellung.kunde = result_kunde[0];
       jsnbestellung.adresse = result_adress[0];
@@ -440,8 +435,6 @@ app.post("/bestelluebersicht.js", function (req, res) {
       jsnbestellung.pizzen = bestellsession.pizzen;
     }
 
-    console.log("adr_id " + jsnbestellung.kunde.adr_id);
-    //
     console.log("result: " + JSON.stringify(jsnbestellung));
     res.render("bestelluebersicht", jsnbestellung);
   });

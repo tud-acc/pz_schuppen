@@ -16,22 +16,17 @@ html
       div(class='container')#kundendaten
         h3 Lieferadresse
         | #{kunde.vorname}
+        br
+        | #{kunde.nachname}
+        br
+        br
+        | #{adresse.strasse} #{adresse.hausnr}
+        br
+        | #{adresse.plz}  #{adresse.ort}
 
-        each k in kunde
-          span #{k.vorname}
-          br
-          span #{k.nachname} 
-          br 
-          br
-
-        each a in adresse
-          span #{a.strasse}
-          br
-          span #{a.hausnr} 
-          br
-          span #{a.plz}  #{a.ort}
 
       div(class='container')#bestellung
+        hr
         h3 Bestellung
         | Bestell-id: #{id} 
         br
@@ -40,6 +35,8 @@ html
           span #{pizza.name} | 
           span #{pizza.preis} € 
           br
+
+        | Gesamtpreis: #{preis} €
       
     button(class='button blue') kostenpflichtig bestellen    
 
