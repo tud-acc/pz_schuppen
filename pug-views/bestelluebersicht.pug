@@ -13,7 +13,7 @@ html
     div(class='content container half center card')
       h1 Bestellübersicht
       
-      div(class='container')#kundendaten
+      div(class='container half center')#kundendaten
         h3 Lieferadresse
         | #{kunde.vorname}
         br
@@ -25,7 +25,7 @@ html
         | #{adresse.plz}  #{adresse.ort}
 
 
-      div(class='container')#bestellung
+      div(class='container half center')#bestellung
         hr
         h3 Bestellung
         | Bestell-id: #{id} 
