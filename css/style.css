@@ -71,7 +71,7 @@ input {
   background-color: inherit;
   text-align: center;
   cursor: pointer;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
 }
 .button:hover {
   background-color: #ccc;

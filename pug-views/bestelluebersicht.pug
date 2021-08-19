@@ -14,10 +14,15 @@ html
       h1 Bestellübersicht
       
       div(class='container')#kundendaten
-        -let vorname = kunde.vorname;
-        | #{vorname}
-        
-        | #{kunde[0]}
+        each k in kunde
+          span #{k.vorname}
+          span #{k.nachname} 
+        hr
+        each a in adresse
+          span #{a.strasse}
+          span #{a.hausnr} 
+          span #{a.plz} 
+
 
       div(class='container')#bestellung
         | #{id} 
