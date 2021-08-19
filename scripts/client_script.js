@@ -10,7 +10,7 @@ async function anmeldestatus() {
     var json_data = JSON.parse(content);
   }
 
-  alert(json_data.status);
+  //alert(json_data.status);
   var status = json_data.status;
 
   //alert(json_data.vorname + " " + json_data.nachname);
