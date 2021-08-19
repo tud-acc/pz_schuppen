@@ -420,15 +420,13 @@ app.post("/bestelluebersicht.js", function (req, res) {
     if (bestellsession !== null && bestellsession !== undefined) {
       let query_kunde =
         "SELECT vorname, nachname, adr_id FROM kunde WHERE email = ?";
-      let result_kunde = await conn.query(query_kunde, [
-        bestellsession.email
-      ])[0];
+      let result_kunde = await conn.query(query_kunde, [bestellsession.email]);
 
       let query_adress =
         "SELECT strasse, hausnr, plz, ort FROM adresse WHERE adr_id = ?";
       let result_adress = await conn.query(query_adress, [
-        result_kunde.adr_id
-      ])[0];
+        result_kunde[0].adr_id
+      ]);
 
       console.log("result kunde:");
       console.log(result_kunde);
@@ -436,8 +434,8 @@ app.post("/bestelluebersicht.js", function (req, res) {
       console.log(result_adress);
 
       jsnbestellung.status = 0;
-      jsnbestellung.kunde = result_kunde;
-      jsnbestellung.adresse = result_adress;
+      jsnbestellung.kunde = result_kunde[0];
+      jsnbestellung.adresse = result_adress[0];
       jsnbestellung.preis = bestellsession.gesamtpreis;
       jsnbestellung.pizzen = bestellsession.pizzen;
     }
