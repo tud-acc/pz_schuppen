@@ -425,6 +425,8 @@ app.post("/bestelluebersicht.js", function (req, res) {
       let query_adress =
         "SELECT strasse, hausnr, plz, ort FROM adresse WHERE adr_id = ?";
       let result_adress = await conn.query(query_adress, [result_kunde.adr_id]);
+      console.log("adr_id" + result_kunde.adr_id);
+      console.log(result_adress);
 
       jsnbestellung.status = 0;
       jsnbestellung.kunde = result_kunde;
