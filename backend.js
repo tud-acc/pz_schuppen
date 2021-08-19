@@ -438,6 +438,7 @@ app.post("/bestelluebersicht.js", function (req, res) {
       jsnbestellung.pizzen = bestellsession.pizzen;
     }
 
+    console.log("adr_id " + jsnbestellung.kunde.adr_id);
     //
     console.log("result: " + JSON.stringify(jsnbestellung));
     res.render("bestelluebersicht", jsnbestellung);
