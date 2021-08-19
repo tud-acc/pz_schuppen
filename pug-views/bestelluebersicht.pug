@@ -14,8 +14,8 @@ html
       h1 Bestellübersicht
       
       div(class='container')#kundendaten
-        -let knde = kunde
-        | [knde.vorname]
+        -let vorname = kunde.vorname;
+        | #{vorname}
         | #{knde.vorname}
         | #{adresse}
         | #{kunde[0]}
@@ -28,8 +28,9 @@ html
         | #{preis}
         br
         hr
-        each val in [pizzen]
-          span val
+        each pizza in pizzen
+          span #{pizza.name}
+          span #{pizza.preis} |€
       
     button(class='button blue') kostenpflichtig bestellen    
 
