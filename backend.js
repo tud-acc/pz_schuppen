@@ -428,7 +428,7 @@ app.post("/bestelluebersicht.js", function (req, res) {
 
       console.log("result kunde:");
       console.log(result_kunde);
-      console.log("adr_id " + result_kunde.adr_id);
+      console.log("adr_id " + result_kunde["adr_id"]);
       console.log(result_adress);
 
       jsnbestellung.status = 0;
