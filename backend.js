@@ -474,6 +474,40 @@ app.post("/anmeldestatus.js", function (req, res) {
   console.dir("Post nicht moeglich!");
 });
 
+//---------------------------------------------------
+// ALEXA SKILL
+// -- GET
+app.get("/alexa.js", async function (req, res) {
+  var data = {
+    response: {
+      outputSpeech: {
+        text: "Hallole",
+        type: "PlainText"
+      },
+      shouldEndSession: true
+    },
+    version: "1.0"
+  };
+  res.write(JSON.stringify(data));
+  res.end();
+});
+
+// -- POST
+app.post("/alexa.js", function (req, res) {
+  var data = {
+    response: {
+      outputSpeech: {
+        text: "Hallole",
+        type: "PlainText"
+      },
+      shouldEndSession: true
+    },
+    version: "1.0"
+  };
+  res.write(JSON.stringify(data));
+  res.end();
+});
+
 server.createServer(app).listen(9998);
 
 //---------------------------------------------------
