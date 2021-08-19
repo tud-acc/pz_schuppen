@@ -10,7 +10,7 @@ html
         include header.pug
       
 
-    div(class='content container')
+    div(class='content container half center card')
       h1 Bestellübersicht
       
       div(class='container')#kundendaten
@@ -36,8 +36,9 @@ html
           span #{pizza.preis} € 
           br
 
+        br
         | Gesamtpreis: #{preis} €
       
-    button(class='button blue') kostenpflichtig bestellen    
+      button(class='button blue') kostenpflichtig bestellen    
 
       
