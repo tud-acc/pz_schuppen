@@ -478,6 +478,7 @@ app.post("/anmeldestatus.js", function (req, res) {
 // ALEXA SKILL
 // -- GET
 app.get("/alexa.js", async function (req, res) {
+  console.log("alexa GET");
   var data = {
     response: {
       outputSpeech: {
@@ -494,6 +495,7 @@ app.get("/alexa.js", async function (req, res) {
 
 // -- POST
 app.post("/alexa.js", function (req, res) {
+  console.log("alexa POST");
   var data = {
     response: {
       outputSpeech: {
