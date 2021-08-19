@@ -49,7 +49,11 @@
   float: right;
 }
 .center {
-  margin: auto;
+  margin: auto !important;
+}
+
+.centertxt {
+  text-align: center;
 }
 
 input {
