@@ -14,27 +14,29 @@ html
       h1 Bestellübersicht
       
       div(class='container')#kundendaten
+        h3 Lieferadresse
         each k in kunde
           span #{k.vorname}
+          br
           span #{k.nachname} 
-        hr
+          br 
+          br
+
         each a in adresse
           span #{a.strasse}
+          br
           span #{a.hausnr} 
-          span #{a.plz} 
-
+          br
+          span #{a.plz}  #{a.ort}
 
       div(class='container')#bestellung
-        | #{id} 
+        h3 Bestellung
+        | Bestell-id: #{id} 
         br
-        | #{pizzen}
-        br
-        | #{preis}
-        br
-        hr
+
         each pizza in pizzen
-          span #{pizza.name}
-          span #{pizza.preis} |€
+          span #{pizza.name} | 
+          span #{pizza.preis} € 
       
     button(class='button blue') kostenpflichtig bestellen    
 
