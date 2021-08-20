@@ -576,7 +576,7 @@ app.post("/alexa.js", function (req, res) {
         case 3: // basispizza prüfen
           var basispizza = alexa.request.intent.slots.basispizza.value;
 
-          let bp = Array.from(getBasispizzen());
+          let bp = Array.from(await getBasispizzen());
           console.log(bp);
           // arrhaystack.indexOf(needle) > -1
           if (bp.indexOf(basispizza) > -1) {
@@ -750,7 +750,6 @@ function removeNull(array) {
 async function getBasispizzen() {
   let result = [];
   let pizzen = await conn.query("SELECT name FROM pizza");
-  console.log(pizzen);
   for (let i = 0; i < Object.keys(pizzen).length; i++) {
     result.push(pizzen[i].name.toLowerCase());
   }
