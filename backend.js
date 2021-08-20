@@ -579,7 +579,7 @@ app.post("/alexa.js", function (req, res) {
           let bp = Array.from(getBasispizzen());
           console.log(bp);
           if (bp.includes(basispizza)) {
-            alexasession.data.respose.outputSpeech.text =
+            alexasession.data.response.outputSpeech.text =
               "Du hast die Basispizza " +
               basispizza +
               " gewählt. Willst du die Pizza so bestellen oder weiter Zutaten hinzufügen?";
@@ -591,7 +591,7 @@ app.post("/alexa.js", function (req, res) {
             alexasession.preis = pizza.preis;
           } else {
             let basispizzen = await getBasispizzen();
-            alexasession.data.respose.outputSpeech.text =
+            alexasession.data.response.outputSpeech.text =
               "Die Basispizza konnte nicht verstanden werden. Bitte nenne erneut eine gültige Basispizza. Es gibt folgende Basispizzen: " +
               basispizzen.join();
           }
