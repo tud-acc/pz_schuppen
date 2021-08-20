@@ -7,7 +7,7 @@ async function nofuckyou() {
   //check if http or https:
   if (location.protocol === "https:") {
     await message.init(
-      "https://33972b7a-d9ef-46c1-bfd8-6b830137eaec.ul.bw-cloud-instance.org",
+      "33972b7a-d9ef-46c1-bfd8-6b830137eaec.ul.bw-cloud-instance.org",
       8083
     );
   } else {
