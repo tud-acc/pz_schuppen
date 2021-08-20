@@ -4,8 +4,8 @@ var bestellid;
 async function nofuckyou() {
   message = new mqtt_fetch("pizza");
   console.log("message: " + message);
-  //await message.init("193.197.231.154", 1884);
-  await message.init("wss://193.197.231.154:8083/mqttfetch/pizza/");
+  await message.init("193.197.231.154", 1884);
+  //await message.init("wss://193.197.231.154:8083/mqttfetch/pizza/");
   message.set_callback(-1, rx_status, false);
   /*document
     .getElementById("addPizzaButton")
