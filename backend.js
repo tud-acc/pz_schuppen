@@ -748,7 +748,7 @@ async function getBasispizzen() {
   let pizzen = await conn.query("SELECT name FROM pizza");
   console.log(pizzen);
   for (let pizza in pizzen) {
-    result += pizza.name + ",";
+    result += pizza + ",";
   }
   console.log(result);
   return result.split(",");
