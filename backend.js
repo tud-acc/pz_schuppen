@@ -511,6 +511,8 @@ app.post("/alexa.js", function (req, res) {
 
     // hole session von cache -> undefined wenn session noch nicht existent
     var alexasession = cache.get(alexa.session.sessionId);
+    console.log("----------------------------------------------------");
+    console.log("ALEXASESSION: ");
     console.log(alexasession);
 
     // prüfe ob Launchrequest
