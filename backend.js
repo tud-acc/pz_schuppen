@@ -574,7 +574,7 @@ app.post("/alexa.js", function (req, res) {
           break;
 
         case 3: // basispizza prüfen
-          var basispizza = alexa.request.intent.slots.pizzaname.name;
+          var basispizza = alexa.request.intent.slots.pizzaname.value;
 
           if (getBasispizzen().includes(basispizza)) {
             alexa.data.respose.outputSpeech.text =
