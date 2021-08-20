@@ -549,14 +549,14 @@ app.post("/alexa.js", function (req, res) {
           ) {
             // bestellid bekannt
             console.log("Bestellid ok");
-            alexasession.response.outputSpeech.text =
-              "Der Bestellcode ist ungültig. Bitte nenne mir einen gültigen Bestellcode.";
+            alexasession.response.response.outputSpeech.text =
+              "Der Bestellcode ist gültig. Bitte gib deiner Pizza einen Namen, damit du sie in der Bestellung wiederfindest";
             alexasession.zustand++;
           } else {
             // bestellid nicht bekannt
             console.log("Bestellid nicht ok");
-            alexasession.response.outputSpeech.text =
-              "Der Bestellcode ist gültig. Bitte gib deiner Pizza einen Namen, damit du sie in der Bestellung wiederfindest";
+            alexasession.response.response.outputSpeech.text =
+              "Der Bestellcode ist ungültig. Bitte nenne mir einen gültigen Bestellcode.";
           }
           break;
         case 2:
