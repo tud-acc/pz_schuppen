@@ -476,13 +476,13 @@ app.post("/anmeldestatus.js", function (req, res) {
 
 //---------------------------------------------------
 // ALEXA SKILL
-// -- GET
+// -- GET -- sollte nie von alexa erreicht werden, da immer POST
 app.get("/alexa.js", async function (req, res) {
-  console.log("alexa GET");
+  console.log("POST - ALEXA GET - FROM: " + req.ip);
   var data = {
     response: {
       outputSpeech: {
-        text: "Hallole",
+        text: "Hallole, das ist ein HTTP GET, welches nicht passieren sollte",
         type: "PlainText"
       },
       shouldEndSession: true
@@ -495,11 +495,11 @@ app.get("/alexa.js", async function (req, res) {
 
 // -- POST
 app.post("/alexa.js", function (req, res) {
-  console.log("alexa POST");
+  console.log("POST - ALEXA POST - FROM: " + req.ip);
   var data = {
     response: {
       outputSpeech: {
-        text: "Hallole",
+        text: "Hallo HALLO Hallo! HALLO! Hallo!! HALLO!!",
         type: "PlainText"
       },
       shouldEndSession: true
