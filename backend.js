@@ -706,4 +706,3 @@ async function calcPizzaPreis(pizza) {
 function removeNull(array) {
   return array.filter((x) => x !== null);
 }
-sess;
