@@ -496,6 +496,62 @@ app.get("/alexa.js", async function (req, res) {
 // -- POST
 app.post("/alexa.js", function (req, res) {
   console.log("POST - ALEXA POST - FROM: " + req.ip);
+  console.log(req);
+
+  var zustand = 1;
+
+  let data = {
+    response: {
+      response: {
+        outputSpeech: {
+          text: "Willkommen beim Multiplikationstrainer sag mir deinen Namen",
+          type: "PlainText"
+        },
+        shouldEndSession: false // edited
+      },
+      version: "1.0"
+    }
+  };
+
+  switch (zustand) {
+    case 1:
+      data.response.outputSpeech.text =
+        "Willkommen bei myPizza, dem IBS Pizzaservice! Sag mir deinen Bestellcode von der Website.";
+      break;
+    case 2:
+      /*
+        if(){
+
+        }else{
+          data.response.outputSpeech.text = "Der Bestellcode ist ungültig. Bitte nenne mir einen gültigen Bestellcode.";
+        }
+        */
+      break;
+    case 3:
+      break;
+
+    case 4:
+      break;
+
+    case 5:
+      break;
+
+    case 6:
+      break;
+
+    case 7:
+      break;
+
+    case 8:
+      break;
+
+    case 9:
+      break;
+
+    case 10:
+      break;
+  }
+
   var data = {
     response: {
       outputSpeech: {
