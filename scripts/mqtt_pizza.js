@@ -4,7 +4,16 @@ var bestellid;
 async function nofuckyou() {
   message = new mqtt_fetch("pizza");
   console.log("message: " + message);
-  await message.init("193.197.231.154", 1884);
+  //check if http or https:
+  if (location.protocol !== "https:") {
+    await message.init(
+      "https://33972b7a-d9ef-46c1-bfd8-6b830137eaec.ul.bw-cloud-instance.org",
+      8083
+    );
+  } else {
+    await message.init("193.197.231.154", 1884);
+  }
+
   message.set_callback(-1, rx_status, false);
   /*document
     .getElementById("addPizzaButton")
