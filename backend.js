@@ -505,6 +505,9 @@ app.post("/alexa.js", function (req, res) {
   req.on("end", function () {
     // Handle Alexa request
     console.log(alexa);
+    alexa = JSON.parse(alexa);
+    console.log(alexa);
+    console.log(alexa.request.type);
 
     // hole session von cache -> undefined wenn session noch nicht existent
     var alexasession = cache.get(alexa.session.sessionId);
