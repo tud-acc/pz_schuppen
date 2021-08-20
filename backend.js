@@ -543,12 +543,14 @@ app.post("/alexa.js", function (req, res) {
       // session ist bereits bekannt -> Kein launch request
 
       switch (alexasession.zustand) {
-        case 1:
+        case 1: // bestellcode prüfen und schreiben
           if (
             cache.get(alexa.request.intent.slots.bestellcode.value) !== null
           ) {
             // bestellid bekannt
             console.log("Bestellid ok");
+            alexasession.bestellcode =
+              alexa.request.intent.slots.bestellcode.value;
             alexasession.data.response.outputSpeech.text =
               "Der Bestellcode ist gültig. Bitte gib deiner Pizza einen Namen, damit du sie in der Bestellung wiederfindest";
             alexasession.zustand++;
@@ -559,7 +561,10 @@ app.post("/alexa.js", function (req, res) {
               "Der Bestellcode ist ungültig. Bitte nenne mir einen gültigen Bestellcode.";
           }
           break;
-        case 2:
+
+        case 2: // Pizzanamen hinterlegen
+          alexasession.pizzaname = alexa.request.intent.slots.pizzaname.value;
+          alexasession.zustand++;
           break;
         case 3:
           break;
