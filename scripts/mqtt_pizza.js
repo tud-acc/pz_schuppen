@@ -5,7 +5,7 @@ async function nofuckyou() {
   message = new mqtt_fetch("pizza");
   console.log("message: " + message);
   //check if http or https:
-  if (location.protocol !== "https:") {
+  if (location.protocol === "https:") {
     await message.init(
       "https://33972b7a-d9ef-46c1-bfd8-6b830137eaec.ul.bw-cloud-instance.org",
       8083
