@@ -502,7 +502,7 @@ app.post("/alexa.js", function (req, res) {
     alexa += data;
   });
 
-  req.on("end", function () {
+  req.on("end", async function () {
     // Handle Alexa request
     console.log(alexa);
     alexa = JSON.parse(alexa);
@@ -564,11 +564,34 @@ app.post("/alexa.js", function (req, res) {
 
         case 2: // Pizzanamen hinterlegen
           alexasession.pizzaname = alexa.request.intent.slots.pizzaname.value;
+          let basispizzen = await getBasispizzen();
+          alexasession.data.response.outputSpeech.text =
+            "Name wurde erfolgreich übernommen. Bitte wähle eine Basispizza aus. Es gibt folgende Basispizzen: " +
+            basispizzen.join();
           alexasession.zustand++;
           break;
-        case 3:
-          break;
 
+        case 3: // basispizza prüfen
+          var basispizza = alexa.request.intent.slots.pizzaname.name;
+
+          if (getBasispizzen().includes(basispizza)) {
+            alexa.data.respose.outputSpeech.text =
+              "Du hast die Basispizza " +
+              basispizza +
+              " gewählt. Willst du die Pizza so bestellen oder weiter Zutaten hinzufügen?";
+
+            let pizza = await getBasispizza(basispizza);
+            for (let i = 0; i < 8; i++) {
+              alexasession.zutaten.put(i + 1, pizza[i]);
+            }
+            alexasession.preis = pizza.preis;
+          } else {
+            let basispizzen = await getBasispizzen();
+            alexa.data.respose.outputSpeech.text =
+              "Die Basispizza konnte nicht verstanden werden. Bitte nenne erneut eine gültige Basispizza. Es gibt folgende Basispizzen: " +
+              basispizzen.join();
+          }
+          break;
         case 4:
           break;
 
@@ -716,4 +739,20 @@ async function calcPizzaPreis(pizza) {
 // lösche null elemente eines array (bereinigen)
 function removeNull(array) {
   return array.filter((x) => x !== null);
+}
+
+async function getBasispizzen() {
+  let result = "";
+  let pizzen = await conn.query("SELECT name FROM pizza");
+  for (let pizza in pizzen) {
+    result += pizza.name + ",";
+  }
+  return result.split(",");
+}
+
+async function getBasispizza(pizzaname) {
+  let pizzaquerry =
+    "SELECT zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis FROM pizza WHERE name = ?";
+  let pizza = await conn.query(pizzaquerry, [pizzaname]);
+  return pizza[0];
 }
