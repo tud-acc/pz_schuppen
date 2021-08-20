@@ -496,74 +496,83 @@ app.get("/alexa.js", async function (req, res) {
 // -- POST
 app.post("/alexa.js", function (req, res) {
   console.log("POST - ALEXA POST - FROM: " + req.ip);
-  console.log(req);
 
-  var zustand = 1;
+  let body = "";
+  req.on("data", function (data) {
+    body += data;
+  });
 
-  let outp = {
-    response: {
+  req.on("end", function () {
+    // Handle Alexa request
+    console.log(body);
+
+    var zustand = 1;
+
+    let data = {
       response: {
-        outputSpeech: {
-          text: "Willkommen beim Multiplikationstrainer sag mir deinen Namen",
-          type: "PlainText"
+        response: {
+          outputSpeech: {
+            text: "Willkommen beim Multiplikationstrainer sag mir deinen Namen",
+            type: "PlainText"
+          },
+          shouldEndSession: false // edited
         },
-        shouldEndSession: false // edited
-      },
-      version: "1.0"
-    }
-  };
+        version: "1.0"
+      }
+    };
 
-  switch (zustand) {
-    case 1:
-      data.response.outputSpeech.text =
-        "Willkommen bei myPizza, dem IBS Pizzaservice! Sag mir deinen Bestellcode von der Website.";
-      break;
-    case 2:
-      /*
+    switch (zustand) {
+      case 1:
+        data.response.outputSpeech.text =
+          "Willkommen bei myPizza, dem IBS Pizzaservice! Sag mir deinen Bestellcode von der Website.";
+        break;
+      case 2:
+        /*
         if(){
 
         }else{
           data.response.outputSpeech.text = "Der Bestellcode ist ungültig. Bitte nenne mir einen gültigen Bestellcode.";
         }
         */
-      break;
-    case 3:
-      break;
+        break;
+      case 3:
+        break;
 
-    case 4:
-      break;
+      case 4:
+        break;
 
-    case 5:
-      break;
+      case 5:
+        break;
 
-    case 6:
-      break;
+      case 6:
+        break;
 
-    case 7:
-      break;
+      case 7:
+        break;
 
-    case 8:
-      break;
+      case 8:
+        break;
 
-    case 9:
-      break;
+      case 9:
+        break;
 
-    case 10:
-      break;
-  }
+      case 10:
+        break;
+    }
 
-  var data = {
-    response: {
-      outputSpeech: {
-        text: "Hallo HALLO Hallo! HALLO! Hallo!! HALLO!!",
-        type: "PlainText"
+    var out = {
+      response: {
+        outputSpeech: {
+          text: "Hallo HALLO Hallo! HALLO! Hallo!! HALLO!!",
+          type: "PlainText"
+        },
+        shouldEndSession: true
       },
-      shouldEndSession: true
-    },
-    version: "1.0"
-  };
-  res.write(JSON.stringify(data));
-  res.end();
+      version: "1.0"
+    };
+    res.write(JSON.stringify(data));
+    res.end();
+  });
 });
 
 server.createServer(app).listen(9998);
