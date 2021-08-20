@@ -497,80 +497,99 @@ app.get("/alexa.js", async function (req, res) {
 app.post("/alexa.js", function (req, res) {
   console.log("POST - ALEXA POST - FROM: " + req.ip);
 
-  let body = "";
+  let alexa = "";
   req.on("data", function (data) {
-    body += data;
+    alexa += data;
   });
 
   req.on("end", function () {
     // Handle Alexa request
-    console.log(body);
+    console.log(alexa);
 
-    var zustand = 1;
+    // hole session von cache -> undefined wenn session noch nicht existent
+    var alexasession = cache.get(alexa.session.sessionId);
 
-    let data = {
-      response: {
+    // prüfe ob Launchrequest
+    if (alexa.request.type == "LaunchRequest" && alexasession === null) {
+      // neue sessionvariablen anlegen (neue Alexa Session)
+      let sessionvars = {
+        zustand: 1,
+        bestellcode: 0,
+        pizzaname: "",
+        zutaten: [],
+        preis: 0,
+
         response: {
-          outputSpeech: {
-            text: "Willkommen beim Multiplikationstrainer sag mir deinen Namen",
-            type: "PlainText"
+          response: {
+            outputSpeech: {
+              text:
+                "Willkommen bei myPizza, dem IBS Pizzaservice! Sag mir deinen Bestellcode von der Website.",
+              type: "PlainText"
+            },
+            shouldEndSession: false // edited
           },
-          shouldEndSession: false // edited
-        },
-        version: "1.0"
-      }
-    };
-
-    switch (zustand) {
-      case 1:
-        data.response.outputSpeech.text =
-          "Willkommen bei myPizza, dem IBS Pizzaservice! Sag mir deinen Bestellcode von der Website.";
-        break;
-      case 2:
-        /*
-        if(){
-
-        }else{
-          data.response.outputSpeech.text = "Der Bestellcode ist ungültig. Bitte nenne mir einen gültigen Bestellcode.";
+          version: "1.0"
         }
-        */
-        break;
-      case 3:
-        break;
+      };
+      // daten in Cache schreiben (60 min TTL)
+      cache.put(alexa.session.sessionId, sessionvars, 3600000);
+    } else {
+      // session ist bereits bekannt -> Kein launch request
 
-      case 4:
-        break;
+      switch (alexasession.zustand) {
+        case 1:
+          if (
+            cache.get(alexa.request.intent.slots.bestellcode.value) !== null
+          ) {
+            // bestellid bekannt
+            console.log("Bestellid ok");
+            alexasession.response.outputSpeech.text =
+              "Der Bestellcode ist ungültig. Bitte nenne mir einen gültigen Bestellcode.";
+            alexasession.zustand++;
+          } else {
+            // bestellid nicht bekannt
+            console.log("Bestellid nicht ok");
+            alexasession.response.outputSpeech.text =
+              "Der Bestellcode ist gültig. Bitte gib deiner Pizza einen Namen, damit du sie in der Bestellung wiederfindest";
+          }
+          break;
+        case 2:
+          break;
+        case 3:
+          break;
 
-      case 5:
-        break;
+        case 4:
+          break;
 
-      case 6:
-        break;
+        case 5:
+          break;
 
-      case 7:
-        break;
+        case 6:
+          break;
 
-      case 8:
-        break;
+        case 7:
+          break;
 
-      case 9:
-        break;
+        case 8:
+          break;
 
-      case 10:
-        break;
-    }
+        case 9:
+          break;
 
-    var out = {
-      response: {
-        outputSpeech: {
-          text: "Hallo HALLO Hallo! HALLO! Hallo!! HALLO!!",
-          type: "PlainText"
-        },
-        shouldEndSession: true
-      },
-      version: "1.0"
-    };
-    res.write(JSON.stringify(data));
+        case 10:
+          break;
+
+        default:
+          //default nötig
+          break;
+      } //- end switch
+      // schreibe alexasession objekt zurück in cache
+      cache.put(alexa.session.sessionId, alexasession, 3600000);
+    } //- end else
+
+    // schreibe output
+    let out = JSON.stringify(cache.get(alexa.session.sessionId).response);
+    res.write(JSON.stringify(out));
     res.end();
   });
 });
@@ -687,3 +706,4 @@ async function calcPizzaPreis(pizza) {
 function removeNull(array) {
   return array.filter((x) => x !== null);
 }
+sess;
