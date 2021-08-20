@@ -587,7 +587,7 @@ app.post("/alexa.js", function (req, res) {
 
             let pizza = await getBasispizza(basispizza);
             for (let i = 0; i < 8; i++) {
-              alexasession.zutaten.put(i + 1, pizza[i]);
+              alexasession.zutaten.push(i + 1, pizza[i]);
             }
             alexasession.preis = pizza.preis;
           } else {
