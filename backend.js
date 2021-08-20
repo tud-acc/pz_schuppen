@@ -500,7 +500,7 @@ app.post("/alexa.js", function (req, res) {
 
   var zustand = 1;
 
-  let data = {
+  let outp = {
     response: {
       response: {
         outputSpeech: {
