@@ -744,16 +744,13 @@ function removeNull(array) {
 }
 
 async function getBasispizzen() {
-  let result = "";
+  let result = [];
   let pizzen = await conn.query("SELECT name FROM pizza");
   console.log(pizzen);
-  console.log(pizzen[1].name);
-  for (let pizza in pizzen) {
-    result += pizza[0].name + ",";
+  for (let i = 0; i < Object.keys(pizzen).length; i++) {
+    result[i] = pizzen[i].name;
   }
-
-  console.log(result);
-  return result.split(",");
+  return result;
 }
 
 async function getBasispizza(pizzaname) {
