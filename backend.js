@@ -566,7 +566,9 @@ app.post("/alexa.js", function (req, res) {
           alexasession.pizzaname = alexa.request.intent.slots.pizzaname.value;
           let basispizzen = await getBasispizzen();
           alexasession.data.response.outputSpeech.text =
-            "Name wurde erfolgreich übernommen. Bitte wähle eine Basispizza aus. Es gibt folgende Basispizzen: " +
+            "Dein Pizzaname " +
+            alexasession.pizzaname +
+            " wurde erfolgreich aufgenommen. Bitte wähle eine Basispizza aus. Es gibt folgende Basispizzen: " +
             basispizzen.join();
           alexasession.zustand++;
           break;
@@ -744,9 +746,11 @@ function removeNull(array) {
 async function getBasispizzen() {
   let result = "";
   let pizzen = await conn.query("SELECT name FROM pizza");
+  console.log(pizzen);
   for (let pizza in pizzen) {
     result += pizza.name + ",";
   }
+  console.log(result);
   return result.split(",");
 }
 
