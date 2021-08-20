@@ -578,7 +578,8 @@ app.post("/alexa.js", function (req, res) {
 
           let bp = Array.from(getBasispizzen());
           console.log(bp);
-          if (bp.includes(basispizza)) {
+          // arrhaystack.indexOf(needle) > -1
+          if (bp.indexOf(basispizza) > -1) {
             alexasession.data.response.outputSpeech.text =
               "Du hast die Basispizza " +
               basispizza +
