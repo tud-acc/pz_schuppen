@@ -525,7 +525,7 @@ app.post("/alexa.js", function (req, res) {
         zutaten: [],
         preis: 0,
 
-        response: {
+        data: {
           response: {
             outputSpeech: {
               text:
@@ -549,13 +549,13 @@ app.post("/alexa.js", function (req, res) {
           ) {
             // bestellid bekannt
             console.log("Bestellid ok");
-            alexasession.response.response.outputSpeech.text =
+            alexasession.data.response.outputSpeech.text =
               "Der Bestellcode ist gültig. Bitte gib deiner Pizza einen Namen, damit du sie in der Bestellung wiederfindest";
             alexasession.zustand++;
           } else {
             // bestellid nicht bekannt
             console.log("Bestellid nicht ok");
-            alexasession.response.response.outputSpeech.text =
+            alexasession.data.response.outputSpeech.text =
               "Der Bestellcode ist ungültig. Bitte nenne mir einen gültigen Bestellcode.";
           }
           break;
@@ -594,7 +594,7 @@ app.post("/alexa.js", function (req, res) {
     } //- end else
 
     // schreibe output
-    let out = JSON.stringify(cache.get(alexa.session.sessionId).response);
+    let out = JSON.stringify(cache.get(alexa.session.sessionId).data);
     res.write(JSON.stringify(out));
     res.end();
   });
