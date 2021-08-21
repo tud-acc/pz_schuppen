@@ -804,7 +804,7 @@ function sendTestMail(bestell_id) {
   mailtext += "Gesammtpreis: " + bestellung.preis + " €";
 
   // baue email
-  envelope.to = bestellung.email;
+  //envelope.to = bestellung.email;
   envelope.text = mailtext;
 
   // Sende Email
