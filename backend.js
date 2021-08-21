@@ -786,39 +786,26 @@ function sendTestMail(bestell_id) {
     from: '"mypizza" <mypizza.ibsprojekt@gmail.com>', // absender Adresse
     to: "mypizza.ibsprojekt@gmail.com", // empfänger -> email des angemeldeten Users
     subject: "MyPizza - Deine Bestellung", // Betreffzeile
-    text: "Test vom IBS-node Server :)", // plain text body
-    html: "<b>Test vom IBS-node Server :)</b>" // html body
+    text: "Test vom IBS-node Server :)" // plain text body
+    //html: "<b>Test vom IBS-node Server :)</b>" // html body
   };
 
   let bestellung = cache.get(bestell_id);
 
-  // baue html dokument:
-  let htmlmail = document.implementation.createHTMLDocument();
-  htmlmail.createElement("h1").innerText = "Deine Bestellung";
-  let pizzanode = htmlmail.createElement("div");
-  let preisnode = htmlmail.createElement("div");
+  let mailtext = "Deine Bestellung \n\n";
 
   //liste alle Pizzen auf:
   for (let i = 0; i < Object.keys(bestellung.pizzen).length; i++) {
-    let pd = htmlmail.createElement("div");
-    let ps = htmlmail.createElement("span");
-    ps.innerText =
-      bestellung.pizzen[i].name + "   |" + bestellung.pizzen[i].preis + " €";
-    pd.appendChild(ps);
-    pizzanode.appendChild(pd);
+    mailtext +=
+      bestellung.pizzen[i].name + "   |" + bestellung.pizzen[i].preis + " €\n";
   }
-  htmlmail.appendChild(pizzanode);
-  htmlmail.appendChild(htmlmail.createElement("hr"));
 
-  let preissp = htmlmail.createElement("span");
-  preissp.innerText = "Gesammtpreis: " + bestellung.preis + " €";
-  preisnode.appendChild(preissp);
-
-  htmlmail.appendChild(preisnode);
+  mailtext += "---------------------------";
+  mailtext += "Gesammtpreis: " + bestellung.preis + " €";
 
   // baue email
   envelope.to = bestellung.email;
-  envelope.html = htmlmail;
+  envelope.text = mailtext;
 
   // Sende Email
   transporter
