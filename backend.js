@@ -785,10 +785,9 @@ function sendTestMail() {
     .sendMail({
       from: '"mypizza" <mypizza.ibsprojekt@gmail.com>', // sender address
       to: "mypizza.ibsprojekt@gmail.com", // list of receivers
-      subject: "test ✔", // Subject line
-      text: "There is a new article. It's about sending emails, check it out!", // plain text body
-      html:
-        "<b>There is a new article. It's about sending emails, check it out!</b>" // html body
+      subject: "MyPizza - Test ✔", // Subject line
+      text: "Test vom IBS-node Server :)", // plain text body
+      html: "<b>Test vom IBS-node Server :)</b>" // html body
     })
     .then((info) => {
       console.log({ info });
