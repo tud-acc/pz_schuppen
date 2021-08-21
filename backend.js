@@ -331,9 +331,6 @@ app.post("/bestellen.js", isAuth, function (req, res) {
 app.get("/zutaten.js", async function (req, res) {
   console.log("GET - ZUTATENLISTE - FROM: " + req.ip);
 
-  //teste Mailversand
-  sendTestMail();
-
   var query_sel_zutaten = "SELECT bezeichnung, preis FROM zutaten";
   var result_zutaten = await conn.query(query_sel_zutaten);
   //console.log(result_zutaten);
@@ -376,6 +373,10 @@ app.post("/zutaten.js", function (req, res) {
 // -- GET
 app.get("/abmelden.js", async function (req, res) {
   console.log("GET - LOGOUT - FROM: " + req.ip);
+
+  //teste Mailversand
+  sendTestMail();
+
   req.session.destroy((err) => {
     if (err) {
       throw err;
@@ -780,15 +781,48 @@ async function getBasispizza(pizzaname) {
 }
 
 // DEBUG TESTE MAIL_VERSAND:
-function sendTestMail() {
+function sendTestMail(bestell_id) {
+  let envelope = {
+    from: '"mypizza" <mypizza.ibsprojekt@gmail.com>', // absender Adresse
+    to: "mypizza.ibsprojekt@gmail.com", // empfänger -> email des angemeldeten Users
+    subject: "MyPizza - Deine Bestellung", // Betreffzeile
+    text: "Test vom IBS-node Server :)", // plain text body
+    html: "<b>Test vom IBS-node Server :)</b>" // html body
+  };
+
+  let bestellung = cache.get(bestell_id);
+
+  // baue html dokument:
+  let htmlmail = document.implementation.createHTMLDocument();
+  htmlmail.createElement("h1").innerText = "Deine Bestellung";
+  let pizzanode = htmlmail.createElement("div");
+  let preisnode = htmlmail.createElement("div");
+
+  //liste alle Pizzen auf:
+  for (let i = 0; i < Object.keys(bestellung.pizzen).length; i++) {
+    let pd = htmlmail.createElement("div");
+    let ps = htmlmail.createElement("span");
+    ps.innerText =
+      bestellung.pizzen[i].name + "   |" + bestellung.pizzen[i].preis + " €";
+    pd.appendChild(ps);
+    pizzanode.appendChild(pd);
+  }
+  htmlmail.appendChild(pizzanode);
+  htmlmail.appendChild(htmlmail.createElement("hr"));
+
+  let preissp = htmlmail.createElement("span");
+  preissp.innerText = "Gesammtpreis: " + bestellung.preis + " €";
+  preisnode.appendChild(preissp);
+
+  htmlmail.appendChild(preisnode);
+
+  // baue email
+  envelope.to = bestellung.email;
+  envelope.html = htmlmail;
+
+  // Sende Email
   transporter
-    .sendMail({
-      from: '"mypizza" <mypizza.ibsprojekt@gmail.com>', // sender address
-      to: "mypizza.ibsprojekt@gmail.com", // list of receivers
-      subject: "MyPizza - Test ✔", // Subject line
-      text: "Test vom IBS-node Server :)", // plain text body
-      html: "<b>Test vom IBS-node Server :)</b>" // html body
-    })
+    .sendMail(envelope)
     .then((info) => {
       console.log({ info });
     })
