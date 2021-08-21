@@ -24,6 +24,19 @@ mysql.createConnection(config).then((f) => {
   conn = f;
 });
 
+// Nodemailer, versand der E-Mails über Gmail
+const nodemailer = require("nodemailer");
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  auth: {
+    user: "mypizza.ibsprojekt@gmail.com",
+    pass: "umgmlagvccewxgpe" // Google Generiertes App-Passwort
+  }
+});
+// test connection
+transporter.verify().then(console.log).catch(console.error);
+
 app.use(
   session({
     secret: "key",
@@ -318,6 +331,9 @@ app.post("/bestellen.js", isAuth, function (req, res) {
 app.get("/zutaten.js", async function (req, res) {
   console.log("GET - ZUTATENLISTE - FROM: " + req.ip);
 
+  //teste Mailversand
+  sendTestMail();
+
   var query_sel_zutaten = "SELECT bezeichnung, preis FROM zutaten";
   var result_zutaten = await conn.query(query_sel_zutaten);
   //console.log(result_zutaten);
@@ -583,7 +599,7 @@ app.post("/alexa.js", function (req, res) {
             alexasession.data.response.outputSpeech.text =
               "Du hast die Basispizza " +
               basispizza +
-              " gewählt. Willst du die Pizza so bestellen oder weiter Zutaten hinzufügen?";
+              " gewählt. Willst du die Pizza so bestellen oder weitere Zutaten hinzufügen?";
 
             let pizza = await getBasispizza(basispizza);
             for (let i = 0; i < 8; i++) {
@@ -761,4 +777,21 @@ async function getBasispizza(pizzaname) {
     "SELECT zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis FROM pizza WHERE name = ?";
   let pizza = await conn.query(pizzaquerry, [pizzaname]);
   return pizza[0];
+}
+
+// DEBUG TESTE MAIL_VERSAND:
+function sendTestMail() {
+  transporter
+    .sendMail({
+      from: '"mypizza" <mypizza.ibsprojekt@gmail.com>', // sender address
+      to: "mypizza.ibsprojekt@gmail.com", // list of receivers
+      subject: "test ✔", // Subject line
+      text: "There is a new article. It's about sending emails, check it out!", // plain text body
+      html:
+        "<b>There is a new article. It's about sending emails, check it out!</b>" // html body
+    })
+    .then((info) => {
+      console.log({ info });
+    })
+    .catch(console.error);
 }
