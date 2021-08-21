@@ -791,7 +791,6 @@ function sendTestMail(bestell_id) {
   };
 
   let bestellung = cache.get(bestell_id);
-
   let mailtext = "Deine Bestellung \n\n";
 
   //liste alle Pizzen auf:
@@ -800,8 +799,8 @@ function sendTestMail(bestell_id) {
       bestellung.pizzen[i].name + "   |" + bestellung.pizzen[i].preis + " €\n";
   }
 
-  mailtext += "---------------------------";
-  mailtext += "Gesammtpreis: " + bestellung.preis + " €";
+  mailtext += "---------------------------\n";
+  mailtext += "Gesammtpreis: " + bestellung.gesamtpreis + " €";
 
   // baue email
   //envelope.to = bestellung.email;
