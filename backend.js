@@ -375,7 +375,7 @@ app.get("/abmelden.js", async function (req, res) {
   console.log("GET - LOGOUT - FROM: " + req.ip);
 
   //teste Mailversand
-  sendTestMail();
+  sendTestMail(123);
 
   req.session.destroy((err) => {
     if (err) {
