@@ -621,14 +621,14 @@ app.post("/alexa.js", function (req, res) {
         case 4: // auswertung -> weitere zutaten oder pizza zur bestellung hinzufügen
           var drittens = alexa.request.intent.slots.drittens.value;
           console.log(drittens);
-          if (drittens === "Extra Zutaten" || drittens === "Mehr Zutaten") {
+          if (drittens === "extra zutaten" || drittens === "mehr zutaten") {
             alexasession.data.response.outputSpeech.text =
               "Nenne mir deine Extra Zutaten, welche du bestellen willst.Du kannst jederzeit Zutatenliste sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
             alexasession.zustand = 7;
           } else if (
-            drittens === "Fertig" ||
-            drittens === "Bestellung Okay" ||
-            drittens === "Bestellung OK"
+            drittens === "fertig" ||
+            drittens === "bestellung okay" ||
+            drittens === "bestellung ok"
           ) {
             alexasession.data.response.outputSpeech.text =
               "Du hast eine Pizza mit den folgenden Zutaten ausgewählt: " +
