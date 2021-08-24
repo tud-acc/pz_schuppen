@@ -644,14 +644,16 @@ app.post("/alexa.js", function (req, res) {
           let answer = alexa.request.intent.slots.ifuenftens.value;
           if (answer === "hinzufuegen" || answer === "hinzufügen") {
             // pizza in bestellsession hinzufügen und mqtt publishen
+          } else {
+            alexasession.zustand = 7;
           }
 
           break;
 
         case 6:
-          let allezutaten = getAlleZutaten();
+          let allezutaten = await getAlleZutaten();
           alexasession.data.response.outputSpeech.text = allezutaten;
-
+          alexasession.zustand = 7;
           break;
         case 7:
           var viertens = alexa.request.intent.slots.iviertens.value;
