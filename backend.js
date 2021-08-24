@@ -544,7 +544,7 @@ app.post("/alexa.js", function (req, res) {
         pizzaname: "",
         zutaten: [],
         preis: 0,
-        //
+
         data: {
           response: {
             outputSpeech: {
@@ -573,7 +573,7 @@ app.post("/alexa.js", function (req, res) {
               alexa.request.intent.slots.bestellcode.value;
             alexasession.data.response.outputSpeech.text =
               "Der Bestellcode ist gültig. Bitte gib deiner Pizza einen Namen, damit du sie in der Bestellung wiederfindest";
-            alexasession.zustand++;
+            alexasession.zustand = 2;
           } else {
             // bestellid nicht bekannt
             console.log("Bestellid nicht ok");
@@ -590,7 +590,7 @@ app.post("/alexa.js", function (req, res) {
             alexasession.pizzaname +
             " wurde erfolgreich aufgenommen. Bitte wähle eine Basispizza aus. Es gibt folgende Basispizzen: " +
             basispizzen.join();
-          alexasession.zustand++;
+          alexasession.zustand = 3;
           break;
 
         case 3: // basispizza prüfen
@@ -602,14 +602,14 @@ app.post("/alexa.js", function (req, res) {
             alexasession.data.response.outputSpeech.text =
               "Du hast die Basispizza " +
               basispizza +
-              " gewählt. Willst du die Pizza so bestellen oder weitere Zutaten hinzufügen?";
+              " gewählt. Sage mir, ob du die Pizza so bestellen oder weitere Zutaten hinzufügen willst";
 
             let pizza = await getBasispizza(basispizza);
             for (let i = 0; i < 8; i++) {
               alexasession.zutaten.push(i + 1, pizza[i]);
             }
             alexasession.preis = pizza.preis;
-            alexasession.zustand++;
+            alexasession.zustand = 4;
           } else {
             let basispizzen = await getBasispizzen();
             alexasession.data.response.outputSpeech.text =
@@ -619,53 +619,78 @@ app.post("/alexa.js", function (req, res) {
 
           break;
         case 4: // auswertung -> weitere zutaten oder pizza zur bestellung hinzufügen
-          var drittens = alexa.request.intent.slots.drittens.value;
-          console.log(drittens);
-          if (drittens === "extra zutaten" || drittens === "mehr zutaten") {
+          var viertens = alexa.request.intent.slots.iviertens.value;
+          console.log(viertens);
+          if (viertens === "extra zutaten" || viertens === "mehr zutaten") {
             alexasession.data.response.outputSpeech.text =
               "Nenne mir deine Extra Zutaten, welche du bestellen willst.Du kannst jederzeit Zutatenliste sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
             alexasession.zustand = 7;
-          } else if (
-            drittens === "fertig" ||
-            drittens === "bestellung okay" ||
-            drittens === "bestellung ok"
-          ) {
+          } else if (viertens === "bestellung") {
             alexasession.data.response.outputSpeech.text =
               "Du hast eine Pizza mit den folgenden Zutaten ausgewählt: " +
-              getZutatenBezeichnung(alexasession.zutaten) +
+              (await getZutatenBezeichnung(alexasession.zutaten)) +
               " Möchtest du Sie so zur Bestellung hinzufügen?";
             alexasession.zustand = 5;
           } else {
             alexasession.data.response.outputSpeech.text =
-              "Das habe ich leider nicht verstanden. Bitte sage Bestellung Okay oder extra Zutaten.";
+              "Das habe ich leider nicht verstanden. Bitte sage Bestellung Okay oder ich möchte extra Zutaten.";
           }
           break;
 
         case 5: // -> pizza hinzufügen (mqtt) oder weiter bearbeiten
-          let answer = alexa.request.intent.slots.ifuenftens.value;
-          if (answer === "hinzufuegen" || answer === "hinzufügen") {
+          let fuenftens = alexa.request.intent.slots.ifuenftens.value;
+          if (
+            fuenftens === "hinzufuegen" ||
+            fuenftens === "hinzufügen" ||
+            fuenftens === "passt"
+          ) {
             // pizza in bestellsession hinzufügen und mqtt publishen
-          } else {
+            alexaPizzaHinzufügen(
+              alexasession.bestellcode,
+              alexasession.pizzaname,
+              alexasession.preis,
+              alexasession.zutaten
+            );
+
+            alexasession.zustand = 9;
+            alexasession.data.response.outputSpeech.text =
+              "Die Pizza wurde zur Bestellung hinzugefügt. Möchtest du eine weitere Pizza zusammenstellen oder Beenden?";
+          } else if (
+            fuenftens === "ändern" ||
+            fuenftens === "anpassen" ||
+            fuenftens === "anders belegen" ||
+            fuenftens === "ändere"
+          ) {
             alexasession.zustand = 7;
+            alexasession.data.res.outputSpeech.text =
+              "Nenne mir deine Extra Zutaten, welche du bestellen willst.Du kannst jederzeit Zutatenliste sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
+          } else if (fuenftens === "zutaten" || fuenftens === "zutat") {
+            alexasession.data.res.outputSpeech.text =
+              "Du hast eine Pizza mit den folgenden Zutaten ausgewählt: " +
+              (await getZutatenBezeichnung(alexasession.zutaten)) +
+              " Möchtest du Sie so zur Bestellung hinzufügen?";
+          } else {
+            alexasession.data.response.outputSpeech.text =
+              "Das habe ich icht verstanden. Bitte sage Pizza ändern oder hinzufügen oder Bestellung ändern oder hinzufügen, oder die Zutaten vorlesen.";
           }
 
           break;
 
         case 6:
-          let allezutaten = await getAlleZutaten();
-          alexasession.data.response.outputSpeech.text = allezutaten;
-          alexasession.zustand = 7;
+          //Do nothing
           break;
         case 7:
-          var viertens = alexa.request.intent.slots.iviertens.value;
+          var siebtens = alexa.request.intent.slots.isiebtens.value;
           if (
-            viertens === "Was ist auf meiner Pizza drauf" ||
-            viertens === "Zutaten vorlesen" ||
-            viertens === "Aktuelle Zutaten vorlesen"
+            siebtens === "Was ist auf meiner Pizza drauf" ||
+            siebtens === "Zutaten vorlesen" ||
+            siebtens === "Aktuelle Zutaten vorlesen"
           ) {
-          } else if (viertens === "Bestellung abschließen") {
-          } else if (viertens === "Zutatenliste") {
-          } else if (viertens.includes()) {
+          } else if (siebtens === "Bestellung abschließen") {
+          } else if (siebtens === "Zutatenliste") {
+            let allezutaten = await getAlleZutaten();
+            alexasession.data.response.outputSpeech.text = allezutaten;
+          } else if (siebtens.includes()) {
           } else {
             alexasession.data.response.outputSpeech.text =
               "Das habe ich leider nicht verstanden. Bitte sage Zutaten vorlesen oder Bestellung abschließen oder Zutatenliste oder nenne eine Zutate, welche zusätzlich auf deine Pizza gelegt werden soll";
@@ -673,14 +698,23 @@ app.post("/alexa.js", function (req, res) {
 
           break;
         case 8:
+          //Do nothing
           break;
-
         case 9:
+          var neuntens = alexa.request.intent.slots.ineuntens.value;
+          if (neuntens === "bestellen" || neuntens === "erstellen") {
+            alexasession.data.response.outputSpeech.text =
+              "Bitte gib deiner Pizza einen Namen, damit du sie in der Bestellung wiederfindest";
+            alexasession.zustand = 2;
+          } else if (neuntens === "beenden" || neuntens === "abschließen") {
+            alexasession.data.response.outputSpeech.text =
+              "Vielen Dank, deine Pizza wird in der Bestellung mit der ID " +
+              alexasession.bestellcode +
+              "geliefert. Bis zum nächsten mal.";
+            alexasession.zustand = 1;
+            alexasession.data.shouldEndSession = true;
+          }
           break;
-
-        case 10:
-          break;
-
         default:
           //default nötig
           break;
@@ -843,6 +877,16 @@ async function getZutatenBezeichnung(pizzazutaten) {
   return zutaten;
 }
 
+// hole zutaten-id passend zu zutatenname
+async function getZutatId(bezeichnung) {
+  let zutatenquery = "SELECT zid FROM zutaten WHERE bezeichnung = ?";
+  let result = await conn.query(zutatenquery, [bezeichnung]);
+  if (result.length < 1) {
+    return -1; // zutat nicht existent
+  }
+  return result[0].zid; // return zutat-id
+}
+
 async function getAlleZutaten() {
   var allezutaten = "";
   var allezutatenquery = "SELECT bezeichnung FROM zutaten";
@@ -855,6 +899,32 @@ async function getAlleZutaten() {
     allezutaten += allezutatenreqult[i].bezeichnung + ", ";
   }
   return allezutaten;
+}
+
+// Alexa-pizza zu bestellung hinzufügen und per mqtt publishen
+async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
+  var response = { rc: 0, preis: 0 };
+  let bestellsession = cache.get(bestellid);
+  let pizza = {
+    name: pname,
+    preis: 0
+  };
+  // zutaten hinzufügen
+  for (let i = 1; i <= zutaten.length; i++) {
+    pizza["zutat" + i] = zutaten[i];
+  }
+
+  let preis = calcPizzaPreis(pizza);
+
+  bestellsession.pizzen.push(pizza);
+  bestellsession.gesamtpreis += Number(preis);
+
+  response.preis = bestellsession.gesamtpreis;
+  response.pizzen = bestellsession.pizzen;
+
+  cache.put(bestellid, bestellsession, 3600000);
+  // sende response an alle subscriber der bestellung mit bestellid
+  mqttclient.publish("pizza/orders/" + bestellid, JSON.stringify(response));
 }
 
 //-------------- EMail versenden
