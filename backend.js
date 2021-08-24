@@ -638,11 +638,11 @@ app.post("/alexa.js", function (req, res) {
           break;
 
         case 5: // -> pizza hinzufügen (mqtt) oder weiter bearbeiten
-          let fuenftens = alexa.request.intent.slots.ifuenftens.value;
+          let auswahl = alexa.request.intent.slots.auswahl.value;
           if (
-            fuenftens === "hinzufuegen" ||
-            fuenftens === "hinzufügen" ||
-            fuenftens === "passt"
+            auswahl === "hinzufuegen" ||
+            auswahl === "hinzufügen" ||
+            auswahl === "passt"
           ) {
             // pizza in bestellsession hinzufügen und mqtt publishen
             alexaPizzaHinzufügen(
@@ -656,15 +656,15 @@ app.post("/alexa.js", function (req, res) {
             alexasession.data.response.outputSpeech.text =
               "Die Pizza wurde zur Bestellung hinzugefügt. Möchtest du eine weitere Pizza zusammenstellen oder Beenden?";
           } else if (
-            fuenftens === "ändern" ||
-            fuenftens === "anpassen" ||
-            fuenftens === "anders belegen" ||
-            fuenftens === "ändere"
+            auswahl === "ändern" ||
+            auswahl === "anpassen" ||
+            auswahl === "anders belegen" ||
+            auswahl === "ändere"
           ) {
             alexasession.zustand = 7;
             alexasession.data.res.outputSpeech.text =
               "Nenne mir deine Extra Zutaten, welche du bestellen willst.Du kannst jederzeit Zutatenliste sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
-          } else if (fuenftens === "zutaten" || fuenftens === "zutat") {
+          } else if (auswahl === "zutaten" || auswahl === "zutat") {
             alexasession.data.res.outputSpeech.text =
               "Du hast eine Pizza mit den folgenden Zutaten ausgewählt: " +
               (await getZutatenBezeichnung(alexasession.zutaten)) +
@@ -680,17 +680,17 @@ app.post("/alexa.js", function (req, res) {
           //Do nothing
           break;
         case 7:
-          var siebtens = alexa.request.intent.slots.isiebtens.value;
+          let auswahl2 = alexa.request.intent.slots.auswahl.value;
           if (
-            siebtens === "Was ist auf meiner Pizza drauf" ||
-            siebtens === "Zutaten vorlesen" ||
-            siebtens === "Aktuelle Zutaten vorlesen"
+            auswahl2 === "Was ist auf meiner Pizza drauf" ||
+            auswahl2 === "Zutaten vorlesen" ||
+            auswahl2 === "Aktuelle Zutaten vorlesen"
           ) {
-          } else if (siebtens === "Bestellung abschließen") {
-          } else if (siebtens === "Zutatenliste") {
+          } else if (auswahl2 === "Bestellung abschließen") {
+          } else if (auswahl2 === "Zutatenliste") {
             let allezutaten = await getAlleZutaten();
             alexasession.data.response.outputSpeech.text = allezutaten;
-          } else if (siebtens.includes()) {
+          } else if (auswahl2.includes()) {
           } else {
             alexasession.data.response.outputSpeech.text =
               "Das habe ich leider nicht verstanden. Bitte sage Zutaten vorlesen oder Bestellung abschließen oder Zutatenliste oder nenne eine Zutate, welche zusätzlich auf deine Pizza gelegt werden soll";
