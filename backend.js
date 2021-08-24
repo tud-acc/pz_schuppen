@@ -61,6 +61,8 @@ app.get("/node.js", function (req, res) {
     console.log(req.session.test1);
   }
 
+  console.log(getAlleZutaten());
+
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
   var data = { test_id: "123456" };
@@ -595,7 +597,6 @@ app.post("/alexa.js", function (req, res) {
 
           let bp = Array.from(await getBasispizzen());
           console.log(bp);
-          // arrhaystack.indexOf(needle) > -1
           if (bp.indexOf(basispizza) > -1) {
             alexasession.data.response.outputSpeech.text =
               "Du hast die Basispizza " +
@@ -607,26 +608,66 @@ app.post("/alexa.js", function (req, res) {
               alexasession.zutaten.push(i + 1, pizza[i]);
             }
             alexasession.preis = pizza.preis;
+            alexasession.zustand++;
           } else {
             let basispizzen = await getBasispizzen();
             alexasession.data.response.outputSpeech.text =
               "Die Basispizza konnte nicht verstanden werden. Bitte nenne erneut eine gültige Basispizza. Es gibt folgende Basispizzen: " +
               basispizzen.join();
           }
+
+          break;
+        case 4: // auswertung -> weitere zutaten oder pizza zur bestellung hinzufügen
+          var drittens = alexa.request.intent.slots.idrittens.value;
+          if (drittens === "Extra Zutaten" || drittens === "Mehr Zutaten") {
+            alexasession.data.response.outputSpeech.text =
+              "Nenne mir deine Extra Zutaten, welche du bestellen willst.Du kannst jederzeit Zutatenliste sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
+            alexasession.zustand = 7;
+          } else if (
+            drittens === "Fertig" ||
+            drittens === "Bestellung Okay" ||
+            drittens === "Bestellung OK"
+          ) {
+            alexasession.data.response.outputSpeech.text =
+              "Du hast eine Pizza mit den folgenden Zutaten ausgewählt: " +
+              getZutatenBezeichnung(alexasession.zutaten) +
+              " Möchtest du Sie so zur Bestellung hinzufügen?";
+            alexasession.zustand = 5;
+          } else {
+            alexasession.data.response.outputSpeech.text =
+              "Das habe ich leider nicht verstanden. Bitte sage Bestellung Okay oder extra Zutaten.";
+          }
           break;
 
-        case 4: //
-          break;
+        case 5: // -> pizza hinzufügen (mqtt) oder weiter bearbeiten
+          let answer = alexa.request.intent.slots.ifuenftens.value;
+          if (answer === "hinzufuegen" || answer === "hinzufügen") {
+            // pizza in bestellsession hinzufügen und mqtt publishen
+          }
 
-        case 5:
           break;
 
         case 6:
-          break;
+          let allezutaten = getAlleZutaten();
+          alexasession.data.response.outputSpeech.text = allezutaten;
 
+          break;
         case 7:
-          break;
+          var viertens = alexa.request.intent.slots.iviertens.value;
+          if (
+            viertens === "Was ist auf meiner Pizza drauf" ||
+            viertens === "Zutaten vorlesen" ||
+            viertens === "Aktuelle Zutaten vorlesen"
+          ) {
+          } else if (viertens === "Bestellung abschließen") {
+          } else if (viertens === "Zutatenliste") {
+          } else if (viertens.includes()) {
+          } else {
+            alexasession.data.response.outputSpeech.text =
+              "Das habe ich leider nicht verstanden. Bitte sage Zutaten vorlesen oder Bestellung abschließen oder Zutatenliste oder nenne eine Zutate, welche zusätzlich auf deine Pizza gelegt werden soll";
+          }
 
+          break;
         case 8:
           break;
 
@@ -764,6 +805,7 @@ function removeNull(array) {
   return array.filter((x) => x !== null);
 }
 
+// lese alle verfügbaren Basispizzen aus der Datenbank
 async function getBasispizzen() {
   let result = [];
   let pizzen = await conn.query("SELECT name FROM pizza");
@@ -773,6 +815,7 @@ async function getBasispizzen() {
   return result;
 }
 
+// Hole basispizza (preis und zutaten aus der Datenbank)
 async function getBasispizza(pizzaname) {
   let pizzaquerry =
     "SELECT zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis FROM pizza WHERE name = ?";
@@ -780,6 +823,38 @@ async function getBasispizza(pizzaname) {
   return pizza[0];
 }
 
+// hole zutatennamen aus der Datenbank
+async function getZutatenBezeichnung(pizzazutaten) {
+  let zutaten = "Tomaten, Käse";
+  for (let i = 0; i < pizzazutaten.length; i++) {
+    if (pizzazutaten[i] !== null) {
+      let zutatenquerry = "SELECT bezeichnung FROM zutaten WHERE zid = ?";
+      let zutatenresult = await conn.query(zutatenquerry, [pizzazutaten[i]]);
+      console.log(key);
+      console.log(zutatenresult);
+      zutaten += ", " + zutatenresult[0].bezeichnung;
+    }
+  }
+
+  console.log(zutaten);
+  return zutaten;
+}
+
+async function getAlleZutaten() {
+  var allezutaten = "";
+  var allezutatenquery = "SELECT bezeichnung FROM zutaten";
+  var allezutatenreqult = await conn.query(allezutatenquery);
+
+  console.log(allezutatenreqult);
+  console.log(allezutatenreqult.length);
+
+  for (let i = 0; i < allezutatenreqult; i++) {
+    allezutaten += ", " + allezutatenreqult[0].bezeichnung;
+  }
+  return allezutaten;
+}
+
+//-------------- EMail versenden
 // DEBUG TESTE MAIL_VERSAND:
 function sendTestMail(bestell_id) {
   let envelope = {
