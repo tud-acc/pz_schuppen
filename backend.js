@@ -61,7 +61,8 @@ app.get("/node.js", function (req, res) {
     console.log(req.session.test1);
   }
 
-  console.log(getAlleZutaten());
+  var zutatentest = getAlleZutaten();
+  console.log(zutatentest);
 
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
@@ -844,14 +845,12 @@ async function getAlleZutaten() {
   var allezutatenquery = "SELECT bezeichnung FROM zutaten";
   var allezutatenreqult = await conn.query(allezutatenquery);
 
-  console.log(allezutatenreqult);
-  console.log(allezutatenreqult.length);
+  //console.log(allezutatenreqult);
+  //console.log(allezutatenreqult.length);
 
   for (let i = 0; i < allezutatenreqult.length; i++) {
     allezutaten += allezutatenreqult[i].bezeichnung + ", ";
-    console.log("loop");
   }
-  console.log(allezutaten);
   return allezutaten;
 }
 
