@@ -869,7 +869,9 @@ async function getZutatenBezeichnung(pizzazutaten) {
       let zutatenquerry = "SELECT bezeichnung FROM zutaten WHERE zid = ?";
       let zutatenresult = await conn.query(zutatenquerry, [pizzazutaten[i]]);
       console.log(zutatenresult);
-      zutaten += ", " + zutatenresult[0].bezeichnung;
+      if (zutatenresult.length > 0) {
+        zutaten += ", " + zutatenresult[0].bezeichnung;
+      }
     }
   }
 
