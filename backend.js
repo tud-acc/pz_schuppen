@@ -830,7 +830,6 @@ async function getZutatenBezeichnung(pizzazutaten) {
     if (pizzazutaten[i] !== null) {
       let zutatenquerry = "SELECT bezeichnung FROM zutaten WHERE zid = ?";
       let zutatenresult = await conn.query(zutatenquerry, [pizzazutaten[i]]);
-      console.log(key);
       console.log(zutatenresult);
       zutaten += ", " + zutatenresult[0].bezeichnung;
     }
@@ -849,7 +848,7 @@ async function getAlleZutaten() {
   console.log(allezutatenreqult.length);
 
   for (let i = 0; i < allezutatenreqult.length; i++) {
-    allezutaten += ", " + allezutatenreqult[0].bezeichnung;
+    allezutaten += allezutatenreqult[i].bezeichnung + ", ";
     console.log("loop");
   }
   console.log(allezutaten);
