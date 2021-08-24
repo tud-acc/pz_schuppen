@@ -604,6 +604,7 @@ app.post("/alexa.js", function (req, res) {
               " gewählt. Sage mir, ob du die Pizza so bestellen oder weitere Zutaten hinzufügen willst";
 
             let pizza = await getBasispizza(basispizza);
+            alexasession.zutaten = [];
             for (let i = 1; i <= 8; i++) {
               if (pizza["zutat" + i] !== null) {
                 alexasession.zutaten.push(pizza["zutat" + i]);
@@ -919,7 +920,7 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
     pizza["zutat" + i] = zutaten[i];
   }
 
-  let preis = calcPizzaPreis(pizza);
+  let preis = await calcPizzaPreis(pizza);
 
   bestellsession.pizzen.push(pizza);
   bestellsession.gesamtpreis += Number(preis);
@@ -953,7 +954,7 @@ function sendTestMail(bestell_id) {
   }
 
   mailtext += "---------------------------\n";
-  mailtext += "Gesammtpreis: " + bestellung.gesamtpreis + " €";
+  mailtext += "Gesamtpreis: " + bestellung.gesamtpreis + " €";
 
   // baue email
   //envelope.to = bestellung.email;
