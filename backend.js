@@ -629,7 +629,7 @@ app.post("/alexa.js", function (req, res) {
             viertens === "zutaten"
           ) {
             alexasession.data.response.outputSpeech.text =
-              "Nenne mir deine Extra Zutaten, welche du bestellen willst.Du kannst jederzeit Zutatenliste sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
+              "Nenne mir deine Extra Zutaten, welche du bestellen willst. Du kannst jederzeit Zutatenliste sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
             alexasession.zustand = 7;
           } else if (viertens === "bestellung" || viertens === "bestellen") {
             alexasession.data.response.outputSpeech.text =
@@ -693,13 +693,13 @@ app.post("/alexa.js", function (req, res) {
             auswahl2 === "Aktuelle Zutaten vorlesen"
           ) {
           } else if (auswahl2 === "Bestellung abschließen") {
-          } else if (auswahl2 === "Zutatenliste") {
+          } else if (auswahl2 === "zutatenliste") {
             let allezutaten = await getAlleZutaten();
             alexasession.data.response.outputSpeech.text = allezutaten;
           } else if (auswahl2.includes()) {
           } else {
             alexasession.data.response.outputSpeech.text =
-              "Das habe ich leider nicht verstanden. Bitte sage Zutaten vorlesen oder Bestellung abschließen oder Zutatenliste oder nenne eine Zutate, welche zusätzlich auf deine Pizza gelegt werden soll";
+              "Das habe ich leider nicht verstanden. Bitte sage Zutaten vorlesen oder Bestellung abschließen oder Zutatenliste oder nenne eine Zutat, welche zusätzlich auf deine Pizza gelegt werden soll";
           }
 
           break;
@@ -922,8 +922,9 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
     preis: 0
   };
   // zutaten hinzufügen
+  console.log("zutatenlenght = " + zutaten.length);
   for (let i = 1; i <= zutaten.length; i++) {
-    pizza["zutat" + i] = zutaten[i];
+    pizza["zutat " + i] = zutaten[i];
   }
 
   let preis = await calcPizzaPreis(pizza);
