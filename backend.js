@@ -922,8 +922,8 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
     preis: 0
   };
   // zutaten hinzufügen
-  console.log("zutatenlenght = " + zutaten.length);
-  for (let i = 1; i <= zutaten.length; i++) {
+  console.log("zutatenlenght = " + Object.keys(zutaten).length);
+  for (let i = 1; i <= Object.keys(zutaten).lenght; i++) {
     pizza["zutat " + i] = zutaten[i];
   }
 
