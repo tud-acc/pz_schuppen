@@ -64,9 +64,6 @@ app.get("/node.js", async function (req, res) {
   var zutatentest = await getAlleZutaten();
   console.log(zutatentest);
 
-  //
-  getBasispizza("speziale");
-
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
   var data = { test_id: "123456" };
@@ -608,8 +605,8 @@ app.post("/alexa.js", function (req, res) {
               " gewählt. Sage mir, ob du die Pizza so bestellen oder weitere Zutaten hinzufügen willst";
 
             let pizza = await getBasispizza(basispizza);
-            for (let i = 0; i < 8; i++) {
-              alexasession.zutaten.push(i + 1, pizza[i]);
+            for (let i = 1; i <= 8; i++) {
+              alexasession.zutaten.push(i, pizza["zutat" + i]);
             }
             alexasession.preis = pizza.preis;
             alexasession.zustand = 4;
