@@ -48,7 +48,7 @@ app.use(
 //-------------------------------------------------------------------------------------//
 //   MAINPAGE (INDEX)
 // -- GET
-app.get("/node.js", function (req, res) {
+app.get("/node.js", async function (req, res) {
   console.log("GET - MAINPAGE - FROM: " + req.ip);
   console.log(req.session);
   console.log(req.session.id);
@@ -61,7 +61,7 @@ app.get("/node.js", function (req, res) {
     console.log(req.session.test1);
   }
 
-  var zutatentest = getAlleZutaten();
+  var zutatentest = await getAlleZutaten();
   console.log(zutatentest);
 
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
