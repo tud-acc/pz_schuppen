@@ -850,7 +850,9 @@ async function getAlleZutaten() {
 
   for (let i = 0; i < allezutatenreqult.length; i++) {
     allezutaten += ", " + allezutatenreqult[0].bezeichnung;
+    console.log("loop");
   }
+  console.log(allezutaten);
   return allezutaten;
 }
 
