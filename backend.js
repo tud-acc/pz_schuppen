@@ -623,11 +623,15 @@ app.post("/alexa.js", function (req, res) {
         case 4: // auswertung -> weitere zutaten oder pizza zur bestellung hinzufügen
           var viertens = alexa.request.intent.slots.auswahl.value;
           console.log(viertens);
-          if (viertens === "extra zutaten" || viertens === "mehr zutaten") {
+          if (
+            viertens === "extra zutaten" ||
+            viertens === "mehr zutaten" ||
+            viertens === "zutaten"
+          ) {
             alexasession.data.response.outputSpeech.text =
               "Nenne mir deine Extra Zutaten, welche du bestellen willst.Du kannst jederzeit Zutatenliste sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
             alexasession.zustand = 7;
-          } else if (viertens === "bestellung") {
+          } else if (viertens === "bestellung" || viertens === "bestellen") {
             alexasession.data.response.outputSpeech.text =
               "Du hast eine Pizza mit den folgenden Zutaten ausgewählt: " +
               (await getZutatenBezeichnung(alexasession.zutaten)) +
