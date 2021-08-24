@@ -619,7 +619,8 @@ app.post("/alexa.js", function (req, res) {
 
           break;
         case 4: // auswertung -> weitere zutaten oder pizza zur bestellung hinzufügen
-          var drittens = alexa.request.intent.slots.idrittens.value;
+          var drittens = alexa.request.intent.slots.drittens.value;
+          console.log(drittens);
           if (drittens === "Extra Zutaten" || drittens === "Mehr Zutaten") {
             alexasession.data.response.outputSpeech.text =
               "Nenne mir deine Extra Zutaten, welche du bestellen willst.Du kannst jederzeit Zutatenliste sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
@@ -790,9 +791,9 @@ async function calcPizzaPreis(pizza) {
   var preis = 5.0;
   let zutaten = await conn.query("SELECT * FROM zutaten");
   for (let i = 1; i <= 8; i++) {
-    if (pizza["zutat" + i] != undefined) {
+    if (pizza["zutat" + i] !== undefined) {
       for (let j = 0; j < Object.keys(zutaten).length; j++) {
-        if (pizza["zutat" + i] == zutaten[j].zid) {
+        if (pizza["zutat" + i] === zutaten[j].zid) {
           preis += Number(zutaten[j].preis);
         }
       }
