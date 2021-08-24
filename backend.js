@@ -619,7 +619,7 @@ app.post("/alexa.js", function (req, res) {
 
           break;
         case 4: // auswertung -> weitere zutaten oder pizza zur bestellung hinzufügen
-          var viertens = alexa.request.intent.slots.iviertens.value;
+          var viertens = alexa.request.intent.slots.viertens.value;
           console.log(viertens);
           if (viertens === "extra zutaten" || viertens === "mehr zutaten") {
             alexasession.data.response.outputSpeech.text =
