@@ -824,6 +824,8 @@ async function onMessage(topic, message) {
 //---------------------------------
 // Helper Funktion mqtt
 async function calcPizzaPreis(pizza) {
+  console.log("calcPizzaPreis::");
+  console.log(pizza);
   var preis = 5.0;
   let zutaten = await conn.query("SELECT * FROM zutaten");
   for (let i = 1; i <= 8; i++) {
@@ -921,6 +923,7 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
   }
 
   let preis = await calcPizzaPreis(pizza);
+  pizza.preis = preis;
 
   bestellsession.pizzen.push(pizza);
   bestellsession.gesamtpreis += Number(preis);
