@@ -64,6 +64,9 @@ app.get("/node.js", async function (req, res) {
   var zutatentest = await getAlleZutaten();
   console.log(zutatentest);
 
+  //
+  getBasispizza("speziale");
+
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
   var data = { test_id: "123456" };
@@ -701,7 +704,7 @@ app.post("/alexa.js", function (req, res) {
           //Do nothing
           break;
         case 9:
-          var neuntens = alexa.request.intent.slots.ineuntens.value;
+          var neuntens = alexa.request.intent.slots.auswahl.value;
           if (neuntens === "bestellen" || neuntens === "erstellen") {
             alexasession.data.response.outputSpeech.text =
               "Bitte gib deiner Pizza einen Namen, damit du sie in der Bestellung wiederfindest";
@@ -858,6 +861,8 @@ async function getBasispizza(pizzaname) {
   let pizzaquerry =
     "SELECT zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis FROM pizza WHERE name = ?";
   let pizza = await conn.query(pizzaquerry, [pizzaname]);
+  console.log("getBasisPizza::");
+  console.log(pizza[0]);
   return pizza[0];
 }
 
