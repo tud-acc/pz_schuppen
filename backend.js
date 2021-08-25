@@ -713,7 +713,11 @@ app.post("/alexa.js", function (req, res) {
           break;
         case 9:
           var neuntens = alexa.request.intent.slots.auswahl.value;
-          if (neuntens === "bestellen" || neuntens === "erstellen") {
+          if (
+            neuntens === "bestellen" ||
+            neuntens === "erstellen" ||
+            neuntens === "zusammenstellen"
+          ) {
             alexasession.data.response.outputSpeech.text =
               "Bitte gib deiner Pizza einen Namen, damit du sie in der Bestellung wiederfindest";
             alexasession.zustand = 2;
@@ -927,7 +931,10 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
     preis: 0
   };
   // zutaten hinzufügen
-  let jzutaten = JSON.parse(zutaten);
+  let jzutaten = JSON.parse(JSON.stringify(zutaten));
+  console.log("DEBUG::: zutaten @ alexapizzahinzufügen");
+  console.log(zutaten);
+
   console.log("zutatenlenght = " + Object.keys(zutaten).length);
   console.log("zutatenlenght = " + jzutaten.length);
   for (let i = 1; i <= jzutaten.lenght; i++) {
