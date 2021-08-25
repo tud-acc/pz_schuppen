@@ -628,7 +628,7 @@ app.post("/alexa.js", function (req, res) {
             viertens === "zutaten"
           ) {
             alexasession.data.response.outputSpeech.text =
-              "Nenne mir deine Extra Zutaten, welche du bestellen willst. Du kannst jederzeit Zutatenliste sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
+              "Nenne mir deine Extra Zutaten, welche du bestellen willst. Du kannst jederzeit Zutatenliste vorlesen sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
             alexasession.zustand = 7;
           } else if (
             viertens === "bestellung" ||
@@ -694,7 +694,7 @@ app.post("/alexa.js", function (req, res) {
           let auswahl2 = alexa.request.intent.slots.auswahl.value;
           var allezutaten = await getAlleZutaten(); //returns array
           if (auswahl2 === "zutaten") {
-            alexasession.data.res.outputSpeech.text =
+            alexasession.data.response.outputSpeech.text =
               "Auf deiner Pizza befinden sich aktuell folgende Zutaten: " +
               (await getZutatenBezeichnung(alexasession.zutaten)) +
               " Nenne weitere Zutaten für deine Pizza, lass dir die Zutatenliste vorlesen oder bestelle die Pizza mit der aktuellen belegung.";
@@ -935,7 +935,7 @@ async function getAlleZutaten() {
   //console.log(allezutatenreqult.length);
 
   for (let i = 0; i < allezutatenreqult.length; i++) {
-    allezutaten.push(allezutatenreqult[i].bezeichnung);
+    allezutaten.push(allezutatenreqult[i].bezeichnung.toLowerCase());
   }
   return allezutaten;
 }
@@ -956,6 +956,8 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
   console.log("zutatenlenght = " + zutaten.length);
   for (let i = 1; i <= zutaten.lenght; i++) {
     pizza["zutat" + i] = zutaten[i];
+    console.log(pizza);
+    console.log("zutat bei i:" + i + " " + zutaten[i]);
   }
 
   console.log("DEBUG::: pizza @ alexapizzahinzufügen");
