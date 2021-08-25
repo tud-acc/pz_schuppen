@@ -179,8 +179,10 @@ function getSessionID() {
   return id;
 }
 
-var isAuth = (req, res, next) => {
+var isAuth = (req, res, next, body) => {
   if (req.session.isAuth) {
+    console.dir("Da boooty:");
+    console.dir(body);
     next();
   } else {
     console.log("Bitte erst anmelden!");
@@ -858,8 +860,6 @@ async function onMessage(topic, message) {
 //---------------------------------
 // Helper Funktion mqtt
 async function calcPizzaPreis(pizza) {
-  console.log("calcPizzaPreis::");
-  console.log(pizza);
   var preis = 5.0;
   let zutaten = await conn.query("SELECT * FROM zutaten");
   for (let i = 1; i <= 8; i++) {
@@ -896,8 +896,7 @@ async function getBasispizza(pizzaname) {
   let pizzaquerry =
     "SELECT zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis FROM pizza WHERE name = ?";
   let pizza = await conn.query(pizzaquerry, [pizzaname]);
-  console.log("getBasisPizza::");
-  console.log(pizza[0]);
+
   return pizza[0];
 }
 
@@ -908,7 +907,7 @@ async function getZutatenBezeichnung(pizzazutaten) {
     if (pizzazutaten[i] !== null) {
       let zutatenquerry = "SELECT bezeichnung FROM zutaten WHERE zid = ?";
       let zutatenresult = await conn.query(zutatenquerry, [pizzazutaten[i]]);
-      console.log(zutatenresult);
+
       if (zutatenresult.length > 0) {
         zutaten += ", " + zutatenresult[0].bezeichnung;
       }
@@ -958,13 +957,9 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
   console.log("zutatenlenght = " + zutaten.length);
   let indx = Object.keys(zutaten).length;
   for (let i = 1; i <= indx; i++) {
-    pizza["zutat" + i] = zutaten[i];
-    console.log(pizza);
-    console.log("zutat bei i:" + i + " " + zutaten[i]);
+    pizza["zutat" + i] = zutaten[i - 1];
   }
 
-  console.log("DEBUG::: pizza @ alexapizzahinzufügen");
-  console.log(pizza);
   let preis = await calcPizzaPreis(pizza);
   pizza.preis = preis;
 
