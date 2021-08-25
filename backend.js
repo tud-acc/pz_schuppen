@@ -181,8 +181,8 @@ function getSessionID() {
 
 var isAuth = (req, res, next, body) => {
   if (req.session.isAuth) {
-    console.dir("Da boooty:");
-    console.dir(body);
+    console.log("Da boooty:");
+    console.log(body);
     next();
   } else {
     console.log("Bitte erst anmelden!");
