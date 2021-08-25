@@ -720,7 +720,7 @@ app.post("/alexa.js", function (req, res) {
             alexasession.data.response.outputSpeech.text =
               " Ich habe " +
               auswahl2 +
-              " hinzugefügt. Nenne Weitere Zutaten oder sage Pizza hinzufügen.";
+              " hinzugefügt. Nenne Weitere Zutaten oder sage Pizza bestellen.";
           } else {
             alexasession.data.response.outputSpeech.text =
               "Das habe ich leider nicht verstanden. Bitte sage Zutaten vorlesen oder Bestellung abschließen oder Zutatenliste oder nenne eine Zutat, welche zusätzlich auf deine Pizza gelegt werden soll";
