@@ -633,7 +633,11 @@ app.post("/alexa.js", function (req, res) {
             alexasession.data.response.outputSpeech.text =
               "Nenne mir deine Extra Zutaten, welche du bestellen willst. Du kannst jederzeit Zutatenliste sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
             alexasession.zustand = 7;
-          } else if (viertens === "bestellung" || viertens === "bestellen") {
+          } else if (
+            viertens === "bestellung" ||
+            viertens === "bestellen" ||
+            viertens === "hinzufügen"
+          ) {
             alexasession.data.response.outputSpeech.text =
               "Du hast eine Pizza mit den folgenden Zutaten ausgewählt: " +
               (await getZutatenBezeichnung(alexasession.zutaten)) +
@@ -659,7 +663,6 @@ app.post("/alexa.js", function (req, res) {
             alexaPizzaHinzufügen(
               alexasession.bestellcode,
               alexasession.pizzaname,
-              alexasession.preis,
               alexasession.zutaten
             );
 
@@ -692,15 +695,16 @@ app.post("/alexa.js", function (req, res) {
           break;
         case 7:
           let auswahl2 = alexa.request.intent.slots.auswahl.value;
-          if (
-            auswahl2 === "Was ist auf meiner Pizza drauf" ||
-            auswahl2 === "Zutaten vorlesen" ||
-            auswahl2 === "Aktuelle Zutaten vorlesen"
-          ) {
+          if (auswahl2 === "zutaten") {
+            alexasession.data.res.outputSpeech.text =
+              "Auf deiner Pizza befinden sich aktuell folgende Zutaten: " +
+              (await getZutatenBezeichnung(alexasession.zutaten)) +
+              " Nenne weitere Zutaten für deine Pizza, lass dir die Zutatenliste vorlesen oder bestelle die Pizza mit der aktuellen belegung.";
           } else if (auswahl2 === "Bestellung abschließen") {
           } else if (auswahl2 === "zutatenliste") {
             let allezutaten = await getAlleZutaten();
-            alexasession.data.response.outputSpeech.text = allezutaten;
+            alexasession.data.response.outputSpeech.text =
+              "Folgende Zutaten sind verfügbar: " + allezutaten;
           } else if (auswahl2.includes()) {
           } else {
             alexasession.data.response.outputSpeech.text =
@@ -931,13 +935,12 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
     preis: 0
   };
   // zutaten hinzufügen
-  let jzutaten = JSON.parse(JSON.stringify(zutaten));
   console.log("DEBUG::: zutaten @ alexapizzahinzufügen");
   console.log(zutaten);
 
   console.log("zutatenlenght = " + Object.keys(zutaten).length);
-  console.log("zutatenlenght = " + jzutaten.length);
-  for (let i = 1; i <= jzutaten.lenght; i++) {
+  console.log("zutatenlenght = " + zutaten.length);
+  for (let i = 1; i <= zutaten.lenght; i++) {
     pizza["zutat " + i] = zutaten[i];
   }
 
