@@ -593,7 +593,7 @@ app.post("/alexa.js", function (req, res) {
           break;
 
         case 3: // basispizza prüfen
-          var basispizza = alexa.request.intent.slots.basispizza.value;
+          var basispizza = alexa.request.intent.slots.auswahl.value;
 
           let bp = Array.from(await getBasispizzen());
           console.log(bp);
@@ -604,6 +604,8 @@ app.post("/alexa.js", function (req, res) {
               " gewählt. Sage mir, ob du die Pizza so bestellen oder weitere Zutaten hinzufügen willst";
 
             let pizza = await getBasispizza(basispizza);
+            console.log("DEBUG:::pizza from DB");
+            console.log(pizza);
             alexasession.zutaten = [];
             for (let i = 1; i <= 8; i++) {
               if (pizza["zutat" + i] !== null) {
@@ -651,6 +653,8 @@ app.post("/alexa.js", function (req, res) {
             auswahl === "passt"
           ) {
             // pizza in bestellsession hinzufügen und mqtt publishen
+            console.log("DEBUG:::ZUTATEN");
+            console.log(alexasession.zutaten);
             alexaPizzaHinzufügen(
               alexasession.bestellcode,
               alexasession.pizzaname,
@@ -923,7 +927,8 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
   };
   // zutaten hinzufügen
   console.log("zutatenlenght = " + Object.keys(zutaten).length);
-  for (let i = 1; i <= Object.keys(zutaten).lenght; i++) {
+  console.log("zutatenlenght = " + zutaten.length);
+  for (let i = 1; i <= zutaten.lenght; i++) {
     pizza["zutat " + i] = zutaten[i];
   }
 
