@@ -705,7 +705,8 @@ app.post("/alexa.js", function (req, res) {
             auswahl2 === "bestellen" ||
             auswahl2 === "bestellung" ||
             auswahl2 === "okay" ||
-            auswahl2 === "pizza"
+            auswahl2 === "pizza" ||
+            auswahl2 === "vorle"
           ) {
             alexasession.data.response.outputSpeech.text =
               "Du hast eine Pizza mit den folgenden Zutaten ausgewählt: " +
@@ -954,8 +955,8 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
   console.log(zutaten);
 
   console.log("zutatenlenght = " + Object.keys(zutaten).length);
-  console.log("zutatenlenght = " + zutaten.length);
-  for (let i = 1; i <= zutaten.lenght; i++) {
+  let indx = zutaten.lenght;
+  for (let i = 1; i <= indx; i++) {
     pizza["zutat" + i] = zutaten[i];
     console.log(pizza);
     console.log("zutat bei i:" + i + " " + zutaten[i]);
@@ -965,6 +966,9 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
   console.log(pizza);
   let preis = await calcPizzaPreis(pizza);
   pizza.preis = preis;
+
+  let anzahl = Object.keys(bestellsession.pizzen).length;
+  pizza["bestellnr"] = Number(anzahl) + 1;
 
   bestellsession.pizzen.push(pizza);
   bestellsession.gesamtpreis += Number(preis);
