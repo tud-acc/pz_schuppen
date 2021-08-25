@@ -650,7 +650,8 @@ app.post("/alexa.js", function (req, res) {
           if (
             auswahl === "hinzufuegen" ||
             auswahl === "hinzufügen" ||
-            auswahl === "passt"
+            auswahl === "passt" ||
+            auswahl === "bestellen"
           ) {
             // pizza in bestellsession hinzufügen und mqtt publishen
             console.log("DEBUG:::ZUTATEN");
@@ -926,9 +927,10 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
     preis: 0
   };
   // zutaten hinzufügen
+  let jzutaten = JSON.parse(zutaten);
   console.log("zutatenlenght = " + Object.keys(zutaten).length);
-  console.log("zutatenlenght = " + zutaten.length);
-  for (let i = 1; i <= zutaten.lenght; i++) {
+  console.log("zutatenlenght = " + jzutaten.length);
+  for (let i = 1; i <= jzutaten.lenght; i++) {
     pizza["zutat " + i] = zutaten[i];
   }
 
