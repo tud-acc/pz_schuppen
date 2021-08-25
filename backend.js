@@ -704,7 +704,8 @@ app.post("/alexa.js", function (req, res) {
             auswahl2 === "passt" ||
             auswahl2 === "bestellen" ||
             auswahl2 === "bestellung" ||
-            auswahl2 === "okay"
+            auswahl2 === "okay" ||
+            auswahl2 === "pizza"
           ) {
             alexasession.data.response.outputSpeech.text =
               "Du hast eine Pizza mit den folgenden Zutaten ausgewählt: " +
@@ -715,11 +716,11 @@ app.post("/alexa.js", function (req, res) {
             alexasession.data.response.outputSpeech.text =
               "Folgende Zutaten sind verfügbar: " + allezutaten.join();
           } else if (allezutaten.includes(auswahl2)) {
-            alexasession.zutaten.push(getZutatId(auswahl2));
+            alexasession.zutaten.push(await getZutatId(auswahl2));
             alexasession.data.response.outputSpeech.text =
               " Ich habe " +
               auswahl2 +
-              "hinzugefügt. Nenne Weitere Zutaten oder sage Pizza hinzufügen.";
+              " hinzugefügt. Nenne Weitere Zutaten oder sage Pizza hinzufügen.";
           } else {
             alexasession.data.response.outputSpeech.text =
               "Das habe ich leider nicht verstanden. Bitte sage Zutaten vorlesen oder Bestellung abschließen oder Zutatenliste oder nenne eine Zutat, welche zusätzlich auf deine Pizza gelegt werden soll";
