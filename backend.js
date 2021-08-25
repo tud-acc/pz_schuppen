@@ -706,7 +706,7 @@ app.post("/alexa.js", function (req, res) {
             auswahl2 === "bestellung" ||
             auswahl2 === "okay" ||
             auswahl2 === "pizza" ||
-            auswahl2 === "vorle"
+            auswahl2 === "abschließen"
           ) {
             alexasession.data.response.outputSpeech.text =
               "Du hast eine Pizza mit den folgenden Zutaten ausgewählt: " +
