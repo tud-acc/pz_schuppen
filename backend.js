@@ -8,6 +8,7 @@ var app = express();
 app.set("view engine", "pug");
 app.set("views", "./pug-views");
 
+//
 // MQTT
 var mqtt = require("mqtt");
 var mqttclient;
