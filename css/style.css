@@ -133,6 +133,10 @@ input {
   margin-left: 16px;
 }
 
+.marging-top50 {
+  margin-top: 50px;
+}
+
 .logo {
   max-height: 120px;
 }
