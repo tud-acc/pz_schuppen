@@ -1151,11 +1151,14 @@ async function bestellungEintragen(bestellid) {
   console.log("Result Insert Bestellung:");
   console.log(result_insert_bestellung);
 
-  var bestellid_db = result_insert_bestellung[0].insertId;
+  var bestellid_db = result_insert_bestellung.insertId;
 
   for (let i = 0; i < Object.keys(session.pizzen).length; i++) {
     var pizzaname = session.pizzen[i].name;
     var pizzapreis = session.pizzen[i].preis;
+
+    var query_insert_pizzabestellung =
+      "INSERT INTO pizzabestellung (bestell_id, name, zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
     var result_insert_pizzabestellung = await conn.query(
       query_insert_pizzabestellung,
@@ -1174,7 +1177,7 @@ async function bestellungEintragen(bestellid) {
       ]
     );
 
-    var query_insert_pizzabestellung =
-      "INSERT INTO pizzabestellung (bestell_id, name, zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    console.log("Result insert Pizzabestellung: ");
+    console.log(result_insert_pizzabestellung);
   }
 }
