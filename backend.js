@@ -4,6 +4,8 @@ var express = require("express");
 var cache = require("memory-cache");
 var session = require("express-session");
 var Cookies = require("js-cookie");
+var dateformat = require("dateformat");
+var now = new Date();
 var app = express();
 app.set("view engine", "pug");
 app.set("views", "./pug-views");
@@ -1137,11 +1139,7 @@ async function bestellungEintragen(bestellid) {
   var query_insert_bestellung =
     "INSERT INTO bestellung (timest, kundennr, adr_id) VALUES (?,?,?)";
 
-  const unixTime = 1210981217;
-  const date = new Date(unixTime * 1000);
-  let datum = date.toLocaleDateString("en-US");
-  console.log(datum);
-  //expected: "5/16/2008"
+  var datum = dateformat(now, "YYYY-MM-DD HH:MM:SS");
 
   var result_insert_bestellung = await conn.query(query_insert_bestellung, [
     datum,
