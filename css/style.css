@@ -99,6 +99,8 @@ input {
 .menu {
   background-color: #ee7752;
   color: #fff;
+  position: absolute;
+  bottom: 0;
 }
 
 .card {
@@ -141,11 +143,10 @@ input {
   font-family: "Lucida Handwriting";
 }
 
-/*
 .headerbox {
-  max-height: 100px;
+  position: absolute;
+  bottom: 0;
 }
-*/
 
 table {
   border-collapse: collapse;
