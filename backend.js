@@ -319,29 +319,7 @@ app.post("/registrieren.js", function (req, res) {
 app.get("/bestellen.js", function (req, res) {
   console.log("GET - BESTELLEN - FROM: " + req.ip);
 
-  let body = "";
-  req.on("data", function (data) {
-    body += data;
-  });
-
-  req.on("end", function () {
-    let params = new URLSearchParams(body);
-    console.log("bestellen-- URL params: ");
-    console.log(params);
-    console.log("bestellen-- session.bestellid: ");
-    console.log(req.session.bestellid);
-
-    // wenn keine id angefragt wird, setzte bestellid von angemeldetem user
-    if (params.id === null || params.id === undefined) {
-      console.log("params.id = undefined");
-      if (req.session.isAuth) {
-        console.log("isAuth = true");
-        res.redirect("/bestellen.js/?id=" + req.session.bestellid);
-      }
-    }
-
-    res.render("bestellung");
-  });
+  res.render("bestellung");
 });
 
 // -- POST
