@@ -10,7 +10,6 @@ var app = express();
 app.set("view engine", "pug");
 app.set("views", "./pug-views");
 
-//
 // MQTT
 var mqtt = require("mqtt");
 var mqttclient;
@@ -1100,7 +1099,7 @@ async function sendTestMail(bestell_id) {
   mailhtml += "<hr> Gesamtpreis: " + bestellung.gesamtpreis + " € <br>";
 
   // baue email
-  //envelope.to = bestellung.email;
+  envelope.to = bestellung.email;
   envelope.text = mailtext;
   envelope.html = mailhtml;
 
@@ -1160,21 +1159,6 @@ async function bestellungEintragen(bestellid) {
 
     var query_insert_pizzabestellung =
       "INSERT INTO pizzabestellung (bestell_id, name, zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-
-    /*
-      var arr = [];
-
-      for (let i = 0; i < Object.keys(session.pizzen).length; i++) {
-        try{
-          if(session.pizzen[i]["zutat"+i] > 0){
-            arr[i] = session.pizzen[i]["zutat"+i]
-          }
-        }finally{
-          arr[i] = null;
-        }
-        
-      }
-    */
 
     var result_insert_pizzabestellung = await conn.query(
       query_insert_pizzabestellung,
