@@ -497,8 +497,10 @@ app.post("/bestelluebersicht.js", function (req, res) {
 
     let s = cache.get(bestid);
     // prüfe ob bestellung abgeschlossen werden soll -> sendmail true
+    // sende bestellemail und schreibe bestellung in DB
     if (sendmail === "true" && s.session_id === req.session.id) {
       sendTestMail(bestid);
+      bestellungEintragen(bestid);
       res.redirect("/node.js");
       return;
     }
@@ -1057,30 +1059,54 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
 
 //-------------- EMail versenden
 // DEBUG TESTE MAIL_VERSAND:
-function sendTestMail(bestell_id) {
+async function sendTestMail(bestell_id) {
   let envelope = {
     from: '"mypizza" <mypizza.ibsprojekt@gmail.com>', // absender Adresse
     to: "mypizza.ibsprojekt@gmail.com", // empfänger -> email des angemeldeten Users
     subject: "MyPizza - Deine Bestellung", // Betreffzeile
-    text: "Test vom IBS-node Server :)" // plain text body
-    //html: "<b>Test vom IBS-node Server :)</b>" // html body
+    text: "Test vom IBS-node Server :)", // plain text body
+    html: "<b>Test vom IBS-node Server :)</b>" // html body
   };
 
   let bestellung = cache.get(bestell_id);
   let mailtext = "Deine Bestellung \n\n";
+  let mailhtml = "<h1>Deine Bestellung</h1>";
+  mailhtml += "<h3>Lieferort:</h3>";
+
+  //Daten aus DB abfragen:
+  let kundequery =
+    "SELECT vorname, nachname, adr_id FROM kunde WHERE email = ?";
+  let kunderesult = await conn.query(kundequery, [bestellung.email]);
+  let adrquery =
+    "SELECT strasse, hausnr, plz, ort FROM adresse WHERE adr_id = ?";
+  let adrresult = await conn.query(adrquery, [kunderesult[0].adr_id]);
+
+  mailhtml += kunderesult[0].vorname + " " + kunderesult[0].nachname + "<br>";
+  mailhtml += adrresult[0].strasse + " " + adrresult[0].hausnr + "<br>";
+  mailhtml +=
+    adrresult[0].plz + " " + adrresult[0].ort + "<br><hr><h3>Pizzen:</h3>";
 
   //liste alle Pizzen auf:
   for (let i = 0; i < Object.keys(bestellung.pizzen).length; i++) {
     mailtext +=
       bestellung.pizzen[i].name + "   |" + bestellung.pizzen[i].preis + " €\n";
+
+    mailhtml +=
+      bestellung.pizzen[i].name +
+      "   | " +
+      bestellung.pizzen[i].preis +
+      " € <br>";
   }
 
   mailtext += "---------------------------\n";
   mailtext += "Gesamtpreis: " + bestellung.gesamtpreis + " €";
 
+  mailhtml += "<hr> Gesamtpreis: " + bestellung.gesamtpreis + " € <br>";
+
   // baue email
   //envelope.to = bestellung.email;
   envelope.text = mailtext;
+  envelope.html = mailhtml;
 
   // Sende Email
   transporter
@@ -1094,11 +1120,15 @@ function sendTestMail(bestell_id) {
 // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 function makeid(length) {
   var result = "";
-  var characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var characters = "abcdefghijklmnopqrstuvwxyz0123456789";
   var charactersLength = characters.length;
   for (var i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+// schreibe bestellung mit bestellid in die Datenbank
+async function bestellungEintragen(bestellid) {
+  //ToDo:
 }

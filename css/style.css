@@ -88,6 +88,8 @@ input {
   text-align: center;
   cursor: pointer;
   border-radius: 50%;
+  width: 20px;
+  height: 20px;
 }
 
 .button:hover {

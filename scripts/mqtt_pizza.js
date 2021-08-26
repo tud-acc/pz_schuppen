@@ -70,6 +70,7 @@ async function requestBestellListe() {
 
     // setze bestellid an submit input:
     document.getElementById("inpbestellid").value = bestellid;
+    document.getElementById("bestellid").innerText = bestellid;
   }
 
   console.log("funccall requestBestellListe");
