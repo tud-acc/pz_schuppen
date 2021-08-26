@@ -130,11 +130,11 @@ input {
 }
 
 .marging-left16 {
-  margin-left: 16px;
+  margin-left: 16px !important;
 }
 
 .marging-top50 {
-  margin-top: 50px;
+  margin-top: 50px !important;
 }
 
 .logo {
