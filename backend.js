@@ -1160,19 +1160,34 @@ async function bestellungEintragen(bestellid) {
     var query_insert_pizzabestellung =
       "INSERT INTO pizzabestellung (bestell_id, name, zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
+    /*
+      var arr = [];
+
+      for (let i = 0; i < Object.keys(session.pizzen).length; i++) {
+        try{
+          if(session.pizzen[i]["zutat"+i] > 0){
+            arr[i] = session.pizzen[i]["zutat"+i]
+          }
+        }finally{
+          arr[i] = null;
+        }
+        
+      }
+    */
+
     var result_insert_pizzabestellung = await conn.query(
       query_insert_pizzabestellung,
       [
         bestellid_db,
         pizzaname,
-        session.pizza[i].zutat1,
-        session.pizza[i].zutat2,
-        session.pizza[i].zutat3,
-        session.pizza[i].zutat4,
-        session.pizza[i].zutat5,
-        session.pizza[i].zutat6,
-        session.pizza[i].zutat7,
-        session.pizza[i].zutat8,
+        session.pizzen[i].zutat1,
+        session.pizzen[i].zutat2,
+        session.pizzen[i].zutat3,
+        session.pizzen[i].zutat4,
+        session.pizzen[i].zutat5,
+        session.pizzen[i].zutat6,
+        session.pizzen[i].zutat7,
+        session.pizzen[i].zutat8,
         pizzapreis
       ]
     );
