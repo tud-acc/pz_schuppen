@@ -177,3 +177,10 @@ td {
   background-color: inherit;
   text-align: center;
 }
+
+.wallpaper {
+  background-image: url("../images/pizzawp.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

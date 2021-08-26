@@ -1137,8 +1137,14 @@ async function bestellungEintragen(bestellid) {
   var query_insert_bestellung =
     "INSERT INTO bestellung (timest, kundennr, adr_id) VALUES (?,?,?)";
 
+  const unixTime = 1210981217;
+  const date = new Date(unixTime * 1000);
+  let datum = date.toLocaleDateString("en-US");
+  console.log(datum);
+  //expected: "5/16/2008"
+
   var result_insert_bestellung = await conn.query(query_insert_bestellung, [
-    Date.now(),
+    datum,
     result_userinfos[0].kundennr,
     result_userinfos[0].adr_id
   ]);

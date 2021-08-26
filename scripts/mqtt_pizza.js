@@ -1,7 +1,7 @@
 var message;
 var bestellid;
 
-async function nofuckyou() {
+async function setupMqtt() {
   message = new mqtt_fetch("pizza");
   console.log("message: " + message);
   await message.init("193.197.231.154", 1884);
