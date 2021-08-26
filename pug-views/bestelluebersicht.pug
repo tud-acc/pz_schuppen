@@ -41,6 +41,10 @@ html
       
         br
         br
-        button(class='button blue') kostenpflichtig bestellen    
+        form(method='POST')
+          input(type="hidden" name="bestellid")#inpbestellid
+          input(type="hidden" name="sendmail" value="true")#inpsendmail
+          input(type="submit" class='button blue' value="kostenpflichtig bestellen")
+        //-button(class='button blue') kostenpflichtig bestellen    
 
       

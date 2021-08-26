@@ -182,7 +182,15 @@ function getSessionID() {
 
 var isAuth = (req, res, next) => {
   if (req.session.isAuth === true) {
+    var body = "";
+    req.on("data", function (data) {
+      body += data;
+    });
+    req.on("end", function () {
+      var params = new URLSearchParams(body);
+    });
     console.log("Auth true in 185:");
+    console.log(body);
     next();
   } else {
     console.log("Bitte erst anmelden!");
