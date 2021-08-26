@@ -2,20 +2,22 @@ doctype html
 html
   head
     title Impressum
+    link(rel='stylesheet', href='css/style.css')
   body
     div(class='header')
       include header.pug
       include menu.pug
     div(class='content')
       | Ein Medieninformatik Projekt bei Prof. Dr. Bantel der HTW Aalen
-      | 
+      br
+      br
       | Studenten:
       | 79356 - Daniel Zahl
       | 79358 - Manuel Neubauer
-      | 
+      br
       | Website:
       | Bestellportal für Pizzabäckerei
-      | 
+      br
       | Funktionalitäten:
       | node.js: Server als Backend
       | pug template engine: Seitengestaltung + Modulares Menüband etc.
@@ -23,4 +25,4 @@ html
       | mariadb: Datenbank für Kundendaten, Bestellungen, Pizzen und Zutaten
       | nginx: Webserver mit fastcgi-weiterleitung, letsencrypt zertifikat für alexa als backend
       | alexa: Bestellung per Amazon Alexa mit Sprachbefehlen
-      | 
+      br

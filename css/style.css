@@ -81,15 +81,15 @@ input {
 .btnmin {
   border: none;
   display: inline-block;
-  padding: 4px;
+  padding: 2px;
   text-decoration: none;
   color: inherit;
   background-color: inherit;
   text-align: center;
   cursor: pointer;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 }
 
 .button:hover {
