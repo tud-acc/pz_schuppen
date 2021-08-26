@@ -101,6 +101,7 @@ input {
   color: #fff;
   position: absolute;
   bottom: 0;
+  width: 100%;
 }
 
 .card {
@@ -133,13 +134,13 @@ input {
 }
 
 .logo {
-  max-height: 50px;
+  max-height: 120px;
 }
 
 .brandname {
   /* background-color: #ebe8e1; */
   color: #000000;
-  font-size: 30px;
+  font-size: 48px;
   font-family: "Lucida Handwriting";
 }
 
