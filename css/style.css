@@ -166,7 +166,7 @@ td {
   min-height: 120px;
 }
 
-#anmeldespan {
+.anmeldespan {
   border: none;
   display: inline-block;
   padding: 8px 16px;
