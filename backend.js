@@ -324,16 +324,24 @@ app.get("/bestellen.js", function (req, res) {
 // -- POST
 app.post("/bestellen.js", function (req, res) {
   console.log("POST - BESTELLEN - FROM: " + req.ip);
-  
 
-  // wenn keine id angefragt wird, setzte bestellid von angemeldetem user
-  if (req.query.id === null || req.query.id === undefined) {
-    if (req.session.isAuth) {
-      res.redirect("/bestellen.js?id=" + req.session.bestellid);
+  let body = "";
+  req.on("data", function (data) {
+    body += data;
+  });
+
+  req.on("end", function () {
+    let params = new URLSearchParams(body);
+
+    // wenn keine id angefragt wird, setzte bestellid von angemeldetem user
+    if (params === null || params === undefined) {
+      if (req.session.isAuth) {
+        res.redirect("/bestellen.js?id=" + req.session.bestellid);
+      }
     }
-  }
 
-  res.render("bestellung");
+    res.render("bestellung");
+  });
 });
 
 //-------------------------------------------------------------------------------------//

@@ -24,7 +24,7 @@ async function anmeldestatus() {
     anmeldeSpan.innerText = anmeldestatus;
   } else {
     //alert("angemeldet false");
-    anmeldeSpan.innerText = status;
+    anmeldeSpan.innerText = "Nicht angemeldet";
   }
 }
 
