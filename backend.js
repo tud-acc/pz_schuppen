@@ -1,11 +1,12 @@
+//Includes
 var server = require("node-fastcgi");
-//var server = require('http');
 var express = require("express");
 var cache = require("memory-cache");
 var session = require("express-session");
-var Cookies = require("js-cookie");
 var dateformat = require("dateformat");
 var now = new Date();
+
+// express
 var app = express();
 app.set("view engine", "pug");
 app.set("views", "./pug-views");
@@ -50,36 +51,14 @@ app.use(
 //-------------------------------------------------------------------------------------//
 //   MAINPAGE (INDEX)
 // -- GET
-app.get("/node.js", async function (req, res) {
+app.get("/node.js", function (req, res) {
   console.log("GET - MAINPAGE - FROM: " + req.ip);
-  /*
-  console.log(req.session);
-  console.log(req.session.id);
-  
-  //Counter zählt, wie oft der User die Website besucht hat
-  if (req.session.test1) {
-    req.session.test1++;
-    console.dir(req.session.test1);
-  } else {
-    req.session.test1 = 1;
-    console.log(req.session.test1);
-  }
-  
-  */
-  //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-  //console.log(ip);
-  var data = { test_id: "123456" };
-
-  res.render("index", data);
+  res.render("index");
 });
 // -- POST
 app.post("/node.js", function (req, res) {
-  var body = "";
-  req.on("data", function (data) {
-    body += data;
-  });
-
   console.log("POST - MAINPAGE - FROM:" + req.ip);
+  res.render("index");
 });
 
 //-------------------------------------------------------------------------------------//
@@ -89,7 +68,7 @@ app.get("/anmelden.js", function (req, res) {
   console.log("GET - ANMELDEN - FROM:" + req.ip);
   res.render("anmelden");
 });
-// -- POST TODO: PRÜFEN UND FIXEN --> PASSWORT UNDEFINED
+// -- POST
 app.post("/anmelden.js", function (req, res) {
   console.log("POST - ANMELDEN - FROM:" + req.ip);
   var data_anmelden = {
@@ -109,30 +88,17 @@ app.post("/anmelden.js", function (req, res) {
       passwort: params.get("passwort")
     };
 
-    req.on("error", (err) => {
-      console.error(err.stack);
-    });
-
+    console.log("Angemeldet: ");
     console.log(data_anmelden);
 
     let query_login = "SELECT passwort FROM kunde WHERE email = ?";
     let result_login = await conn.query(query_login, [data_anmelden.email]);
-    console.dir(result_login);
-
-    console.dir("Erst result_login.password und dann data_anmelden.passwort:");
-    var new_result = JSON.stringify(result_login);
-    console.dir(new_result);
-    var new_result2 = JSON.parse(JSON.stringify(result_login));
-    console.dir(new_result2);
 
     if (
       Object.keys(result_login).length !== 0 &&
       result_login[0].passwort === data_anmelden.passwort
     ) {
-      // Login OK
-      console.dir("DEBUG: logindaten OK.");
-
-      // Hier müsste ja der Memory-Cache gefuellt werden
+      console.dir("Login OK");
 
       let query_userinfos =
         "SELECT vorname, nachname FROM kunde WHERE email = ?";
@@ -140,14 +106,9 @@ app.post("/anmelden.js", function (req, res) {
         data_anmelden.email
       ]);
 
-      console.dir("Result userinfos query: " + result_userinfos);
-      console.dir("Vorname: " + result_userinfos[0].vorname);
-      console.dir("Nachname: " + result_userinfos[0].nachname);
-
       var session = {
         email: data_anmelden.email,
         session_id: req.session.id,
-        session_id_kurz: "",
         gesamtpreis: 0,
         pizzen: []
       };
@@ -158,46 +119,18 @@ app.post("/anmelden.js", function (req, res) {
       req.session.nachname = result_userinfos[0].nachname;
       req.session.bestellid = makeid(6);
 
-      console.dir(session);
+      //schreibe session in den Cache
       cache.put(req.session.bestellid, session, 3600000);
-      // cache.put(jsnMessage.session.sessionId, sessionvars, 3600000);
-      // let session = cache.get(jsnMessage.session.sessionId);
 
       // Weiterleitung nach erfolgreicher Anmeldung:
       res.redirect("/node.js");
-      /*
-      res.writeHead(307, { Location: "/node.js" });
-      res.end();
-      */
     } else {
-      console.dir("Irgendwas ist schief gegangen beim ANMELDEN!");
+      // Weiterleitung nach fehlgeschlagener Anmeldung:
+      console.dir("Login fehlgeschlagen");
       res.redirect("/anmelden.js");
     }
-
-    //res.writeHead(307, { Location: "/node.js" });
-    //res.end();
   });
 });
-
-function getSessionID() {
-  var id = Math.floor(Math.random() * 100000000) + 100000000;
-
-  return id;
-}
-/*
-var isAuth = (req, res, next) => {
-  if (req.session.isAuth === true) {
-
-
-    next();
-  } else if (req.session.bestell_id) {
-    console.log("Bestell id erkannt in 198");
-  } else {
-    console.log("Bitte erst anmelden!");
-    res.redirect("/node.js");
-  }
-};
-*/
 
 //-------------------------------------------------------------------------------------//
 //    Registrieren
@@ -209,7 +142,7 @@ app.get("/registrieren.js", function (req, res) {
 
 // -- POST
 app.post("/registrieren.js", function (req, res) {
-  var data = {
+  var data_registrieren = {
     vorname: null,
     nachname: null,
     email: null,
@@ -228,7 +161,7 @@ app.post("/registrieren.js", function (req, res) {
 
   req.on("end", async function () {
     var params = new URLSearchParams(body);
-    data = {
+    data_registrieren = {
       vorname: params.get("vorname"),
       nachname: params.get("nachname"),
       email: params.get("email"),
@@ -242,7 +175,7 @@ app.post("/registrieren.js", function (req, res) {
 
     //DEBUG:
     console.dir(
-      params.get("vorname"),
+      "Neu registriert: " + params.get("vorname"),
       params.get("nachname"),
       params.get("email"),
       params.get("strasse"),
@@ -252,63 +185,44 @@ app.post("/registrieren.js", function (req, res) {
       params.get("passwort"),
       params.get("passwort_wdh")
     );
-    //console.dir(params.get('zahl1'),params.get('zahl2');
 
-    //Prepared Statements fuer DB hier danch mit den Daten aus "data"
+    var query_select_email = "SELECT * FROM kunde WHERE email = ?";
+    var result_select_email = await conn.query(query_select_email, [
+      data_registrieren.email
+    ]);
 
-    //(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
-    //https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression
-
-    // var query = connection.query('SELECT * FROM users WHERE id = ?', [userId], function(err, results)
-    var query_email = "SELECT * FROM kunde WHERE email = ?";
-
-    var result_email = await conn.query(query_email, [data.email]);
-
-    var result_data = {
-      result_email: JSON.parse(JSON.stringify(result_email))
-    };
-    //console.log(result_data);
-
-    if (Object.keys(result_email).length === 0) {
-      //schreibe hier zeugs in die db
+    if (Object.keys(result_select_email).length === 0) {
+      // Schreibe in die Datenbank
       var query_insert_adr =
         "INSERT INTO adresse (strasse, hausnr, plz, ort) VALUES (?,?,?,?)";
 
-      var result_adr = await conn.query(query_insert_adr, [
-        data.strasse,
-        data.hausnr,
-        data.plz,
-        data.ort
+      var result_insert_adr = await conn.query(query_insert_adr, [
+        data_registrieren.strasse,
+        data_registrieren.hausnr,
+        data_registrieren.plz,
+        data_registrieren.ort
       ]);
-      console.dir(result_adr);
 
       var query_insert_kunde =
         "INSERT INTO kunde (email, vorname, nachname, passwort, adr_id) VALUES(?,?,?,?,?)";
 
-      var result_kunde = await conn.query(query_insert_kunde, [
-        data.email,
-        data.vorname,
-        data.nachname,
-        data.passwort,
-        result_adr.insertId
+      var result_insert_kunde = await conn.query(query_insert_kunde, [
+        data_registrieren.email,
+        data_registrieren.vorname,
+        data_registrieren.nachname,
+        data_registrieren.passwort,
+        result_insert_adr.insertId
       ]);
 
       console.log(
         "POST - REGISTRIEREN - FROM: " + req.ip + " INSERT ERFOLGREICH"
       );
-      console.log(data);
+
       res.redirect("/node.js");
-      console.log("Nach dem redirect vom insert");
-
-      //res.writeHead(307, { Location: "/node.js" });
       res.end();
-
-      //console.dir("DEBUG: Email noch nicht vorhanden.");
     } else {
       console.dir("Error: Email schon in der DB vorhanden");
-
       console.log("POST - REGISTRIEREN - FROM: " + req.ip + " ERROR DB");
-      console.log(data);
       res.redirect("/registrieren.js");
     }
   });
@@ -320,19 +234,13 @@ app.post("/registrieren.js", function (req, res) {
 app.get("/bestellen.js", function (req, res) {
   console.log("GET - BESTELLEN - FROM: " + req.ip);
 
-  console.log("bestellen-- URL id: ");
-  console.log(req.query.id);
-  console.log("bestellen-- session.bestellid: ");
-  console.log(req.session.bestellid);
-
+  // wenn keine id angefragt wird, setzte bestellid von angemeldetem user
   if (req.query.id === null || req.query.id === undefined) {
     if (req.session.isAuth) {
-      console.log("isAuth = true");
       res.redirect("/bestellen.js?id=" + req.session.bestellid);
       return;
     }
   }
-
   res.render("bestellung");
 });
 
@@ -340,29 +248,14 @@ app.get("/bestellen.js", function (req, res) {
 app.post("/bestellen.js", function (req, res) {
   console.log("POST - BESTELLEN - FROM: " + req.ip);
 
-  let body = "";
-  req.on("data", function (data) {
-    body += data;
-  });
-
-  req.on("end", function () {
-    let params = new URLSearchParams(body);
-    console.log("bestellen-- URL params: ");
-    console.log(params);
-    console.log("bestellen-- session.bestellid: ");
-    console.log(req.session.bestellid);
-
-    // wenn keine id angefragt wird, setzte bestellid von angemeldetem user
-    if (params.id === null || params.id === undefined) {
-      console.log("params.id = undefined");
-      if (req.session.isAuth) {
-        console.log("isAuth = true");
-        res.redirect("/bestellen.js?id=" + req.session.bestellid);
-      }
+  // wenn keine id angefragt wird, setzte bestellid von angemeldetem user
+  if (req.query.id === null || req.query.id === undefined) {
+    if (req.session.isAuth) {
+      res.redirect("/bestellen.js?id=" + req.session.bestellid);
+      return;
     }
-
-    res.render("bestellung");
-  });
+  }
+  res.render("bestellung");
 });
 
 //-------------------------------------------------------------------------------------//
@@ -386,30 +279,14 @@ app.get("/zutaten.js", async function (req, res) {
 
   var query_sel_zutaten = "SELECT bezeichnung, preis FROM zutaten";
   var result_zutaten = await conn.query(query_sel_zutaten);
-  //console.log(result_zutaten);
-  var result_data_zutaten = JSON.stringify(result_zutaten);
-  //var result_data_zutaten_parsed = JSON.parse(result_zutaten);
-  /*
-  console.log(result_data_zutaten);
-  console.log(result_zutaten[1].bezeichnung);
-  console.log(result_zutaten[1].preis);
-  */
 
   var query_sel_basispizza = "SELECT * FROM pizza";
   var result_basispizza = await conn.query(query_sel_basispizza);
-  //var result_data_basispizza = JSON.parse(result_basispizza);
-  //console.log(result_data_basispizza);
-  //var result_data_basispizza = JSON.stringify(result_basispizza);
 
   var result_json = {
     Zutaten: result_zutaten,
     Basispizza: result_basispizza
   };
-
-  console.dir(result_json.Zutaten[1].bezeichnung);
-  //var result_json = result_data_zutaten.concat(result_data_basispizza);
-
-  //var result = result_zutaten.concat(result_basispizza);
 
   res.write(JSON.stringify(result_json));
   res.end();
@@ -427,28 +304,21 @@ app.post("/zutaten.js", function (req, res) {
 app.get("/abmelden.js", async function (req, res) {
   console.log("GET - LOGOUT - FROM: " + req.ip);
 
-  //teste Mailversand
-  //sendTestMail(123);
-
   req.session.destroy((err) => {
     if (err) {
       throw err;
-      res.redirect("/node.js");
     } else {
       res.redirect("/node.js");
     }
   });
 });
 
-//comment
-
 // -- POST
-app.post("/abmelden.js", function (req, res) {
+app.post("/abmelden.js", async function (req, res) {
   console.log("POST - LOGOUT - FROM: " + req.ip);
   req.session.destroy((err) => {
     if (err) {
       throw err;
-      res.redirect("/node.js");
     } else {
       res.redirect("/node.js");
     }
@@ -459,13 +329,13 @@ app.post("/abmelden.js", function (req, res) {
 // BESTELLÜBERSICHT
 // -- GET
 app.get("/bestelluebersicht.js", async function (req, res) {
-  // sollte nicht möglich sein, redirect auf startseite:
+  // Sollte nicht möglich sein, redirect auf Startseite:
   res.redirect("/node.js");
 });
 
 // -- POST
 app.post("/bestelluebersicht.js", function (req, res) {
-  console.log("Post Bestellübersicht");
+  console.log("POST Bestellübersicht");
   let bestid = "";
   let sendmail;
   let body = "";
@@ -479,15 +349,15 @@ app.post("/bestelluebersicht.js", function (req, res) {
     try {
       sendmail = params.get("sendmail");
     } catch {
-      // sendmail wurde nicht übergeben -> nur daten anzeigen
+      // sendmail wurde nicht übergeben -> nur Daten anzeigen
     }
 
-    let s = cache.get(bestid);
+    let session = cache.get(bestid);
     // prüfe ob bestellung abgeschlossen werden soll -> sendmail true
     // sende bestellemail und schreibe bestellung in DB
     if (sendmail === "true") {
-      if (s.session_id === req.session.id) {
-        sendTestMail(bestid);
+      if (session.session_id === req.session.id) {
+        sendMail(bestid);
         bestellungEintragen(bestid);
         res.redirect("/node.js");
         return;
@@ -496,7 +366,7 @@ app.post("/bestelluebersicht.js", function (req, res) {
       }
     }
 
-    // result json object:
+    // result json object zur interpolation in pug:
     let jsnbestellung = {
       id: bestid,
       status: -1,
@@ -525,7 +395,8 @@ app.post("/bestelluebersicht.js", function (req, res) {
       jsnbestellung.pizzen = bestellsession.pizzen;
     }
 
-    console.log("result: " + JSON.stringify(jsnbestellung));
+    console.log("Bestellübersicht JSON Daten für pug:");
+    console.log(JSON.stringify(jsnbestellung));
     res.render("bestelluebersicht", jsnbestellung);
   });
 });
@@ -595,16 +466,12 @@ app.post("/alexa.js", function (req, res) {
   req.on("end", async function () {
     // Handle Alexa request
     alexa = JSON.parse(alexa);
-    console.log(alexa.request);
-    //console.log(alexa.request.type);
 
     // hole session von cache -> undefined wenn session noch nicht existent
     var alexasession = cache.get(alexa.session.sessionId);
-    console.log("----------------------------------------------------");
-    console.log("ALEXASESSION: ");
-    console.log(alexasession);
 
     // prüfe ob Launchrequest
+    // ---- Launchrequest
     if (alexa.request.type == "LaunchRequest" && alexasession === null) {
       // neue sessionvariablen anlegen (neue Alexa Session)
       let sessionvars = {
@@ -621,7 +488,7 @@ app.post("/alexa.js", function (req, res) {
                 "Willkommen bei myPizza, dem IBS Pizzaservice! Sag mir deinen Bestellcode von der Website.",
               type: "PlainText"
             },
-            shouldEndSession: false // edited
+            shouldEndSession: false
           },
           version: "1.0"
         }
@@ -629,7 +496,7 @@ app.post("/alexa.js", function (req, res) {
       // daten in Cache schreiben (60 min TTL)
       cache.put(alexa.session.sessionId, sessionvars, 3600000);
     } else {
-      // session ist bereits bekannt -> Kein launch request
+      // ---- Intent Request --> Session ist bereits bekannt
 
       switch (alexasession.zustand) {
         case 1: // bestellcode prüfen und schreiben
@@ -637,7 +504,7 @@ app.post("/alexa.js", function (req, res) {
             cache.get(alexa.request.intent.slots.bestellcode.value) !== null
           ) {
             // bestellid bekannt
-            console.log("Bestellid ok");
+            console.log("Alexa: Bestellid ok");
             alexasession.bestellcode =
               alexa.request.intent.slots.bestellcode.value;
             alexasession.data.response.outputSpeech.text =
@@ -645,7 +512,7 @@ app.post("/alexa.js", function (req, res) {
             alexasession.zustand = 2;
           } else {
             // bestellid nicht bekannt
-            console.log("Bestellid nicht ok");
+            console.log("Alexa: Bestellid nicht ok");
             alexasession.data.response.outputSpeech.text =
               "Der Bestellcode ist ungültig. Bitte nenne mir einen gültigen Bestellcode.";
           }
@@ -666,7 +533,6 @@ app.post("/alexa.js", function (req, res) {
           var basispizza = alexa.request.intent.slots.auswahl.value;
 
           let bp = Array.from(await getBasispizzen());
-          console.log(bp);
           if (bp.indexOf(basispizza) > -1) {
             alexasession.data.response.outputSpeech.text =
               "Du hast die Basispizza " +
@@ -674,8 +540,6 @@ app.post("/alexa.js", function (req, res) {
               " gewählt. Sage mir, ob du die Pizza so bestellen oder weitere Zutaten hinzufügen willst";
 
             let pizza = await getBasispizza(basispizza);
-            console.log("DEBUG:::pizza from DB");
-            console.log(pizza);
             alexasession.zutaten = [];
             for (let i = 1; i <= 8; i++) {
               if (pizza["zutat" + i] !== null) {
@@ -694,7 +558,6 @@ app.post("/alexa.js", function (req, res) {
           break;
         case 4: // auswertung -> weitere zutaten oder pizza zur bestellung hinzufügen
           var viertens = alexa.request.intent.slots.auswahl.value;
-          console.log(viertens);
           if (
             viertens === "extra zutaten" ||
             viertens === "mehr zutaten" ||
@@ -728,8 +591,6 @@ app.post("/alexa.js", function (req, res) {
             auswahl === "bestellen"
           ) {
             // pizza in bestellsession hinzufügen und mqtt publishen
-            console.log("DEBUG:::ZUTATEN");
-            console.log(alexasession.zutaten);
             alexaPizzaHinzufügen(
               alexasession.bestellcode,
               alexasession.pizzaname,
@@ -757,13 +618,8 @@ app.post("/alexa.js", function (req, res) {
             alexasession.data.response.outputSpeech.text =
               "Das habe ich icht verstanden. Bitte sage Pizza ändern oder hinzufügen oder Bestellung ändern oder hinzufügen, oder die Zutaten vorlesen.";
           }
-
           break;
-
-        case 6:
-          //Do nothing
-          break;
-        case 7:
+        case 7: // Auswertung weitere Zutaten / Pizza hinzufügen oder Belag vorlesen
           let auswahl2 = alexa.request.intent.slots.auswahl.value;
           var allezutaten = await getAlleZutaten(); //returns array
           if (auswahl2 === "zutaten") {
@@ -801,10 +657,7 @@ app.post("/alexa.js", function (req, res) {
           }
 
           break;
-        case 8:
-          //Do nothing
-          break;
-        case 9:
+        case 9: // Auswertung weitere Pizza bestellen oder beenden
           var neuntens = alexa.request.intent.slots.auswahl.value;
           if (
             neuntens === "bestellen" ||
@@ -877,8 +730,7 @@ async function onMessage(topic, message) {
     // DELETE PIZZA
   } else if (jsm.action == "del_Pizza") {
     let searchedIndex;
-    console.log(bestellsession.pizzen);
-    console.log("numKeys: " + Object.keys(bestellsession.pizzen).length);
+
     for (let i = 0; i < Object.keys(bestellsession.pizzen).length; i++) {
       if (
         bestellsession.pizzen[i] !== null &&
@@ -888,7 +740,7 @@ async function onMessage(topic, message) {
         break;
       }
     }
-    console.log("SearchedIndex: " + searchedIndex);
+
     let gespreisneu =
       Number(bestellsession.gesamtpreis) -
       Number(bestellsession.pizzen[searchedIndex].preis);
@@ -897,7 +749,6 @@ async function onMessage(topic, message) {
     delete bestellsession.pizzen[searchedIndex]; // verursacht null values im json objekt
     bestellsession.pizzen = removeNull(bestellsession.pizzen); // bereinige null values
 
-    console.log("gespreis: " + gespreisneu);
     bestellsession.gesamtpreis = gespreisneu;
     response.pizzen = bestellsession.pizzen;
     response.preis = gespreisneu;
@@ -914,7 +765,6 @@ async function onMessage(topic, message) {
 
   // sende response an alle subscriber der bestellung mit bestellid
   mqttclient.publish("pizza/orders/" + jsm.bestellid, JSON.stringify(response));
-  //mqttclient.publish(topic.replace("fr", "to"), JSON.stringify(response));
 }
 
 // autostart mqtt listener
@@ -985,7 +835,6 @@ async function getZutatenBezeichnung(pizzazutaten) {
     }
   }
 
-  console.log(zutaten);
   return zutaten;
 }
 
@@ -1004,9 +853,6 @@ async function getAlleZutaten() {
   var allezutatenquery = "SELECT bezeichnung FROM zutaten";
   var allezutatenreqult = await conn.query(allezutatenquery);
 
-  //console.log(allezutatenreqult);
-  //console.log(allezutatenreqult.length);
-
   for (let i = 0; i < allezutatenreqult.length; i++) {
     allezutaten.push(allezutatenreqult[i].bezeichnung.toLowerCase());
   }
@@ -1022,10 +868,6 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
     preis: 0
   };
   // zutaten hinzufügen
-  console.log("DEBUG::: zutaten @ alexapizzahinzufügen");
-  console.log(zutaten);
-
-  console.log("zutatenlenght = " + zutaten.length);
   let indx = Object.keys(zutaten).length;
   for (let i = 1; i <= indx; i++) {
     pizza["zutat" + i] = zutaten[i - 1];
@@ -1049,8 +891,7 @@ async function alexaPizzaHinzufügen(bestellid, pname, zutaten) {
 }
 
 //-------------- EMail versenden
-// DEBUG TESTE MAIL_VERSAND:
-async function sendTestMail(bestell_id) {
+async function sendMail(bestell_id) {
   let envelope = {
     from: '"mypizza" <mypizza.ibsprojekt@gmail.com>', // absender Adresse
     to: "mypizza.ibsprojekt@gmail.com", // empfänger -> email des angemeldeten Users
@@ -1081,7 +922,7 @@ async function sendTestMail(bestell_id) {
   mailhtml +=
     adrresult[0].plz + " " + adrresult[0].ort + "<br><hr><h3>Pizzen:</h3>";
 
-  //liste alle Pizzen auf:
+  // Liste alle Pizzen auf:
   for (let i = 0; i < Object.keys(bestellung.pizzen).length; i++) {
     mailtext +=
       bestellung.pizzen[i].name + "   |" + bestellung.pizzen[i].preis + " €\n";
@@ -1098,12 +939,12 @@ async function sendTestMail(bestell_id) {
 
   mailhtml += "<hr> Gesamtpreis: " + bestellung.gesamtpreis + " € <br>";
 
-  // baue email
+  // baue EMail
   envelope.to = bestellung.email;
   envelope.text = mailtext;
   envelope.html = mailhtml;
 
-  // Sende Email
+  // Sende EMail
   transporter
     .sendMail(envelope)
     .then((info) => {
@@ -1123,23 +964,18 @@ function makeid(length) {
   return result;
 }
 
-// schreibe bestellung mit bestellid in die Datenbank
+// schreibe Bestellung mit bestellid in die Datenbank
 async function bestellungEintragen(bestellid) {
   var session = cache.get(bestellid);
-
-  console.log("Session Infos unten 1129");
-  console.log(session);
 
   let query_userinfos = "SELECT kundennr, adr_id FROM kunde WHERE email = ?";
   let result_userinfos = await conn.query(query_userinfos, [session.email]);
 
-  console.dir("Result userinfos query unten: " + result_userinfos);
-
   var query_insert_bestellung =
     "INSERT INTO bestellung (timest, kundennr, adr_id) VALUES (?,?,?)";
 
+  // Baue Datum nach gegebenem Schema:
   var datum = dateformat(now, "yyyy-mm-dd HH:MM:ss");
-  console.log(datum);
 
   var result_insert_bestellung = await conn.query(query_insert_bestellung, [
     datum,
@@ -1147,13 +983,10 @@ async function bestellungEintragen(bestellid) {
     result_userinfos[0].adr_id
   ]);
 
-  console.log("Result Insert Bestellung:");
-  console.log(result_insert_bestellung);
-
   var bestellid_db = result_insert_bestellung.insertId;
 
   let indx = Object.keys(session.pizzen).length;
-  for (let i = 0; i < indx /*Object.keys(session.pizzen).length */; i++) {
+  for (let i = 0; i < indx; i++) {
     var pizzaname = session.pizzen[i].name;
     var pizzapreis = session.pizzen[i].preis;
 
@@ -1176,8 +1009,5 @@ async function bestellungEintragen(bestellid) {
         pizzapreis
       ]
     );
-
-    console.log("Result insert Pizzabestellung: ");
-    console.log(result_insert_pizzabestellung);
   }
 }
