@@ -180,6 +180,7 @@ td {
 }
 
 .header {
+  position: relative;
   min-height: 200px;
   background-image: url("../images/pizzawp.jpg");
   background-position: center;
