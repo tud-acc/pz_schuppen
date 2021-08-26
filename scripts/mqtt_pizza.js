@@ -100,6 +100,8 @@ function rx_bestellung(topic, data) {
   // prüfe ob Fehler zurückkommt (bestellung existiert nicht)
   if (data.rc < 0) {
     document.getElementById("status").innerText = data.message;
+    setTimeout("", 5000);
+    window.location.replace("/node.js");
     return;
   }
 
@@ -112,7 +114,7 @@ function rx_bestellung(topic, data) {
     if (data.pizzen[i] != null) {
       let card = document.createElement("div");
       card.id = data.pizzen[i].bestellnr;
-      card.setAttribute("class", "card margin-small");
+      card.setAttribute("class", "card margin-small padding");
       let pizzatext = document.createElement("span");
       let deletebutton = document.createElement("button");
       deletebutton.setAttribute("class", "button red right");

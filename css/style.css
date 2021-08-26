@@ -95,6 +95,9 @@ input {
 .margin-small {
   margin: 8px;
 }
+.padding {
+  padding: 8px 16px !important;
+}
 
 .blue {
   background-color: #118ab2;

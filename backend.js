@@ -152,9 +152,10 @@ app.post("/anmelden.js", function (req, res) {
       req.session.email = data_anmelden.email;
       req.session.vorname = result_userinfos[0].vorname;
       req.session.nachname = result_userinfos[0].nachname;
+      req.session.bestellid = 123;
 
       console.dir(session);
-      cache.put(123, session, 3600000);
+      cache.put(req.session.bestellid, session, 3600000);
       // cache.put(jsnMessage.session.sessionId, sessionvars, 3600000);
       // let session = cache.get(jsnMessage.session.sessionId);
 
@@ -179,26 +180,20 @@ function getSessionID() {
 
   return id;
 }
-
+/*
 var isAuth = (req, res, next) => {
   if (req.session.isAuth === true) {
-    var body = "";
-    req.on("data", function (data) {
-      body += data;
-    });
-    req.on("end", function () {
-      var params = new URLSearchParams(body);
-    });
-    console.log("Auth true in 185:");
-    console.log(req.body);
-    console.log(req);
-    console.log(body);
+
+
     next();
+  } else if (req.session.bestell_id) {
+    console.log("Bestell id erkannt in 198");
   } else {
     console.log("Bitte erst anmelden!");
     res.redirect("/node.js");
   }
 };
+*/
 
 //-------------------------------------------------------------------------------------//
 //    Registrieren
@@ -318,23 +313,15 @@ app.post("/registrieren.js", function (req, res) {
 //-------------------------------------------------------------------------------------//
 //    Bestellen
 // -- GET
-app.get("/bestellen.js", isAuth, function (req, res) {
+app.get("/bestellen.js", function (req, res) {
   console.log("GET - BESTELLEN - FROM: " + req.ip);
   res.render("bestellung");
 });
 
 // -- POST
-app.post("/bestellen.js", isAuth, function (req, res) {
-  var body = "";
-  req.on("data", function (data) {
-    body += data;
-  });
-  req.on("end", function () {
-    var params = new URLSearchParams(body);
-
-    console.log("POST - BESTELLEN - FROM: " + req.ip);
-    res.render("bestellung");
-  });
+app.post("/bestellen.js", function (req, res) {
+  console.log("POST - BESTELLEN - FROM: " + req.ip);
+  res.render("bestellung");
 });
 
 //-------------------------------------------------------------------------------------//
@@ -400,7 +387,7 @@ app.get("/abmelden.js", async function (req, res) {
   console.log("GET - LOGOUT - FROM: " + req.ip);
 
   //teste Mailversand
-  sendTestMail(123);
+  //sendTestMail(123);
 
   req.session.destroy((err) => {
     if (err) {
@@ -438,8 +425,8 @@ app.get("/bestelluebersicht.js", async function (req, res) {
 // -- POST
 app.post("/bestelluebersicht.js", function (req, res) {
   console.log("Post Bestellübersicht");
-  var bestid = "";
-  var sendmail;
+  let bestid = "";
+  let sendmail;
   let body = "";
   req.on("data", function (data) {
     body += data;
@@ -448,12 +435,16 @@ app.post("/bestelluebersicht.js", function (req, res) {
   req.on("end", async function () {
     let params = new URLSearchParams(body);
     bestid = params.get("bestellid");
-    sendmail = params.get("sendmail");
+    try {
+      sendmail = params.get("sendmail");
+    } catch {
+      // sendmail wurde nicht übergeben -> nur daten anzeigen
+    }
 
-    // prüfe ob bestellung abgeschlossen werden soll:
+    //req.session.bestellid
+    // prüfe ob bestellung abgeschlossen werden soll -> sendmail true
     if (sendmail === "true") {
       sendTestMail(bestid);
-
       res.redirect("/node.js");
       return;
     }
