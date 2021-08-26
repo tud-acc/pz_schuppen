@@ -340,7 +340,8 @@ app.get("/bestellen.js", function (req, res) {
       }
     }
 
-  res.render("bestellung");
+    res.render("bestellung");
+  });
 });
 
 // -- POST
