@@ -334,7 +334,7 @@ app.post("/bestellen.js", function (req, res) {
     let params = new URLSearchParams(body);
 
     // wenn keine id angefragt wird, setzte bestellid von angemeldetem user
-    if (params === null || params === undefined) {
+    if (params.id === null || params.id === undefined) {
       if (req.session.isAuth) {
         res.redirect("/bestellen.js/?id=" + req.session.bestellid);
       }
