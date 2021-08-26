@@ -378,20 +378,6 @@ app.post("/impressum.js", function (req, res) {
 });
 
 //-------------------------------------------------------------------------------------//
-//    Maps
-// -- GET
-app.get("/maps.js", function (req, res) {
-  console.log("GET - MAPS - FROM: " + req.ip);
-  res.render("maps");
-});
-
-// -- POST
-app.post("/maps.js", function (req, res) {
-  console.log("POST - MAPS - FROM: " + req.ip);
-  res.render("maps");
-});
-
-//-------------------------------------------------------------------------------------//
 //    Zutatenliste
 // -- GET
 app.get("/zutaten.js", async function (req, res) {
@@ -498,11 +484,15 @@ app.post("/bestelluebersicht.js", function (req, res) {
     let s = cache.get(bestid);
     // prüfe ob bestellung abgeschlossen werden soll -> sendmail true
     // sende bestellemail und schreibe bestellung in DB
-    if (sendmail === "true" && s.session_id === req.session.id) {
-      sendTestMail(bestid);
-      bestellungEintragen(bestid);
-      res.redirect("/node.js");
-      return;
+    if (sendmail === "true") {
+      if (s.session_id === req.session.id) {
+        sendTestMail(bestid);
+        bestellungEintragen(bestid);
+        res.redirect("/node.js");
+        return;
+      } else {
+        res.redirect("/bestellen.js?id=" + bestid);
+      }
     }
 
     // result json object:
@@ -1134,5 +1124,52 @@ function makeid(length) {
 
 // schreibe bestellung mit bestellid in die Datenbank
 async function bestellungEintragen(bestellid) {
-  //ToDo:
+  var session = cache.get(bestellid);
+
+  console.log("Session Infos unten 1129");
+  console.log(session);
+
+  let query_userinfos = "SELECT kundennr, adr_id FROM kunde WHERE email = ?";
+  let result_userinfos = await conn.query(query_userinfos, [session.email]);
+
+  console.dir("Result userinfos query unten: " + result_userinfos);
+
+  var query_insert_bestellung =
+    "INSERT INTO bestellung (timest, kundennr, adr_id) VALUES (?,?,?)";
+
+  var result_insert_bestellung = await conn.query(query_insert_bestellung, [
+    Date.now(),
+    result_userinfos[0].kundennr,
+    result_userinfos[0].adr_id
+  ]);
+
+  console.log("Result Insert Bestellung:");
+  console.log(result_insert_bestellung);
+
+  var bestellid_db = result_insert_bestellung[0].bestell_id;
+
+  for (let i = 0; i < Object.keys(session.pizzen).length; i++) {
+    var pizzaname = session.pizzen[i].name;
+    var pizzapreis = session.pizzen[i].preis;
+
+    var result_insert_pizzabestellung = await conn.query(
+      query_insert_pizzabestellung,
+      [
+        bestellid_db,
+        pizzaname,
+        session.pizza[i].zutat1,
+        session.pizza[i].zutat2,
+        session.pizza[i].zutat3,
+        session.pizza[i].zutat4,
+        session.pizza[i].zutat5,
+        session.pizza[i].zutat6,
+        session.pizza[i].zutat7,
+        session.pizza[i].zutat8,
+        pizzapreis
+      ]
+    );
+
+    var query_insert_pizzabestellung =
+      "INSERT INTO pizzabestellung (bestell_id, name, zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+  }
 }
