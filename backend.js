@@ -1153,7 +1153,8 @@ async function bestellungEintragen(bestellid) {
 
   var bestellid_db = result_insert_bestellung.insertId;
 
-  for (let i = 0; i < Object.keys(session.pizzen).length; i++) {
+  let indx = Object.keys(session.pizzen).length;
+  for (let i = 0; i < indx /*Object.keys(session.pizzen).length */; i++) {
     var pizzaname = session.pizzen[i].name;
     var pizzapreis = session.pizzen[i].preis;
 
