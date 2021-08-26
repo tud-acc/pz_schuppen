@@ -1139,7 +1139,7 @@ async function bestellungEintragen(bestellid) {
   var query_insert_bestellung =
     "INSERT INTO bestellung (timest, kundennr, adr_id) VALUES (?,?,?)";
 
-  var datum = dateformat(now, "YYYY-MM-DD HH:MM:SS");
+  var datum = dateformat(now, "yyyy-mm-dd HH:MM:ss");
   console.log(datum);
 
   var result_insert_bestellung = await conn.query(query_insert_bestellung, [
