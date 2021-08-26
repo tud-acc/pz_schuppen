@@ -332,10 +332,16 @@ app.post("/bestellen.js", function (req, res) {
 
   req.on("end", function () {
     let params = new URLSearchParams(body);
+    console.log("bestellen-- URL params: ");
+    console.log(params);
+    console.log("bestellen-- session.bestellid: ");
+    console.log(req.session.bestellid);
 
     // wenn keine id angefragt wird, setzte bestellid von angemeldetem user
     if (params.id === null || params.id === undefined) {
+      console.log("params.id = undefined");
       if (req.session.isAuth) {
+        console.log("isAuth = true");
         res.redirect("/bestellen.js/?id=" + req.session.bestellid);
       }
     }
