@@ -1069,7 +1069,7 @@ async function sendTestMail(bestell_id) {
   };
 
   let bestellung = cache.get(bestell_id);
-  let mailtext = "Deine Bestellung \n\n";
+  let mailtext = "Deine Bestellung \n\n\nLieferort:\n";
   let mailhtml = "<h1>Deine Bestellung</h1>";
   mailhtml += "<h3>Lieferort:</h3>";
 
@@ -1080,6 +1080,10 @@ async function sendTestMail(bestell_id) {
   let adrquery =
     "SELECT strasse, hausnr, plz, ort FROM adresse WHERE adr_id = ?";
   let adrresult = await conn.query(adrquery, [kunderesult[0].adr_id]);
+
+  mailtext += kunderesult[0].vorname + " " + kunderesult[0].nachname + "\n";
+  mailtext += adrresult[0].strasse + " " + adrresult[0].hausnr + "\n";
+  mailtext += adrresult[0].plz + " " + adrresult[0].ort + "\n\nPizzen:\n";
 
   mailhtml += kunderesult[0].vorname + " " + kunderesult[0].nachname + "<br>";
   mailhtml += adrresult[0].strasse + " " + adrresult[0].hausnr + "<br>";
