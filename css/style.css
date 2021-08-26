@@ -179,6 +179,7 @@ td {
 }
 
 .header {
+  min-height: 200px;
   background-image: url("../images/pizzawp.jpg");
   background-position: center;
   background-repeat: no-repeat;
