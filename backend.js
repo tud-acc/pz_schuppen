@@ -319,6 +319,19 @@ app.post("/registrieren.js", function (req, res) {
 app.get("/bestellen.js", function (req, res) {
   console.log("GET - BESTELLEN - FROM: " + req.ip);
 
+  console.log("bestellen-- URL id: ");
+  console.log(req.query.id);
+  console.log("bestellen-- session.bestellid: ");
+  console.log(req.session.bestellid);
+
+  if (req.query.id === null || req.query.id === undefined) {
+    if (req.session.isAuth) {
+      console.log("isAuth = true");
+      res.redirect("/bestellen.js?id=" + req.session.bestellid);
+      return;
+    }
+  }
+
   res.render("bestellung");
 });
 
@@ -343,12 +356,39 @@ app.post("/bestellen.js", function (req, res) {
       console.log("params.id = undefined");
       if (req.session.isAuth) {
         console.log("isAuth = true");
-        res.redirect("/bestellen.js/?id=" + req.session.bestellid);
+        res.redirect("/bestellen.js?id=" + req.session.bestellid);
       }
     }
 
     res.render("bestellung");
   });
+});
+
+//-------------------------------------------------------------------------------------//
+//   Impressum
+// -- GET
+app.get("/impressum.js", async function (req, res) {
+  console.log("GET - IMPRESSUM - FROM: " + req.ip);
+  res.render("impressum");
+});
+// -- POST
+app.post("/impressum.js", function (req, res) {
+  console.log("POST - IMPRESSUM - FROM:" + req.ip);
+  res.render("impressum");
+});
+
+//-------------------------------------------------------------------------------------//
+//    Maps
+// -- GET
+app.get("/maps.js", function (req, res) {
+  console.log("GET - MAPS - FROM: " + req.ip);
+  res.render("maps");
+});
+
+// -- POST
+app.post("/maps.js", function (req, res) {
+  console.log("POST - MAPS - FROM: " + req.ip);
+  res.render("maps");
 });
 
 //-------------------------------------------------------------------------------------//
@@ -392,19 +432,6 @@ app.get("/zutaten.js", async function (req, res) {
 app.post("/zutaten.js", function (req, res) {
   console.log("POST - ZUTATENLISTE - FROM: " + req.ip);
   console.dir("Post nicht moeglich!");
-});
-
-//-------------------------------------------------------------------------------------//
-//   Impressum
-// -- GET
-app.get("/impressum.js", async function (req, res) {
-  console.log("GET - IMPRESSUM - FROM: " + req.ip);
-  res.render("impressum");
-});
-// -- POST
-app.post("/impressum.js", function (req, res) {
-  console.log("POST - IMPRESSUM - FROM:" + req.ip);
-  res.render("impressum");
 });
 
 //-------------------------------------------------------------------------------------//
