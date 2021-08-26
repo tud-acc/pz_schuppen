@@ -1158,7 +1158,7 @@ async function bestellungEintragen(bestellid) {
     var pizzapreis = session.pizzen[i].preis;
 
     var query_insert_pizzabestellung =
-      "INSERT INTO pizzabestellung (bestell_id, name, zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+      "INSERT INTO pizzabestellung (bestell_id, name, zutat1, zutat2, zutat3, zutat4, zutat5, zutat6, zutat7, zutat8, preis) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
     /*
       var arr = [];
