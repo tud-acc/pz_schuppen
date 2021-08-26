@@ -190,6 +190,8 @@ var isAuth = (req, res, next) => {
       var params = new URLSearchParams(body);
     });
     console.log("Auth true in 185:");
+    console.log(req.body);
+    console.log(req);
     console.log(body);
     next();
   } else {
@@ -437,6 +439,7 @@ app.get("/bestelluebersicht.js", async function (req, res) {
 app.post("/bestelluebersicht.js", function (req, res) {
   console.log("Post Bestellübersicht");
   var bestid = "";
+  var sendmail;
   let body = "";
   req.on("data", function (data) {
     body += data;
@@ -445,6 +448,15 @@ app.post("/bestelluebersicht.js", function (req, res) {
   req.on("end", async function () {
     let params = new URLSearchParams(body);
     bestid = params.get("bestellid");
+    sendmail = params.get("sendmail");
+
+    // prüfe ob bestellung abgeschlossen werden soll:
+    if (sendmail === "true") {
+      sendTestMail(bestid);
+
+      res.redirect("/node.js");
+      return;
+    }
 
     // result json object:
     let jsnbestellung = {
