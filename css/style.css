@@ -176,4 +176,6 @@ td {
   color: inherit;
   background-color: inherit;
   text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
 }
