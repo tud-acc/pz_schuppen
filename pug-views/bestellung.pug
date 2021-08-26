@@ -27,12 +27,8 @@ html
 
   body(onload="init()")
     div(class='header')
-      div() 
         include header.pug
-      div(class='menu')
-        //- evtl als Popup ?
-        - var url_anmelden = "anmelden.js";
-        a(href='/'+url_anmelden class='button') Anmelden
+        include menu.pug
         
       
 

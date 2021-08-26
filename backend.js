@@ -180,10 +180,9 @@ function getSessionID() {
   return id;
 }
 
-var isAuth = (req, res, next, body) => {
-  if (req.session.isAuth) {
-    console.log("Da boooty:");
-    console.log(body);
+var isAuth = (req, res, next) => {
+  if (req.session.isAuth === true) {
+    console.log("Auth true in 185:");
     next();
   } else {
     console.log("Bitte erst anmelden!");
