@@ -50,16 +50,12 @@ async function requestBestellListe() {
 
   // prüfe ob bestellid in url vorhanden:
   if (bestellid == null) {
-    // versuche coockie zu lesen
-    let cookieBestId = Cookies.get("bestellid");
-    if (cookieBestId === undefined) {
-      // keine Bestell-ID auslesbar, abfrage per fenster anzeigen:
-      bestellid = window.prompt(
-        "Geben Sie eine BestellID ein oder Melden Sie sich an um eine neue Bestellung zu starten."
-      );
-      //alert("Melde dich an um eine Bestellung zu starten.");
-      //return; // keine bestellid -> abbruch
-    }
+    // keine Bestell-ID auslesbar, abfrage per fenster anzeigen:
+    bestellid = window.prompt(
+      "Geben Sie eine BestellID ein oder Melden Sie sich an um eine neue Bestellung zu starten."
+    );
+    //alert("Melde dich an um eine Bestellung zu starten.");
+    //return; // keine bestellid -> abbruch
   }
 
   // wenn bestellID vorhanden, erstelle QR-Code:
@@ -117,7 +113,7 @@ function rx_bestellung(topic, data) {
       card.setAttribute("class", "card margin-small padding");
       let pizzatext = document.createElement("span");
       let deletebutton = document.createElement("button");
-      deletebutton.setAttribute("class", "button red right");
+      deletebutton.setAttribute("class", "btnmin red right");
       deletebutton.textContent = "x";
       deletebutton.id = "deletePizza_" + data.pizzen[i].bestellnr;
       // eventhandler löschen der Pizza

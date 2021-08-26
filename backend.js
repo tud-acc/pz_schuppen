@@ -51,9 +51,11 @@ app.use(
 // -- GET
 app.get("/node.js", async function (req, res) {
   console.log("GET - MAINPAGE - FROM: " + req.ip);
+  /*
   console.log(req.session);
   console.log(req.session.id);
-
+  
+  //Counter zählt, wie oft der User die Website besucht hat
   if (req.session.test1) {
     req.session.test1++;
     console.dir(req.session.test1);
@@ -61,7 +63,8 @@ app.get("/node.js", async function (req, res) {
     req.session.test1 = 1;
     console.log(req.session.test1);
   }
-
+  
+  */
   //var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   //console.log(ip);
   var data = { test_id: "123456" };
@@ -142,7 +145,7 @@ app.post("/anmelden.js", function (req, res) {
 
       var session = {
         email: data_anmelden.email,
-        session_id: getSessionID(),
+        session_id: req.session.id,
         session_id_kurz: "",
         gesamtpreis: 0,
         pizzen: []
@@ -152,7 +155,7 @@ app.post("/anmelden.js", function (req, res) {
       req.session.email = data_anmelden.email;
       req.session.vorname = result_userinfos[0].vorname;
       req.session.nachname = result_userinfos[0].nachname;
-      req.session.bestellid = 123;
+      req.session.bestellid = makeid(6);
 
       console.dir(session);
       cache.put(req.session.bestellid, session, 3600000);
@@ -321,6 +324,14 @@ app.get("/bestellen.js", function (req, res) {
 // -- POST
 app.post("/bestellen.js", function (req, res) {
   console.log("POST - BESTELLEN - FROM: " + req.ip);
+
+  // wenn keine id angefragt wird, setzte bestellid von angemeldetem user
+  if (req.query.id === null || req.query.id === undefined) {
+    if (req.session.isAuth) {
+      res.redirect("/bestellen.js?id=" + req.session.bestellid);
+    }
+  }
+
   res.render("bestellung");
 });
 
@@ -441,9 +452,9 @@ app.post("/bestelluebersicht.js", function (req, res) {
       // sendmail wurde nicht übergeben -> nur daten anzeigen
     }
 
-    //req.session.bestellid
+    let s = cache.get(bestid);
     // prüfe ob bestellung abgeschlossen werden soll -> sendmail true
-    if (sendmail === "true") {
+    if (sendmail === "true" && s.session_id === req.session.id) {
       sendTestMail(bestid);
       res.redirect("/node.js");
       return;
@@ -1035,4 +1046,16 @@ function sendTestMail(bestell_id) {
       console.log({ info });
     })
     .catch(console.error);
+}
+
+// https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+function makeid(length) {
+  var result = "";
+  var characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }

@@ -18,11 +18,10 @@ async function anmeldestatus() {
 
   if (status === "angemeldet") {
     //alert("angemeldet true");
-
-    var user = " als " + json_data.vorname + " " + json_data.nachname;
+    var anmeldestatus =
+      "Angemeldet als " + json_data.vorname + " " + json_data.nachname;
     //alert(user);
-
-    anmeldeSpan.innerText = status + user;
+    anmeldeSpan.innerText = anmeldestatus;
   } else {
     //alert("angemeldet false");
     anmeldeSpan.innerText = status;
