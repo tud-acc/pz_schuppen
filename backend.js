@@ -1151,7 +1151,7 @@ async function bestellungEintragen(bestellid) {
   console.log("Result Insert Bestellung:");
   console.log(result_insert_bestellung);
 
-  var bestellid_db = result_insert_bestellung[0].bestell_id;
+  var bestellid_db = result_insert_bestellung[0].insertId;
 
   for (let i = 0; i < Object.keys(session.pizzen).length; i++) {
     var pizzaname = session.pizzen[i].name;
