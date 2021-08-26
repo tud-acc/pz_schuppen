@@ -372,6 +372,19 @@ app.post("/zutaten.js", function (req, res) {
 });
 
 //-------------------------------------------------------------------------------------//
+//   Impressum
+// -- GET
+app.get("/impressum.js", async function (req, res) {
+  console.log("GET - IMPRESSUM - FROM: " + req.ip);
+  res.render("impressum");
+});
+// -- POST
+app.post("/impressum.js", function (req, res) {
+  console.log("POST - IMPRESSUM - FROM:" + req.ip);
+  res.render("impressum");
+});
+
+//-------------------------------------------------------------------------------------//
 //    Abmelden / Logout
 // -- GET
 app.get("/abmelden.js", async function (req, res) {

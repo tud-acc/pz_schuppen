@@ -112,9 +112,10 @@ function rx_bestellung(topic, data) {
     if (data.pizzen[i] != null) {
       let card = document.createElement("div");
       card.id = data.pizzen[i].bestellnr;
+      card.setAttribute("class", "card margin-small");
       let pizzatext = document.createElement("span");
       let deletebutton = document.createElement("button");
-      deletebutton.setAttribute("class", "button red marging-left16 right");
+      deletebutton.setAttribute("class", "button red right");
       deletebutton.textContent = "x";
       deletebutton.id = "deletePizza_" + data.pizzen[i].bestellnr;
       // eventhandler löschen der Pizza

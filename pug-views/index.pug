@@ -19,33 +19,8 @@ html
       }  
 
     div(class='header')
-      div(class='headerbox') 
-        include header.pug
-      div(class='menu')
-        - var url_anmelden = "anmelden.js";
-        a(href='/'+url_anmelden class='button') Anmelden
-        |
-        |
-        - var url_abmelden = "abmelden.js"
-        a(href='/'+url_abmelden class='button') Abmelden
-        |
-        |
-        - var url_registrieren = "registrieren.js";
-        a(href='/'+url_registrieren class='button') Registrieren
-        |
-        |
-        - var url_bestellen = "bestellen.js";
-        a(href='/'+url_bestellen class='button') Bestellen
-        |
-        |
-        div(class='right')
-          span#anmeldestatus
-      
-        //- Hier kommt das include script hin, damit geprüft wird,
-        //- ob der user angemeldet ist
-
-      
-
+      include header.pug
+      include menu.pug
 
     div(class='content')
       div(class='half left')
