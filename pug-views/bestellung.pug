@@ -51,7 +51,7 @@ html
               span#pizzapreis 5.00
               |€
             
-            button(class='button blue' /* onclick='mqtt_sendr()' /* onclick='updateBestellListe()' */)#addPizzaButton Pizza hinzufügen
+            button(class='button blue')#addPizzaButton Pizza hinzufügen
             input(type='text' class='third' value='Pizza1')#pizzaname
         
         div(class='third left')
@@ -80,7 +80,6 @@ html
               input(type="hidden" name="bestellid")#inpbestellid
               input(type="submit" class='button blue' value="Bestellung abschließen")
 
-            //-button(class='button blue')#bestellungabsenden Bestellung abschließen
           div(class='container')
             span#status status
             span#mqttres 

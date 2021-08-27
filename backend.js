@@ -561,7 +561,8 @@ app.post("/alexa.js", function (req, res) {
           if (
             viertens === "extra zutaten" ||
             viertens === "mehr zutaten" ||
-            viertens === "zutaten"
+            viertens === "zutaten" ||
+            viertens === "weitere zutaten"
           ) {
             alexasession.data.response.outputSpeech.text =
               "Nenne mir deine Extra Zutaten, welche du bestellen willst. Du kannst jederzeit Zutatenliste vorlesen sagen, um alle Zutaten vorlesen zu lassen. Ebenso kanns du jederzeit die Bestellung abschließen, um die Pizza hinzuzufügen oder dir deine aktuell gewählten Zutaten aufsagen lassen";
