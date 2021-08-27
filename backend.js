@@ -673,7 +673,7 @@ app.post("/alexa.js", function (req, res) {
             alexasession.data.response.outputSpeech.text =
               "Vielen Dank, deine Pizza wird in der Bestellung mit der ID " +
               alexasession.bestellcode +
-              "geliefert. Bis zum nächsten mal.";
+              " geliefert. Bis zum nächsten mal.";
             alexasession.zustand = 1;
             alexasession.data.shouldEndSession = true;
           }
